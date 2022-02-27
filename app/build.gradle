@@ -5,17 +5,18 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    compileSdkVersion 31
+    buildToolsVersion "31.0.0"
 
     defaultConfig {
         applicationId "com.jiayx.jetpackstudy"
         minSdkVersion 25
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
     }
 
     buildTypes {
@@ -30,6 +31,11 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+    // 使用dataBinding框架
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
     }
 }
 
@@ -76,4 +82,7 @@ dependencies {
     testImplementation("androidx.room:room-testing:2.4.1")
     // optional - Paging 3 Integration
     implementation("androidx.room:room-paging:2.4.1")
+    //
+    implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.3@aar'
+    implementation 'com.github.getActivity:XXPermissions:13.2'
 }
