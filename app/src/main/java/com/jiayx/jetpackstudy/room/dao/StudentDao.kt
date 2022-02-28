@@ -3,6 +3,7 @@ package com.jiayx.jetpackstudy.room.dao
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.jiayx.jetpackstudy.room.bean.StudentBean
+import kotlinx.coroutines.flow.Flow
 
 /**
  *Created by yuxi_
@@ -36,4 +37,7 @@ interface StudentDao {
 
     @Query("SELECT * FROM student")
     fun getAllStudent(): LiveData<List<StudentBean>>
+
+    @Query("SELECT * FROM  student")
+    fun getFlowStudent(): Flow<List<StudentBean>>
 }

@@ -35,4 +35,6 @@ public interface JStudentDao {
     @Query("SELECT * FROM j_student")
     LiveData<List<JStudentBean>> getStudentAll();
 
+
+
 }

@@ -10,6 +10,9 @@ import com.jiayx.jetpackstudy.room.repository.JStudentRepository
 import com.jiayx.jetpackstudy.room.repository.StudentRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
@@ -23,10 +26,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun getAllStudentLive(): LiveData<List<JStudentBean>>? {
         return repository?.allJStudentLive
-    }
-
-    fun getAllStudents(): LiveData<List<StudentBean>>? {
-        return repository2?.queryAll()
     }
 
     fun insertWords(vararg words: JStudentBean?) {
@@ -46,6 +45,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     //
+
+    fun getAllStudents(): LiveData<List<StudentBean>>? {
+        return repository2?.queryAll()
+    }
+
+    fun getFlowAll(): Flow<List<StudentBean>>? {
+        return repository2?.queryFlowAll()?.catch { e -> e.message }?.flowOn(Dispatchers.IO)
+    }
+
     fun insertStudent(vararg words: StudentBean?) {
         viewModelScope.launch {
             async {

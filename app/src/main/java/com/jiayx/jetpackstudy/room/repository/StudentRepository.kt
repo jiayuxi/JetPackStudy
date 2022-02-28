@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import com.jiayx.jetpackstudy.room.bean.StudentBean
 import com.jiayx.jetpackstudy.room.dao.StudentDao
 import com.jiayx.jetpackstudy.room.database.StudentDatabase
+import kotlinx.coroutines.flow.Flow
 
 /**
  *Created by yuxi_
@@ -36,4 +37,6 @@ class StudentRepository(private val context: Context) {
     fun queryAll(): LiveData<List<StudentBean>>? {
         return studentDao?.getAllStudent()
     }
+
+    fun queryFlowAll(): Flow<List<StudentBean>>? = studentDao?.getFlowStudent()
 }
