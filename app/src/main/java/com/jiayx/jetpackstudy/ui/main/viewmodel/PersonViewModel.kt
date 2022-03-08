@@ -27,7 +27,14 @@ class PersonViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     val allPerson: Flow<PagingData<Person>> =
-        Pager(config = PagingConfig(PAGE_SIZE, enablePlaceholders = ENABLE_PLACEHOLDER)) {
+        Pager(
+            config = PagingConfig(
+                PAGE_SIZE,
+                prefetchDistance = 2,
+                enablePlaceholders = ENABLE_PLACEHOLDER,
+                initialLoadSize = PAGE_SIZE * 2
+            )
+        ) {
             repository.getAllPersons()
         }.flow
             .cachedIn(viewModelScope)

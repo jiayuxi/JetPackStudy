@@ -89,6 +89,8 @@ dependencies {
     // alternatively - without Android dependencies for tests
     testImplementation "androidx.paging:paging-common:$paging_version"
     //
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+    //
     implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.3@aar'
     implementation 'com.github.getActivity:XXPermissions:13.2'
 }

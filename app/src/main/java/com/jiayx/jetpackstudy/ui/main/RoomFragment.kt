@@ -12,6 +12,8 @@ import com.jiayx.jetpackstudy.adapter.RoomAdapter
 import com.jiayx.jetpackstudy.databinding.MainFragmentBinding
 import com.jiayx.jetpackstudy.room.bean.StudentBean
 import com.jiayx.jetpackstudy.ui.main.viewmodel.MainViewModel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 
 class RoomFragment : Fragment() {
 
@@ -66,7 +68,7 @@ class RoomFragment : Fragment() {
             viewModel.deleteAllStudent()
         }
         lifecycleScope.launchWhenCreated {
-            viewModel.getFlowAll()?.collect {
+            viewModel.getFlowAll()?.collect() {
                 adapter.updateData(it)
             }
         }
