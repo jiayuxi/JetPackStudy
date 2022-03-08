@@ -83,6 +83,12 @@ dependencies {
     // optional - Paging 3 Integration
     implementation("androidx.room:room-paging:2.4.1")
     //
+    def paging_version = "3.1.0"
+
+    implementation "androidx.paging:paging-runtime:$paging_version"
+    // alternatively - without Android dependencies for tests
+    testImplementation "androidx.paging:paging-common:$paging_version"
+    //
     implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.3@aar'
     implementation 'com.github.getActivity:XXPermissions:13.2'
 }

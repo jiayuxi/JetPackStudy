@@ -4,9 +4,12 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.*
+import com.jiayx.jetpackstudy.room.bean.Person
 import com.jiayx.jetpackstudy.room.dao.PersonDao
 import com.jiayx.jetpackstudy.room.database.PersonDatabase
+import com.jiayx.jetpackstudy.room.repository.PersonRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 
 /**
@@ -19,12 +22,14 @@ class PersonViewModel(application: Application) : AndroidViewModel(application) 
         private const val ENABLE_PLACEHOLDER = true
     }
 
-    private val mPersonDao: PersonDao by lazy {
-        PersonDatabase.getInstance(application).personDao()
+    private val repository: PersonRepository by lazy {
+        PersonRepository(application)
     }
 
-    val allPerson =
+    val allPerson: Flow<PagingData<Person>> =
         Pager(config = PagingConfig(PAGE_SIZE, enablePlaceholders = ENABLE_PLACEHOLDER)) {
-            mPersonDao.getAllPersons()
-        }.flow.cachedIn(viewModelScope).flowOn(Dispatchers.IO)
+            repository.getAllPersons()
+        }.flow
+            .cachedIn(viewModelScope)
+            .flowOn(Dispatchers.IO)
 }

@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.jiayx.jetpackstudy.adapter.MyAdapter
+import com.jiayx.jetpackstudy.adapter.RoomAdapter
 import com.jiayx.jetpackstudy.databinding.MainFragmentBinding
 import com.jiayx.jetpackstudy.room.bean.StudentBean
 import com.jiayx.jetpackstudy.ui.main.viewmodel.MainViewModel
@@ -29,8 +29,8 @@ class RoomFragment : Fragment() {
     private val binding: MainFragmentBinding by lazy {
         MainFragmentBinding.inflate(layoutInflater)
     }
-    private val adapter: MyAdapter by lazy {
-        MyAdapter(requireContext(), items)
+    private val adapter: RoomAdapter by lazy {
+        RoomAdapter(requireContext(), items)
     }
 
     override fun onCreateView(

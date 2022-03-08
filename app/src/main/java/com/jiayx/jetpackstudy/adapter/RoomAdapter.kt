@@ -13,8 +13,8 @@ import com.jiayx.jetpackstudy.room.bean.StudentBean
  *Created by yuxi_
 on 2022/2/27
  */
-class MyAdapter(private val context: Context, private var items: List<StudentBean>) :
-    RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
+class RoomAdapter(private val context: Context, private var items: List<StudentBean>) :
+    RecyclerView.Adapter<RoomAdapter.MyViewHolder>() {
 
     fun updateData(data: List<StudentBean>) {
         items = data
