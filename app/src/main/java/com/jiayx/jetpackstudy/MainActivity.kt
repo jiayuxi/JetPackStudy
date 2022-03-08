@@ -6,16 +6,19 @@ import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.XXPermissions
-import com.jiayx.jetpackstudy.ui.main.MainFragment
-import com.jiayx.jetpackstudy.ui.main.MainViewModel
+import com.jiayx.jetpackstudy.databinding.MainActivityBinding
+import com.jiayx.jetpackstudy.ui.main.PagingActivity
+import com.jiayx.jetpackstudy.ui.main.RoomActivity
 import com.tbruyelle.rxpermissions2.RxPermissions
-import io.reactivex.functions.Consumer
 
 
 class MainActivity : AppCompatActivity() {
+
+    private val binding: MainActivityBinding by lazy {
+        MainActivityBinding.inflate(layoutInflater)
+    }
 
     // 所需的全部权限
     private val permissions = arrayOf(
@@ -38,21 +41,21 @@ class MainActivity : AppCompatActivity() {
         Manifest.permission.MANAGE_EXTERNAL_STORAGE
     )
 
-    val viewModel: MainViewModel by lazy {
-        ViewModelProvider(
-            this,
-            ViewModelProvider.AndroidViewModelFactory.getInstance(application)
-        ).get(MainViewModel::class.java)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.main_activity)
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.container, MainFragment.newInstance())
-                .commitNow()
+        checkPermissions()
+        setContentView(binding.root)
+        binding.buttonRoom.setOnClickListener {
+            startActivity(RoomActivity::class.java)
         }
+        binding.buttonPaging.setOnClickListener {
+            startActivity(PagingActivity::class.java)
+        }
+    }
+
+    private fun <T> startActivity(cls: Class<T>) {
+        val intent = Intent(this, cls)
+        startActivity(intent)
     }
 
     private fun checkPermissions() {

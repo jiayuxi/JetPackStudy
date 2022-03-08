@@ -86,6 +86,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.main.RoomActivity"/>
+        <activity android:name=".ui.main.PagingActivity"/>
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.jiayx.jetpackstudy.fileprovider"

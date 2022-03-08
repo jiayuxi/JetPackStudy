@@ -4,11 +4,9 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Switch
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.jiayx.jetpackstudy.R
-import com.jiayx.jetpackstudy.room.bean.JStudentBean
 import com.jiayx.jetpackstudy.room.bean.StudentBean
 
 /**
@@ -25,7 +23,7 @@ class MyAdapter(private val context: Context, private var items: List<StudentBea
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.mian_fragment_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.room_fragment_item, parent, false)
         return MyViewHolder(view)
     }
 

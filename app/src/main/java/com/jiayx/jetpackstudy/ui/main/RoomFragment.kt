@@ -1,26 +1,22 @@
 package com.jiayx.jetpackstudy.ui.main
 
-import android.bluetooth.le.AdvertisingSetParameters
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jiayx.jetpackstudy.adapter.MyAdapter
-import com.jiayx.jetpackstudy.databinding.MainActivityBinding
 import com.jiayx.jetpackstudy.databinding.MainFragmentBinding
-import com.jiayx.jetpackstudy.room.bean.JStudentBean
 import com.jiayx.jetpackstudy.room.bean.StudentBean
-import kotlinx.coroutines.flow.collect
+import com.jiayx.jetpackstudy.ui.main.viewmodel.MainViewModel
 
-class MainFragment : Fragment() {
+class RoomFragment : Fragment() {
 
     companion object {
-        fun newInstance() = MainFragment()
+        fun newInstance() = RoomFragment()
     }
 
     private val items: List<StudentBean> by lazy { arrayListOf() }
@@ -69,11 +65,6 @@ class MainFragment : Fragment() {
         binding.buttonClearAll.setOnClickListener {
             viewModel.deleteAllStudent()
         }
-//        viewModel.getAllStudents()?.observe(viewLifecycleOwner, Observer {
-//            it?.let { items ->
-//                adapter.updateData(items)
-//            }
-//        })
         lifecycleScope.launchWhenCreated {
             viewModel.getFlowAll()?.collect {
                 adapter.updateData(it)

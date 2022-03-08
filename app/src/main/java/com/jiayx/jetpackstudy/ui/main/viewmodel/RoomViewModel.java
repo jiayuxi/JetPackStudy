@@ -1,4 +1,4 @@
-package com.jiayx.jetpackstudy.ui.main;
+package com.jiayx.jetpackstudy.ui.main.viewmodel;
 
 import android.app.Application;
 
