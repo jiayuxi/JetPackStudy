@@ -1,4 +1,4 @@
-package com.jiayx.jetpackstudy.ui.main
+package com.jiayx.jetpackstudy.ui.main.room
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,8 +12,6 @@ import com.jiayx.jetpackstudy.adapter.RoomAdapter
 import com.jiayx.jetpackstudy.databinding.MainFragmentBinding
 import com.jiayx.jetpackstudy.room.bean.StudentBean
 import com.jiayx.jetpackstudy.ui.main.viewmodel.MainViewModel
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
 
 class RoomFragment : Fragment() {
 

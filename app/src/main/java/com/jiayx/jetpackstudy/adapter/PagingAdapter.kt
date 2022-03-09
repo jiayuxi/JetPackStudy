@@ -4,14 +4,11 @@ package com.jiayx.jetpackstudy.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.lifecycle.MethodCallsLogger
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import com.jiayx.jetpackstudy.BindingViewHolder
+import com.jiayx.jetpackstudy.binding.BindingViewHolder
 import com.jiayx.jetpackstudy.databinding.RoomFragmentItemBinding
 import com.jiayx.jetpackstudy.room.bean.Person
-import com.jiayx.jetpackstudy.ui.main.viewmodel.PersonViewModel
-import retrofit2.http.POST
 
 /**
  *Created by yuxi_

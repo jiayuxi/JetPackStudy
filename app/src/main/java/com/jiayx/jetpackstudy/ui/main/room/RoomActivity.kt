@@ -1,6 +1,7 @@
-package com.jiayx.jetpackstudy.ui.main
+package com.jiayx.jetpackstudy.ui.main.room
 
 import android.os.Bundle
+import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
 import com.jiayx.jetpackstudy.R
 
@@ -8,10 +9,10 @@ import com.jiayx.jetpackstudy.R
  *Created by yuxi_
 on 2022/3/8
  */
-class PagingActivity : AppCompatActivity() {
+class RoomActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.paging_activity)
+        setContentView(R.layout.room_activity)
     }
 }

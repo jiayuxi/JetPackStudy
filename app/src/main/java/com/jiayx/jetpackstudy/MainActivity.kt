@@ -9,8 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.XXPermissions
 import com.jiayx.jetpackstudy.databinding.MainActivityBinding
-import com.jiayx.jetpackstudy.ui.main.PagingActivity
-import com.jiayx.jetpackstudy.ui.main.RoomActivity
+import com.jiayx.jetpackstudy.ui.main.paging.PagingActivity
+import com.jiayx.jetpackstudy.ui.main.room.RoomActivity
 import com.tbruyelle.rxpermissions2.RxPermissions
 
 

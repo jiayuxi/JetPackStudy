@@ -1,4 +1,4 @@
-package com.jiayx.jetpackstudy
+package com.jiayx.jetpackstudy.binding
 
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding

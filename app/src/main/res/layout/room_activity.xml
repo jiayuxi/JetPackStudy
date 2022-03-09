@@ -6,6 +6,6 @@
         android:id="@+id/fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="com.jiayx.jetpackstudy.ui.main.RoomFragment"
+        android:name="com.jiayx.jetpackstudy.ui.main.room.RoomFragment"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>
