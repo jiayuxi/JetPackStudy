@@ -20,17 +20,20 @@ class StudentBean {
 
     @ColumnInfo(name = "age", typeAffinity = ColumnInfo.INTEGER)
     var age: Int = 0
+    @ColumnInfo(name = "timeLog", typeAffinity = ColumnInfo.INTEGER)
+    var timeLog:Long = 0
 
-    constructor(longId: Int, name: String?, age: Int) {
+    constructor(longId: Int, name: String?, age: Int, timeLog: Long) {
         this.longId = longId
         this.name = name
         this.age = age
+        this.timeLog = timeLog
     }
-
     @Ignore
-    constructor(name: String?, age: Int) {
+    constructor(name: String?, age: Int, timeLog: Long) {
         this.name = name
         this.age = age
+        this.timeLog = timeLog
     }
 
     @Ignore

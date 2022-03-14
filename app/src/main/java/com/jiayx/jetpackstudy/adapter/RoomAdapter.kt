@@ -8,6 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.jiayx.jetpackstudy.R
 import com.jiayx.jetpackstudy.room.bean.StudentBean
+import com.jiayx.jetpackstudy.ui.main.utils.transToString
+import com.jiayx.jetpackstudy.ui.main.utils.transToTimeStamp
 
 /**
  *Created by yuxi_
@@ -33,6 +35,7 @@ class RoomAdapter(private val context: Context, private var items: List<StudentB
             holder.number.text = bean?.longId.toString()
             holder.name.text = bean?.name
             holder.age.text = bean?.age.toString()
+            holder.time.text = transToString(bean?.timeLog)
         }
     }
 
@@ -42,5 +45,6 @@ class RoomAdapter(private val context: Context, private var items: List<StudentB
         var number: TextView = itemView.findViewById(R.id.item_id)
         var name: TextView = itemView.findViewById(R.id.item_name)
         var age: TextView = itemView.findViewById(R.id.item_age)
+        var time: TextView = itemView.findViewById(R.id.item_time)
     }
 }

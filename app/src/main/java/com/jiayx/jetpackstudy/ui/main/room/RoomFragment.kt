@@ -51,12 +51,12 @@ class RoomFragment : Fragment() {
 
     private fun initAction() {
         binding.buttonInsert.setOnClickListener {
-            val bean = StudentBean("小明", 20)
-            val bean2 = StudentBean("王五", 24)
+            val bean = StudentBean("小明", 20,System.currentTimeMillis())
+            val bean2 = StudentBean("王五", 24,System.currentTimeMillis())
             viewModel.insertStudent(bean, bean2)
         }
         binding.buttonUpdate.setOnClickListener {
-            val bean = StudentBean("赵柳", 24)
+            val bean = StudentBean("赵柳", 24,System.currentTimeMillis())
             viewModel.updateStudent(bean)
         }
         binding.buttonClear.setOnClickListener {
