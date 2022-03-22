@@ -84,6 +84,11 @@ class PersonViewModel(application: Application) : AndroidViewModel(application) 
         repository.deleteSelect()
     }
 
+    /**
+     * 删除数据
+     */
+    fun getSelectCount() = repository.getSelectCount()
+
     private val CHEESE_DATA = arrayListOf(
         "Abbaye de Belloc", "Abbaye du Mont des Cats", "Abertam", "Abondance", "Ackawi",
         "Acorn", "Adelost", "Affidelice au Chablis", "Afuega'l Pitu", "Airag", "Airedale",

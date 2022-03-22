@@ -2,8 +2,12 @@ package com.jiayx.jetpackstudy.ui.main.paging
 
 import android.bluetooth.le.AdvertisingSetParameters
 import android.content.Intent
+import android.opengl.Visibility
 import android.os.Bundle
+import android.util.Log
 import android.view.*
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -79,7 +83,12 @@ class PagingFragment : Fragment() {
         pagingViewModel.manageListener = {
             updateManage()
         }
-        pagingViewModel.deleteListener = {
+        lifecycleScope.launchWhenCreated {
+            pagingViewModel.getSelectCount().collectLatest {
+                Log.d("count_log", "initAction: count : $it")
+            }
+        }
+        binding.pagingDelete.setOnClickListener {
             pagingViewModel.deleteSelect()
             updateManage()
         }
@@ -88,6 +97,7 @@ class PagingFragment : Fragment() {
     private fun updateManage() {
         adapter.isDelete = !adapter.isDelete
         if (!adapter.isDelete) pagingViewModel.updateAll(false)
+        binding.pagingBottomLinear.visibility = if (adapter.isDelete) VISIBLE else GONE
         adapter.notifyDataSetChanged()
     }
 }

@@ -36,7 +36,6 @@ class PagingActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.menu_add ->  pagingViewModel.insert()
             R.id.menu_manage -> { pagingViewModel.manageListener?.invoke()}
-            R.id.menu_delete -> { pagingViewModel.deleteListener?.invoke()}
         }
         return true
     }

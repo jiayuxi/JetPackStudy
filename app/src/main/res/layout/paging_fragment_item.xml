@@ -5,17 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="60dp">
 
-    <CheckBox
+    <CheckedTextView
         android:id="@+id/checkbox"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:background="@null"
+        android:background="@drawable/ic_check_icon"
         android:gravity="center"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/item_name"
@@ -23,12 +22,10 @@
         android:layout_height="wrap_content"
         android:textColor="@color/black"
         android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
-
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

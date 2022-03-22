@@ -5,6 +5,7 @@ import android.content.PeriodicSync
 import com.jiayx.jetpackstudy.room.bean.Person
 import com.jiayx.jetpackstudy.room.dao.PersonDao
 import com.jiayx.jetpackstudy.room.database.PersonDatabase
+import kotlinx.coroutines.flow.Flow
 
 /**
  *Created by yuxi_
@@ -39,4 +40,6 @@ class PersonRepository(private val context: Context) {
     suspend fun updatePerson(person: Person) {
         personDao.updatePerson(person)
     }
+
+    fun getSelectCount(): Flow<Int> = personDao.getCountSelect()
 }

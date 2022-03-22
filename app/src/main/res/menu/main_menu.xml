@@ -11,8 +11,4 @@
         android:title="manage"
         app:showAsAction="always" />
 
-    <item
-        android:id="@+id/menu_delete"
-        android:title="delete"
-        app:showAsAction="always" />
 </menu>

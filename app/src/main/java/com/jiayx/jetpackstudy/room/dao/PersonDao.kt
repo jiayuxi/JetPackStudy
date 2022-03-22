@@ -5,6 +5,7 @@ import androidx.paging.PagingData
 import androidx.paging.PagingSource
 import androidx.room.*
 import com.jiayx.jetpackstudy.room.bean.Person
+import kotlinx.coroutines.flow.Flow
 
 /**
  *Created by yuxi_
@@ -38,4 +39,7 @@ interface PersonDao {
 
     @Query("SELECT * FROM person ORDER BY name COLLATE NOCASE ASC")
     fun getAllPersons(): PagingSource<Int, Person>
+
+    @Query("SELECT COUNT(*) FROM person WHERE isSelect = 1")
+    fun getCountSelect(): Flow<Int>
 }
