@@ -69,10 +69,33 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun updateStudent(timeLong: Long, id: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository2?.updateStudent(timeLong, id)
+
+        }
+    }
+
+    fun updateStudent(timeLong: Long, name: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository2?.updateStudent(timeLong, name)
+
+        }
+    }
+
     fun deleteStudent(vararg words: StudentBean?) {
         viewModelScope.launch {
             async {
                 repository2?.deleteStudent(*words)
+
+            }
+        }
+    }
+
+    fun deleteToName(name: String) {
+        viewModelScope.launch {
+            async {
+                repository2?.deleteToName(name)
 
             }
         }

@@ -1,6 +1,7 @@
 package com.jiayx.jetpackstudy.ui.main.room
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.jiayx.jetpackstudy.adapter.RoomAdapter
 import com.jiayx.jetpackstudy.databinding.MainFragmentBinding
 import com.jiayx.jetpackstudy.room.bean.StudentBean
+import com.jiayx.jetpackstudy.ui.main.utils.transToString
 import com.jiayx.jetpackstudy.ui.main.viewmodel.MainViewModel
 
 class RoomFragment : Fragment() {
@@ -56,11 +58,12 @@ class RoomFragment : Fragment() {
             viewModel.insertStudent(bean, bean2)
         }
         binding.buttonUpdate.setOnClickListener {
-            val bean = StudentBean("赵柳", 24,System.currentTimeMillis())
-            viewModel.updateStudent(bean)
+            Log.d("model_log", "initAction: time: ${System.currentTimeMillis()}")
+            Log.d("model_log", "initAction: time: ${transToString(System.currentTimeMillis())}")
+            viewModel.updateStudent(System.currentTimeMillis(),"小明")
         }
         binding.buttonClear.setOnClickListener {
-            viewModel.deleteStudent(StudentBean(2))
+            viewModel.deleteToName("小明")
         }
         binding.buttonClearAll.setOnClickListener {
             viewModel.deleteAllStudent()

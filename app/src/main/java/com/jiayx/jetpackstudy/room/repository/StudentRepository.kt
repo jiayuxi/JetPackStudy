@@ -26,8 +26,20 @@ class StudentRepository(private val context: Context) {
         studentDao?.updateStudent(*student)
     }
 
+    suspend fun updateStudent(timeLong: Long, id: Int) {
+        studentDao?.updateStudent(timeLong, id)
+    }
+
+    suspend fun updateStudent(timeLong: Long, name: String) {
+        studentDao?.updateStudent(timeLong, name)
+    }
+
     suspend fun deleteStudent(vararg student: StudentBean?) {
         studentDao?.deleteStudent(* student)
+    }
+
+    suspend fun deleteToName(name: String) {
+        studentDao?.deleteToName(name)
     }
 
     suspend fun deleteAll() {

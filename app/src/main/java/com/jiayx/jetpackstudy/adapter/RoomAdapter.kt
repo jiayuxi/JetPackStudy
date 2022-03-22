@@ -1,6 +1,7 @@
 package com.jiayx.jetpackstudy.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,11 +31,16 @@ class RoomAdapter(private val context: Context, private var items: List<StudentB
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        Log.d("adapter_log", " : position: $position")
+        holder.itemView.setOnClickListener {
+            Log.d("adapter_log", "onBindViewHolder: position: $position")
+        }
         items?.let {
             val bean = it[position]
             holder.number.text = bean?.longId.toString()
             holder.name.text = bean?.name
             holder.age.text = bean?.age.toString()
+            Log.d("model_log", "onBindViewHolder: time: ${transToString(bean?.timeLog)}")
             holder.time.text = transToString(bean?.timeLog)
         }
     }

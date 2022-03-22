@@ -26,6 +26,12 @@ interface StudentDao {
     @Update
     suspend fun updateStudent(student: StudentBean?)
 
+    @Query("UPDATE student SET timeLog =:timeLong WHERE id =:id")
+    suspend fun updateStudent(timeLong: Long, id: Int)
+
+    @Query("UPDATE student SET timeLog =:timeLong WHERE name =:name")
+    suspend fun updateStudent(timeLong: Long, name: String)
+
     @Delete
     suspend fun deleteStudent(vararg student: StudentBean?)
 
@@ -34,6 +40,9 @@ interface StudentDao {
 
     @Query("DELETE FROM student")
     suspend fun deleteAll()
+
+    @Query("DELETE FROM student WHERE name =:name")
+    suspend fun deleteToName(name: String)
 
     @Query("SELECT * FROM student")
     fun getAllStudent(): LiveData<List<StudentBean>>
