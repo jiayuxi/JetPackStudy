@@ -86,6 +86,7 @@ class PagingFragment : Fragment() {
         lifecycleScope.launchWhenCreated {
             pagingViewModel.getSelectCount().collectLatest {
                 Log.d("count_log", "initAction: count : $it")
+                binding.pagingDelete.isEnabled = it > 0
             }
         }
         binding.pagingDelete.setOnClickListener {
