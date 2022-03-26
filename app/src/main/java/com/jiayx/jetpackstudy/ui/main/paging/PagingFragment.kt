@@ -71,11 +71,16 @@ class PagingFragment : Fragment() {
 
         lifecycleScope.launchWhenCreated {
             adapter.loadStateFlow.collectLatest { state ->
-                binding.swipeRefresh.isRefreshing = state.refresh is LoadState.Loading
+                when (state.refresh) {
+                    is LoadState.NotLoading -> binding.swipeRefresh.isRefreshing = false
+                    is LoadState.Error -> binding.swipeRefresh.isRefreshing = false
+                    else -> {}
+                }
             }
         }
-        adapter.setOnClickListener = {
-            val data = adapter.getData(it)
+        //设置点击事件
+        adapter.setOnItemClickListener { adapter, _, position ->
+            val data = adapter.getData(position) as Person
             data?.let { person ->
                 pagingViewModel.updatePerson(Person(person.id, person.name, !person.isSelect))
             }
@@ -91,7 +96,6 @@ class PagingFragment : Fragment() {
         }
         binding.pagingDelete.setOnClickListener {
             pagingViewModel.deleteSelect()
-            updateManage()
         }
     }
 
