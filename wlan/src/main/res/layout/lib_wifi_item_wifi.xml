@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lib_wifi_item_wifi_root"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:layout_margin="0dp"
+    android:background="@drawable/lib_wifi_scan_list_selector_item_bg"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/lib_wifi_item_wifi_item_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@mipmap/lib_wifi_number_1" />
+
+    <ImageView
+        android:id="@+id/lib_wifi_item_wifi_item_level"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginRight="10dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@mipmap/lib_wifi_level_4" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/lib_wifi_item_wifi_item_ssid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="60dp"
+            android:ellipsize="middle"
+            android:singleLine="true"
+            android:textColor="#ffffff"
+            android:textSize="18sp"
+            tools:text="TP_LINK" />
+
+        <TextView
+            android:id="@+id/lib_wifi_item_wifi_item_networkState"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="10dp"
+            android:src="@mipmap/lib_wifi_lock"
+            android:textColor="#ffffff"
+            android:textSize="18sp"
+            tools:text="123" />
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

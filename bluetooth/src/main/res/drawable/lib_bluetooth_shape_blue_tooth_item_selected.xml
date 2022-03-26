@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+
+            <padding
+                android:bottom="0dp"
+                android:left="5dp"
+                android:right="5dp"
+                android:top="0dp" />
+
+            <gradient
+                android:endColor="#3180F1"
+                android:startColor="#43BBE4"
+                android:angle="0"
+               />
+        </shape>
+    </item>
+
+<!--    <item>-->
+<!--        <shape android:shape="rectangle">-->
+
+<!--            <solid android:color="@color/color_ring_button_selected_bg" />-->
+
+<!--        </shape>-->
+<!--    </item>-->
+</layer-list>
+
