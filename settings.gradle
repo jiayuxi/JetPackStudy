@@ -1,3 +1,5 @@
 rootProject.name = "JetpackStudy"
 include ':app'
 include ':hilt'
+include ':wlan'
+include ':bluetooth'
