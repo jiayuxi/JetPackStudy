@@ -59,7 +59,7 @@
             android:focusable="false"
             android:gravity="center"
             android:paddingVertical="10dp"
-            android:textColor="@color/selector_button_text_color"
+            android:textColor="@color/white"
             android:textSize="22sp"
             tools:text="按钮1" />
 
@@ -73,7 +73,7 @@
             android:focusable="false"
             android:gravity="center"
             android:paddingVertical="10dp"
-            android:textColor="@color/selector_button_text_color"
+            android:textColor="@color/white"
             android:textSize="22sp"
             tools:text="按钮2" />
 
@@ -86,7 +86,7 @@
             android:focusable="false"
             android:gravity="center"
             android:paddingVertical="10dp"
-            android:textColor="@color/selector_button_text_color"
+            android:textColor="@color/white"
             android:textSize="22sp"
             tools:text="按钮3" />
     </RadioGroup>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation_main"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.jiayx.flow.fragment.MainFragment"
+        android:label="MainFragment" >
+        <action
+            android:id="@+id/action_mainFragment_to_flowDownloadFragment"
+            app:destination="@id/flowDownloadFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_flowRetrofitFragment"
+            app:destination="@id/flowRetrofitFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_flowStateFragment"
+            app:destination="@id/flowStateFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_flowSharedFragment"
+            app:destination="@id/flowSharedFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/flowDownloadFragment"
+        android:name="com.jiayx.flow.fragment.FlowDownloadFragment"
+        android:label="FlowDownloadFragment" />
+    <fragment
+        android:id="@+id/flowRetrofitFragment"
+        android:name="com.jiayx.flow.fragment.FlowRetrofitFragment"
+        android:label="FlowRetrofitFragment" />
+    <fragment
+        android:id="@+id/flowStateFragment"
+        android:name="com.jiayx.flow.fragment.FlowStateFragment"
+        android:label="FlowStateFragment" />
+    <fragment
+        android:id="@+id/flowSharedFragment"
+        android:name="com.jiayx.flow.fragment.FlowSharedFragment"
+        android:label="FlowSharedFragment" />
+</navigation>

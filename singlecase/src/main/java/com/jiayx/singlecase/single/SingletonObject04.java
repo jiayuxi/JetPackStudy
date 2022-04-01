@@ -1,7 +1,5 @@
 package com.jiayx.singlecase.single;
 
-import android.util.Log;
-
 /**
  * Created by yuxi_
  * on 2022/3/27
