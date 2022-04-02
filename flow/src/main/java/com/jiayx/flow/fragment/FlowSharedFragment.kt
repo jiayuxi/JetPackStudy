@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.jiayx.flow.databinding.FragmentSharedFlowBinding
+import com.jiayx.flow.viewmodel.SharedFlowViewModel
 
 /**
  *Created by yuxi_
@@ -15,10 +17,20 @@ class FlowSharedFragment : Fragment() {
     private val binding: FragmentSharedFlowBinding by lazy {
         FragmentSharedFlowBinding.inflate(layoutInflater)
     }
-
+    private val viewModel by viewModels<SharedFlowViewModel>()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View = binding.root
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.flowSharedBtnStart.setOnClickListener {
+            viewModel.startRefresh()
+        }
+        binding.flowSharedBtnStop.setOnClickListener {
+            viewModel.stopRefresh()
+        }
+    }
 }
