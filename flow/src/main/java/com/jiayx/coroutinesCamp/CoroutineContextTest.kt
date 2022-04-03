@@ -17,10 +17,10 @@ fun main() {
 //    上下文中的作业()
 //    子协程()
 //    父协程的职责()
-//    组合上下文中的元素()
+    组合上下文中的元素()
 //    协程作用域()
-    coroutineScope挂起()
-    supervisorScope构造器()
+//    coroutineScope挂起()
+//    supervisorScope构造器()
 }
 
 /**
@@ -62,6 +62,7 @@ fun `调度器与线程`() = runBlocking {
  */
 
 fun `非受限调度器vs受限调度器`() = runBlocking {
+    println()
     launch(Dispatchers.Unconfined) { // 非受限的——将和主线程一起工作
         println("Unconfined      : I'm working in thread ${Thread.currentThread().name}")
         delay(500)// TODO 第一个挂起点
@@ -72,7 +73,7 @@ fun `非受限调度器vs受限调度器`() = runBlocking {
         delay(1000)
         println("main runBlocking: After delay in thread ${Thread.currentThread().name}")
     }
-    println()
+
 }
 
 /**
@@ -195,6 +196,18 @@ fun `组合上下文中的元素`() = runBlocking {
     launch(Dispatchers.Default + CoroutineName("test")) {
         println("I'm working in thread ${Thread.currentThread().name}")
     }
+
+    val coroutineScope = CoroutineScope(Job() + Dispatchers.IO + CoroutineName("test"))
+    val job = coroutineScope.launch(){
+        println("${coroutineContext[Job]} , $${Thread.currentThread().name}")
+        val result = async(Dispatchers.Default) {
+            println("${coroutineContext[Job]} , $${Thread.currentThread().name}")
+            "OK"
+        }
+        println("result:${result.await()}")
+    }
+    job.join()
+
 }
 
 /**
