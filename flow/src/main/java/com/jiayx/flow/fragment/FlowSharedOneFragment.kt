@@ -13,6 +13,7 @@ import com.jiayx.flow.utils.LocalEventBus
 /**
  *Created by yuxi_
 on 2022/4/1
+ SharedFlow 共享的数据流
  */
 class FlowSharedOneFragment : Fragment() {
     private val binding: FragmentFlowSharedOneBinding by lazy {
