@@ -200,6 +200,7 @@ fun `async组合并发`() = runBlocking {
 /**
  * UNDISPATCHED ： 协程创建后立即在当前函数调用栈中执行，直到遇到第一个真正挂起的点
  *  // 遇到第一个挂起的点，切换到 IO 线程中
+ *  知道遇到第一个挂起的点 才能相应取消状态
  */
 fun `UNDISPATCHED`() = runBlocking {
     val time = measureTimeMillis {
@@ -214,6 +215,7 @@ fun `UNDISPATCHED`() = runBlocking {
             }
             // 执行一些计算
             one.start() // 启动第一个
+//            one.cancel()
             println("The answer is ${one.await()}")
         } catch (e: Exception) {
             println("异常：$e")
@@ -225,14 +227,16 @@ fun `UNDISPATCHED`() = runBlocking {
 
 /**
  *DEFAULT
+ *  // TODO 立即开始调度
+ *  在调度前协程被取消，其将直接进入协程取消响应状态
  */
 
 fun `DEFAULT`() = runBlocking {
     println()
     val time = measureTimeMillis {
         try {
-            val one = async(context = Dispatchers.IO, start = CoroutineStart.DEFAULT) {
-                //立即直接运行
+            val one = async(/*context = Dispatchers.IO,*/ start = CoroutineStart.DEFAULT) {
+                // TODO 立即开始调度
                 // 运行在IO 线程中 ，
                 println("thread1: ${Thread.currentThread().name}")
                 doSomethingUsefulOne()
@@ -259,7 +263,7 @@ fun `ATOMIC`() = runBlocking {
     println()
     val time = measureTimeMillis {
         try {
-            val one = async(context = Dispatchers.IO, start = CoroutineStart.ATOMIC) {
+            val one = async(/*context = Dispatchers.IO,*/ start = CoroutineStart.ATOMIC) {
                 // TODO 立即开始调度
                 println("thread1: ${Thread.currentThread().name}")
                 doSomethingUsefulOne()

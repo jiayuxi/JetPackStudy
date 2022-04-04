@@ -1,6 +1,10 @@
 package com.jiayx.coroutinesCamp
 
+import com.google.gson.JsonObject
 import kotlinx.coroutines.*
+import org.json.JSONObject
+import java.lang.ArithmeticException
+import java.lang.AssertionError
 
 /**
  *Created by yuxi_
@@ -17,10 +21,15 @@ fun main() {
 //    上下文中的作业()
 //    子协程()
 //    父协程的职责()
-    组合上下文中的元素()
+//    组合上下文中的元素()
 //    协程作用域()
 //    coroutineScope挂起()
 //    supervisorScope构造器()
+//    取消作用域取消子协程()
+//    被取消的子协程不会影响其余的兄弟协程()
+//    CancellationException()
+//    CoroutineExceptionHandler异常捕获()
+    CoroutineExceptionHandler异常捕获2()
 }
 
 /**
@@ -198,7 +207,7 @@ fun `组合上下文中的元素`() = runBlocking {
     }
 
     val coroutineScope = CoroutineScope(Job() + Dispatchers.IO + CoroutineName("test"))
-    val job = coroutineScope.launch(){
+    val job = coroutineScope.launch() {
         println("${coroutineContext[Job]} , $${Thread.currentThread().name}")
         val result = async(Dispatchers.Default) {
             println("${coroutineContext[Job]} , $${Thread.currentThread().name}")
@@ -292,4 +301,98 @@ fun `supervisorScope构造器`() = runBlocking {
     } catch (e: Exception) {
         println("协程异常：$e")
     }
+}
+
+/**
+ * 协程取消
+ * 1 ：取消作用域 会取消它的子协程
+ */
+
+fun `取消作用域取消子协程`() = runBlocking<Unit> {
+    val scope = CoroutineScope(Dispatchers.Default)
+    val job = scope.launch {
+        delay(1000)
+        println("job 1")
+    }
+    val job2 = scope.launch {
+        delay(1000)
+        println("job 2")
+    }
+    delay(100)
+    scope.cancel()
+    delay(2000)
+}
+
+/**
+ * 协程取消
+ * 2 ：被取消的子协程 不会影响其余的兄弟协程
+ */
+fun `被取消的子协程不会影响其余的兄弟协程`() = runBlocking<Unit> {
+    val scope = CoroutineScope(Dispatchers.Default)
+    val job = scope.launch {
+        delay(1000)
+        println("job 1")
+    }
+    val job2 = scope.launch {
+        delay(1000)
+        println("job 2")
+    }
+    delay(100)
+    job2.cancel()
+    delay(2000)
+}
+
+/**
+ *协程取消
+ * 协程抛出一个特殊的异常CancellationException来处理取消操作
+ * 3 ：CancellationException
+ */
+
+fun `CancellationException`() = runBlocking {
+    val job = GlobalScope.launch {
+        try {
+            delay(1000)
+            println("job 1")
+        } catch (e: CancellationException) {
+            println("取消异常：$e")
+        }
+    }
+    delay(100)
+//    job.cancel()
+//    job.cancel(CancellationException("取消"))
+//    delay(2000)
+    job.cancelAndJoin()
+}
+
+/**
+ * CoroutineExceptionHandler 异常捕获
+ */
+
+fun `CoroutineExceptionHandler异常捕获`() = runBlocking<Unit> {
+    val handler = CoroutineExceptionHandler { _, throwable ->
+        println("Caught: $throwable")
+    }
+
+    val job = GlobalScope.launch(handler) {
+        throw AssertionError()
+    }
+    val deferred = GlobalScope.async {
+        throw ArithmeticException()
+    }
+    job.join()
+    deferred.await()
+}
+
+fun `CoroutineExceptionHandler异常捕获2`() = runBlocking<Unit> {
+    val handler = CoroutineExceptionHandler { _, throwable ->
+        println("Caught: $throwable")
+    }
+    val scope = CoroutineScope(Job())
+    val job = scope.launch(handler) {
+         launch {
+             throw IllegalAccessError()
+         }
+    }
+    job.join()
+
 }

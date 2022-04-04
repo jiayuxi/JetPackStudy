@@ -42,6 +42,9 @@ class MainFragment : Fragment() {
         binding.buttonFlowShared.setOnClickListener {
             findNavController(R.id.action_mainFragment_to_flowSharedFragment)
         }
+        binding.buttonException.setOnClickListener {
+            findNavController(R.id.action_mainFragment_to_coroutineExceptionFragment)
+        }
     }
 
     private fun findNavController(id: Int) {
