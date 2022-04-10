@@ -36,7 +36,7 @@ class PagingFragment : Fragment() {
         ViewModelProvider(
             requireActivity(),
             ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
-        ).get(PersonViewModel::class.java)
+        )[PersonViewModel::class.java]
 
     }
 

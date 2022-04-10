@@ -1,17 +1,15 @@
 package com.jiayx.flow.channel
 
-import android.widget.TableLayout
-import dalvik.system.DelegateLastClassLoader
+import com.jiayx.flow.bean.CounterMsg
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.*
-import kotlinx.coroutines.flow.channelFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.selects.select
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.Semaphore
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.sync.withPermit
 import java.util.concurrent.atomic.AtomicInteger
+import kotlin.system.measureTimeMillis
 
 /**
  *Created by yuxi_
@@ -32,7 +30,13 @@ fun main() {
 //    扇出函数()
 //    扇入函数()
 //    带缓冲的channel()
-    通道公平函数()
+//    通道公平函数()
+//    callbackFlow函数()
+//    broadcastChannel函数()
+//    actors函数()
+//    testIteratechannel迭代()
+//    actor启动一个消费者协程()
+    channel关闭()
 }
 
 /**
@@ -178,53 +182,12 @@ fun `testavoidaccessoutervariable`() = runBlocking {
 }
 
 /**
- * 选择表达式
- * select
- * 其允许同时等待多个挂起的结果，并且只取用其中最快完成的作为函数恢复的值。
- */
-
-fun `select选择表达式`() = runBlocking {
-    val d1 = async {
-        delay(60)
-        1
-    }
-    val d2 = async {
-        delay(50)
-        2
-    }
-    val d3 = async {
-        delay(70)
-        3
-    }
-    val data = select<Int> {
-        d3.onAwait { data ->
-            println("d3 first result $data")
-            data
-        }
-        d1.onAwait { data ->
-            println("d1 first result $data")
-            data
-        }
-        d2.onAwait { data ->
-            println("d2 first result $data")
-            data
-        }
-    }
-    //由于第2项Deferred是最先通过await获取到值的，所以select也是以其作为返回值。
-    //d2 first result 2
-    //result: 2
-    println("result: $data")
-
-    println()
-}
-
-/**
  * ChannelFlow
  *
  */
 
 fun `channelFlow函数`() = runBlocking {
-    val flow = channelFlow<String> {
+    val flow: Flow<String> = channelFlow {
         send("11")
         println("send first on ${Thread.currentThread()}")
         withContext(Dispatchers.IO) {
@@ -249,9 +212,12 @@ fun `channelFlow函数`() = runBlocking {
 
 /**
  * 扇出
+ * produce : 启动一个消费者协程的方法,其它协程就可以用这个channel来接收数据
  * 多个协程也许会接收相同的管道，在它们之间进行分布式工作
+ * CoroutineScope 的扩展函数
+ * 里面持有 this 对象，this对象指向的是协程作用域 CoroutineScope
  */
-fun CoroutineScope.produceNum() = produce<Int> {
+fun CoroutineScope.produceNum(): ReceiveChannel<Int> = produce {
     var x = 1
     while (true) {
         send(x++)
@@ -340,7 +306,148 @@ fun `通道公平函数`() = runBlocking {
     delay(1000) // 延迟 1 秒钟
     coroutineContext.cancelChildren() // 游戏结束，取消它们
 }
+
 /**
- *
+ * callbackFlow
  */
+val callbackFlow = callbackFlow<Int> {
+    (1..1000).asFlow().onEach { delay(1000) }.collect {
+        val trySend = trySend(it)
+        trySend.onClosed {
+            println("callbackFlow onClosed")
+        }.onFailure {
+            println("callbackFlow onFailure")
+        }.onSuccess {
+            println("callbackFlow onSuccess")
+        }
+    }
+    awaitClose {
+        println("collector is closed")
+    }
+}
+
+fun `callbackFlow函数`() = runBlocking {
+    var count = AtomicInteger()
+    try {
+        callbackFlow.catch { e -> println("Caught : $e") }.collect {
+            count.incrementAndGet()
+            println("reault value : ${count.get()}")
+        }
+        delay(3000)
+        coroutineContext.cancelChildren()
+    } catch (e: Exception) {
+        println("Caught : $e")
+    }
+}
+
+/**
+ * broadcastChannel
+ *
+ * 多个接收端不存在互斥行为
+ */
+
+fun `broadcastChannel函数`() = runBlocking {
+//    val broadcastChannel = BroadcastChannel<Int>(Channel.BUFFERED)
+    // channel 转化为 broadcastChannel
+    val channel = Channel<Int>()
+    val broadcastChannel = channel.broadcast(3)
+    val produce = GlobalScope.launch {
+        List(3) {
+            delay(100)
+            broadcastChannel.send(it)
+        }
+        broadcastChannel.close()
+    }
+    List(3) { index ->
+        GlobalScope.launch {
+            //注册
+            val receiveChannel = broadcastChannel.openSubscription()
+            for (i in receiveChannel) {
+                println("[#${index}] received: $i")
+            }
+        }
+    }.joinAll()
+}
+
+/**
+ * Actors
+ * 启动一个消费者协程
+ */
+
+fun `actor启动一个消费者协程`() = runBlocking {
+    val sendChannel: SendChannel<Int> = GlobalScope.actor {
+        while (true) {
+            val element = receive()
+            println("value: $element")
+        }
+    }
+    val produce = GlobalScope.launch {
+        (1..3).forEach {
+            sendChannel.send(it)
+        }
+    }
+    produce.join()
+}
+
+/**
+ *  channel 迭代 iterator
+ */
+fun `testIteratechannel迭代`() = runBlocking {
+    val channel = Channel<Int>(Channel.UNLIMITED)
+    // 生产者
+    val producer = GlobalScope.launch {
+        for (i in 1..5) {
+            channel.send(i)
+            println("${i * i}")
+        }
+    }
+    //消费者
+    val consume = GlobalScope.launch {
+//            val iterator = channel.iterator()
+//            while (iterator.hasNext()) {
+//                val element = iterator.next()
+//                println("element:$element")
+//                delay(2000)
+//            }
+        for (element in channel) {
+            println("element:$element")
+            delay(2000)
+        }
+    }
+    joinAll(producer, consume)
+}
+
+/**
+ * channel 的关闭
+ */
+
+fun `channel关闭`() = runBlocking {
+    val channel = Channel<Int>(3)
+    //生产者
+    val produce = GlobalScope.launch {
+        List(3) {
+            channel.send(it)
+            println("send: $it")
+        }
+        channel.close()
+        println(
+            """close channel . 
+            | -ClosedForSend: ${channel.isClosedForSend} 
+            | -ClosedReceive: ${channel.isClosedForReceive}""".trimMargin()
+        )
+    }
+    //消费者
+    val consumer = GlobalScope.launch {
+        for (element in channel) {
+            println("receive : $element")
+            delay(1000)
+        }
+        println(
+            """close channel . 
+            | -ClosedForSend: ${channel.isClosedForSend} 
+            | -ClosedReceive: ${channel.isClosedForReceive}""".trimMargin()
+        )
+    }
+    joinAll(produce,consumer)
+}
 

@@ -8,15 +8,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.compose.ui.geometry.Offset
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.jiayx.flow.databinding.FragmentFlowRetrofitBinding
 import com.jiayx.flow.viewmodel.ArticleViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 
 /**
  *Created by yuxi_
@@ -61,6 +65,16 @@ class FlowRetrofitFragment : Fragment() {
             binding.flowRetrofitEdit.textWatcherFlow().collect {
                 Log.d("flow_retrofit_log", "collect keywords：$it")
                 viewModel.searchArticle(it)
+            }
+        }
+        /**
+         * 多个edit 监听互不影响
+         */
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED){
+                binding.flowOtherEdit.textWatcherFlow().collect{
+                    Log.d("flow_retrofit_log", "other collect keywords：$it")
+                }
             }
         }
         context?.let {

@@ -26,7 +26,7 @@ class RoomFragment : Fragment() {
         ViewModelProvider(
             this,
             ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
-        ).get(MainViewModel::class.java)
+        )[MainViewModel::class.java]
     }
     private val binding: MainFragmentBinding by lazy {
         MainFragmentBinding.inflate(layoutInflater)

@@ -5,6 +5,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.sync.withPermit
 import java.util.concurrent.Semaphore
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.system.measureTimeMillis
@@ -162,6 +163,10 @@ fun CoroutineScope.counterActor() = actor<CounterMsg> {
         }
     }
 }
+
+/**
+ *
+ */
 fun `actors函数`() = runBlocking {
     val counter = counterActor() // 创建该 actor
     withContext(Dispatchers.Default) {

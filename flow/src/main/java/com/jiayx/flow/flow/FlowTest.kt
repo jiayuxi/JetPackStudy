@@ -33,12 +33,12 @@ fun main() {
 //    mapNotNull变换操作符()
 //    mapLatest变换操作符()
 //    flatMapConcat变换操作符()
-//    flatMapMerge并发操作变换符()
+//    flatMapMerge合并操作变换符()
 //    transform转换操作符()
 //    flatMapLatest处理最新值()
 //    take限长操作符()
 //    flowDecode过滤高频发的生产数据()
-    flowDistinctUntilChanged过滤上游重复的元素()
+//    flowDistinctUntilChanged过滤上游重复的元素()
 //    flowOn线程调度()
 //    flowOnStartEvent事件转换操作符()
 //    onEachEvent事件操作符()
@@ -59,6 +59,9 @@ fun main() {
 //    flowBuffer缓冲操作符()
 //    flowConflate合并操作符()
 //      flowCollectLatest处理最新值()
+    retry发生异常时重试()
+    retryWhen重试次数()
+
 }
 
 /**
@@ -76,6 +79,9 @@ fun `testFlow`() = runBlocking {
         println("获取最后一个: ${flow.last()}")
         println("转化为集合: ${flow.toList()}")
         println("转化为set集合: ${flow.toSet()}")
+        // 确保流发射单个（single）值的操作符。
+        println("single : ${flowOf(1).singleOrNull()}")
+
         val sum = flow.map {
             it * it
         }.reduce { accumulator, value -> //求和
@@ -109,7 +115,7 @@ fun `map变换操作符`() = runBlocking {
 }
 
 /**
- * mapLatest
+ * mapLatest 变换操作符
  */
 fun `mapLatest变换操作符`() = runBlocking {
     (1..2).asFlow().onEach { delay(100) }
@@ -123,7 +129,7 @@ fun `mapLatest变换操作符`() = runBlocking {
 }
 
 /**
- *
+ *mapNotNull 变换操作符
  */
 fun `mapNotNull变换操作符`() = runBlocking {
     flowOf("1", null, "2").mapNotNull {
@@ -138,19 +144,19 @@ fun `mapNotNull变换操作符`() = runBlocking {
  * flatMapConcat 链接模式操作符
  * 它们在等待内部流完成之前开始收集下一个值
  */
+fun requestFlow(i: Int) = flow<String> {
+    emit("$i: First")
+    delay(500)
+    emit("$i: Second")
+}
+
 fun `flatMapConcat变换操作符`() = runBlocking {
     flow {
         (1..2).forEach {
             emit(it)
         }
     }.flatMapConcat { index ->
-        flow<String> {
-            println("running flatMapConcat first $index")
-            emit("flatMapConcat first $index")
-            println("running flatMapConcat second $index")
-            emit("flatMapConcat second $index")
-            println("running flatMapConcat end $index")
-        }
+        requestFlow(index)
     }.collect {
         println("last collect result ：$it")
     }
@@ -158,20 +164,17 @@ fun `flatMapConcat变换操作符`() = runBlocking {
 }
 
 /**
- * flatMapMerge 并发操作符
+ * flatMapMerge 合并模式
  * 另一种展平模式是并发收集所有传入的流，并将它们的值合并到一个单独的流，以便尽快的发射值
  */
-fun `flatMapMerge并发操作变换符`() = runBlocking {
+fun `flatMapMerge合并操作变换符`() = runBlocking {
     flow {
         (1..3).forEach {
             println("flatMapMerge 1: $it")
             emit(it)
         }
     }.flatMapMerge { index ->
-        flow<String> {
-            emit("flatMapConcat $index ,1")
-            emit("flatMapConcat $index ,2")
-        }
+        requestFlow(index)
     }.collect {
         println("last collect result ：$it")
     }
@@ -181,15 +184,6 @@ fun `flatMapMerge并发操作变换符`() = runBlocking {
 /**
  * flatMapLatest
  * 与 collectLatest 操作符类似,也有相对应的“最新”展平模式，在发出新流后立即取消先前流的收集
- */
-fun requestFlow(i: Int): Flow<String> = flow {
-    emit("$i: First")
-    delay(500) // 等待 500 毫秒
-    emit("$i: Second")
-}
-
-/**
- * flatMapLatest
  */
 fun `flatMapLatest处理最新值`() = runBlocking<Unit> {
     val startTime = System.currentTimeMillis() // 记录开始时间
@@ -203,6 +197,7 @@ fun `flatMapLatest处理最新值`() = runBlocking<Unit> {
 /**
  * 转换操作符
  * transform
+ * 可以转换多次，任意值
  */
 
 fun `transform转换操作符`() = runBlocking {
@@ -217,8 +212,8 @@ fun `transform转换操作符`() = runBlocking {
 }
 
 /**
- * take
  * 中间操作符
+ * take
  * 限长操作符
  */
 fun numbers(): Flow<Int> = flow {
@@ -358,6 +353,8 @@ fun `onEmptyEvent操作符事件`() = runBlocking {
  * 末端操作符可以在这里派上用场。
  * 使用 launchIn 替换 collect 我们可以在单独的协程中启动流的收集，
  * 这样就可以立即继续进一步执行代码
+ * 返回一个 Job 对象，可以取消运行
+ * launchIn 可以指定作用域
  */
 fun `flowLaunchIn末端操作符`() = runBlocking {
     events()
@@ -685,18 +682,37 @@ fun `flowCollectLatest处理最新值`() = runBlocking {
 }
 
 /**
- * retry、retryWhen：在发生异常时进行重试，retryWhen中可以拿到异常和当前重试的次数
+ * retry、在发生异常时进行重试，
  */
 fun simpleRety(): Flow<Int> = flow {
     for (i in 1..3) {
         delay(100) // 假装我们异步等待了 100 毫秒
         emit(i) // 发射下一个值
+        throw Exception("抛出异常")
     }
-    throw Exception("抛出异常")
 }
 
 fun `retry发生异常时重试`() = runBlocking {
+    simpleRety().retry(2).catch { e -> println("Caught: $e") }.collect {
+        println("last result value : $it")
+    }
 
+    println()
+}
+
+/**
+ * retryWhen :  中可以拿到异常和当前重试的次数
+ */
+
+fun `retryWhen重试次数`() = runBlocking {
+    simpleRety().retryWhen { cause, attempt ->
+        println("retryWhen: $cause")
+        attempt < 1
+    }.catch { e -> println("Caught: $e") }.collect {
+        println("last result value : $it")
+    }
+
+    println()
 }
 
 /**

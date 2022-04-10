@@ -14,6 +14,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/flow_other_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/holo_green_dark"
+        android:textColorHint="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/flow_retrofit_edit"
+        />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/flow_retrofit_text"
@@ -23,5 +33,5 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/flow_retrofit_edit" />
+        app:layout_constraintTop_toBottomOf="@+id/flow_other_edit" />
 </androidx.constraintlayout.widget.ConstraintLayout>
