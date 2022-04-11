@@ -1,8 +1,6 @@
-package com.jiayx.coroutinesCamp
+package com.jiayx.coroutine.coroutinesCamp
 
-import com.google.gson.JsonObject
 import kotlinx.coroutines.*
-import org.json.JSONObject
 import java.lang.ArithmeticException
 import java.lang.AssertionError
 
@@ -29,7 +27,8 @@ fun main() {
 //    被取消的子协程不会影响其余的兄弟协程()
 //    CancellationException()
 //    CoroutineExceptionHandler异常捕获()
-    CoroutineExceptionHandler异常捕获2()
+//    CoroutineExceptionHandler异常捕获2()
+    协程上下文继承()
 }
 
 /**
@@ -207,7 +206,7 @@ fun `组合上下文中的元素`() = runBlocking {
     }
 
     val coroutineScope = CoroutineScope(Job() + Dispatchers.IO + CoroutineName("test"))
-    val job = coroutineScope.launch() {
+    val job = coroutineScope.launch {
         println("${coroutineContext[Job]} , $${Thread.currentThread().name}")
         val result = async(Dispatchers.Default) {
             println("${coroutineContext[Job]} , $${Thread.currentThread().name}")
@@ -394,5 +393,19 @@ fun `CoroutineExceptionHandler异常捕获2`() = runBlocking<Unit> {
          }
     }
     job.join()
-
+}
+/**
+ * 协程上下文继承
+ */
+fun `协程上下文继承`() = runBlocking {
+    val coroutineScope = CoroutineScope(Job() + Dispatchers.IO + CoroutineName("test"))
+    val job = coroutineScope.launch(){
+        println("${coroutineContext[Job]} , $${Thread.currentThread().name}")
+        val result = async(Dispatchers.Default) {
+            println("${coroutineContext[Job]} , $${Thread.currentThread().name}")
+            "OK"
+        }
+        println("result:${result.await()}")
+    }
+    job.join()
 }

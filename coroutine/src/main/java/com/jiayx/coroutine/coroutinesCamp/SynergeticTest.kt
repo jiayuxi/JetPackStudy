@@ -1,11 +1,8 @@
-package com.jiayx.coroutinesCamp
+package com.jiayx.coroutine.coroutinesCamp
 
-import com.jiayx.flow.bean.CounterMsg
 import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import kotlinx.coroutines.sync.withPermit
 import java.util.concurrent.Semaphore
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.system.measureTimeMillis
@@ -24,7 +21,6 @@ fun main() {
     以粗粒度限制线程()
     mutex锁解决方案()
     Semaphore解决方案()
-    actors函数()
 }
 
 suspend fun massiveRun(action: suspend () -> Unit) {
@@ -149,34 +145,3 @@ fun `Semaphore解决方案`() = runBlocking {
 }
 
 private fun Semaphore.withPermit(action: () -> Any) {}
-
-/**
- * Actors
- */
-// 这个函数启动一个新的计数器 actor
-fun CoroutineScope.counterActor() = actor<CounterMsg> {
-    var counter = 0 // actor 状态
-    for (msg in channel) { // 即将到来消息的迭代器
-        when (msg) {
-            is CounterMsg.IncCounter -> counter++
-            is CounterMsg.GetCounter -> msg.response.complete(counter)
-        }
-    }
-}
-
-/**
- *
- */
-fun `actors函数`() = runBlocking {
-    val counter = counterActor() // 创建该 actor
-    withContext(Dispatchers.Default) {
-        massiveRun {
-            counter.send(CounterMsg.IncCounter)
-        }
-    }
-    // 发送一条消息以用来从一个 actor 中获取计数值
-    val response = CompletableDeferred<Int>()
-    counter.send(CounterMsg.GetCounter(response))
-    println(" actors Counter = ${response.await()}")
-    counter.close() // 关闭该actor
-}

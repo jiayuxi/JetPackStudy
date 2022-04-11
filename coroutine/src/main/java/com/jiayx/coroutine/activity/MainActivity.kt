@@ -1,17 +1,23 @@
-package com.jiayx.flow.activity
+package com.jiayx.coroutine.activity
 
 import android.Manifest
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import androidx.lifecycle.lifecycleScope
+import androidx.appcompat.app.AppCompatActivity
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.XXPermissions
-import com.jiayx.flow.R
+import com.jiayx.coroutine.databinding.ActivityMainBinding
+import com.jiayx.coroutine.startToActivity
 import com.tbruyelle.rxpermissions2.RxPermissions
 
+/**
+ * 协程
+ */
 class MainActivity : AppCompatActivity() {
+    val binding: ActivityMainBinding by lazy {
+        ActivityMainBinding.inflate(layoutInflater)
+    }
     private val permissions2 = arrayOf(
         Manifest.permission.READ_PHONE_STATE,
         Manifest.permission.ACCESS_FINE_LOCATION,
@@ -19,11 +25,38 @@ class MainActivity : AppCompatActivity() {
         Manifest.permission.RECORD_AUDIO,
         Manifest.permission.MANAGE_EXTERNAL_STORAGE
     )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(binding.root)
+        initAction()
         checkPermissions()
     }
+
+    private fun initAction() {
+        binding.buttonGlobalScope.setOnClickListener {
+            startToActivity(this, GlobalScopeActivity::class.java)
+        }
+        binding.buttonMainScope.setOnClickListener {
+            startToActivity(this, MainScopeActivity::class.java)
+        }
+        binding.buttonCoroutineScope.setOnClickListener {
+            startToActivity(this, CoroutineScopeActivity::class.java)
+        }
+        binding.buttonDelay.setOnClickListener {
+            startToActivity(this, DelayActivity::class.java)
+        }
+        binding.buttonRetrofit.setOnClickListener {
+            startToActivity(this, RetrofitActivity::class.java)
+        }
+        binding.buttonRxJavaRetrofit.setOnClickListener {
+            startToActivity(this, RxjavaRetrofitActivity::class.java)
+        }
+        binding.buttonCoroutineRetrofit.setOnClickListener {
+            startToActivity(this, CoroutineRetrofitActivity::class.java)
+        }
+    }
+
     private fun checkPermissions() {
 
         val rxPermissions = RxPermissions(this)
