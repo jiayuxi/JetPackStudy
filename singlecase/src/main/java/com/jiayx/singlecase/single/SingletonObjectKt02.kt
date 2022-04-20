@@ -18,8 +18,8 @@ class SingletonObjectKt02 {
                 return field
             }
 
-        fun get(): SingletonObjectKt02? {
-            return instance
+        fun get(): SingletonObjectKt02 {
+            return instance!!
         }
     }
 

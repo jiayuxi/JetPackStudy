@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation_home"
+    app:startDestination="@id/fragment01">
+
+    <fragment
+        android:id="@+id/fragment01"
+        android:name="com.jiayx.navigation.ui.home.Fragment01"
+        android:label="Fragment01">
+        <action
+            android:id="@+id/action_fragment01_to_fragment02"
+            app:destination="@id/fragment02"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_fragment01_to_fragment03"
+            app:destination="@id/fragment03"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <argument
+            android:name="user_name"
+            android:defaultValue="unknown"
+            app:argType="string" />
+        <argument
+            android:name="age"
+            android:defaultValue="0"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragment02"
+        android:name="com.jiayx.navigation.ui.home.Fragment02"
+        android:label="Fragment02">
+        <action
+            android:id="@+id/action_fragment02_to_fragment01"
+            app:destination="@id/fragment01" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragment03"
+        android:name="com.jiayx.navigation.ui.home.Fragment03"
+        android:label="Fragment03">
+        <action
+            android:id="@+id/action_fragment03_to_fragment01"
+            app:destination="@id/fragment01" />
+    </fragment>
+</navigation>

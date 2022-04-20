@@ -18,8 +18,8 @@ class SingletonObjectKt03 {
             }
 
         @Synchronized
-        fun get(): SingletonObjectKt03? {
-            return instance
+        fun get(): SingletonObjectKt03 {
+            return instance!!
         }
     }
 
