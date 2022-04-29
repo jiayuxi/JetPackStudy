@@ -45,6 +45,9 @@ class MainFragment : Fragment() {
         binding.buttonException.setOnClickListener {
             findNavController(R.id.action_mainFragment_to_coroutineExceptionFragment)
         }
+        binding.buttonFlowState01.setOnClickListener {
+            findNavController(R.id.action_mainFragment_to_flowStateFragment1)
+        }
     }
 
     private fun findNavController(id: Int) {

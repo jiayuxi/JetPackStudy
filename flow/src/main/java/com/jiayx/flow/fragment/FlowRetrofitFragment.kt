@@ -32,7 +32,6 @@ class FlowRetrofitFragment : Fragment() {
         FragmentFlowRetrofitBinding.inflate(layoutInflater)
     }
     private val viewModel by viewModels<ArticleViewModel>()
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

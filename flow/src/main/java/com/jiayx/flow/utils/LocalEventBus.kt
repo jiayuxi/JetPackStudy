@@ -2,6 +2,7 @@ package com.jiayx.flow.utils
 
 import com.jiayx.flow.bean.Event
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 
 /**
  *Created by yuxi_

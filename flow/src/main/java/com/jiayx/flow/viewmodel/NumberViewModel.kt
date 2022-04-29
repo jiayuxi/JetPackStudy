@@ -11,7 +11,7 @@ on 2022/4/1
  */
 class NumberViewModel : ViewModel() {
     val number = MutableStateFlow(0)
-
+    var value = 0
     fun increment() {
         number.value++
     }

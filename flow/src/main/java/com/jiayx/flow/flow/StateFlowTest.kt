@@ -22,7 +22,7 @@ StateFlow订阅者所在的协程，最好使用独立协程，collect会一直�
  */
 
 fun main() {
-    stateFlow函数()
+//    stateFlow函数()
     stateFlow简单实用()
 }
 

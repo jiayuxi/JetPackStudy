@@ -23,6 +23,9 @@
         <action
             android:id="@+id/action_mainFragment_to_coroutineExceptionFragment"
             app:destination="@id/coroutineExceptionFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_flowStateFragment1"
+            app:destination="@id/flowStateFragment1" />
     </fragment>
     <fragment
         android:id="@+id/flowDownloadFragment"
@@ -44,4 +47,8 @@
         android:id="@+id/coroutineExceptionFragment"
         android:name="com.jiayx.flow.fragment.CoroutineExceptionFragment"
         android:label="CoroutineExceptionFragment" />
+    <fragment
+        android:id="@+id/flowStateFragment1"
+        android:name="com.jiayx.flow.fragment.FlowStateFragment1"
+        android:label="FlowStateFragment1" />
 </navigation>
