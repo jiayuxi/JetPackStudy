@@ -4,9 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.view.View
 import android.widget.Toast
-import com.jiayx.databinding.ObservableActivity
-import com.jiayx.databinding.ObservableCollectionActivity
-import com.jiayx.databinding.ObservableFieldActivity
+import com.jiayx.databinding.*
 
 /**
  *Created by yuxi_
@@ -23,5 +21,14 @@ class EventHandlerListener(private val context: Context) {
     }
     fun button3OnClick(view: View) {
         context.startActivity(Intent(context, ObservableCollectionActivity::class.java))
+    }
+    fun button4OnClick(view: View) {
+        context.startActivity(Intent(context, ObservableBindingActivity::class.java))
+    }
+    fun button5OnClick(view: View) {
+        context.startActivity(Intent(context, ViewStubActivity::class.java))
+    }
+    fun button6OnClick(view: View) {
+        context.startActivity(Intent(context, ViewModelActivity::class.java))
     }
 }

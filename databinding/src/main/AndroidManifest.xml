@@ -25,6 +25,9 @@
         <activity android:name=".ObservableActivity" />
         <activity android:name=".ObservableFieldActivity" />
         <activity android:name=".ObservableCollectionActivity" />
+        <activity android:name=".ObservableBindingActivity" />
+        <activity android:name=".ViewStubActivity" />
+        <activity android:name=".ViewModelActivity" />
     </application>
 
 </manifest>

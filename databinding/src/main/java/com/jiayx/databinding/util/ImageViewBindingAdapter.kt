@@ -1,12 +1,14 @@
 package com.jiayx.databinding.util
 
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.text.TextUtils
-import android.view.View
+import android.widget.Button
 import android.widget.ImageView
-import com.bumptech.glide.Glide
 import androidx.databinding.BindingAdapter
+import androidx.databinding.BindingConversion
+import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
 /**
@@ -14,7 +16,7 @@ import com.bumptech.glide.request.RequestOptions
 on 2022/5/1
 
  */
-class ImageViewBindingAdapter {
+open class ImageViewBindingAdapter {
 
     companion object {
         @JvmStatic
@@ -67,5 +69,32 @@ class ImageViewBindingAdapter {
                 }
             }
         }
+
+        @JvmStatic
+        @BindingAdapter(value = ["android:text"])
+        fun setText(view: Button, text: String) {
+            view.text = "$text - Button"
+        }
+
+       /* @BindingConversion
+        @JvmStatic
+        fun convertStringToDrawable(str: String): Drawable? {
+            return when (str) {
+                "红色" -> ColorDrawable(Color.parseColor("#FF4081"))
+                "蓝色" -> ColorDrawable(Color.parseColor("#3F51B5"))
+                else -> ColorDrawable(Color.parseColor("#344567"))
+            }
+        }
+
+
+        @BindingConversion
+        @JvmStatic
+        fun convertStringToColor(str: String): Int {
+            return when (str) {
+                "红色" -> Color.parseColor("#FF4081")
+                "蓝色" -> Color.parseColor("#3F51B5")
+                else -> Color.parseColor("#344567")
+            }
+        }*/
     }
 }

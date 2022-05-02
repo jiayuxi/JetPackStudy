@@ -5,6 +5,8 @@
 
         <import type="com.jiayx.databinding.util.ToolUtilsKt" />
 
+        <import type="android.view.View" />
+
         <variable
             name="userField"
             type="com.jiayx.databinding.observable.UserField" />
@@ -39,6 +41,7 @@
             android:text="@{userField.details}"
             android:textColor="@color/black"
             android:textSize="25sp"
+            android:visibility="@{userField.visibility ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/name" />
@@ -54,18 +57,32 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/details" />
-
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@{@string/full_name(userField.nameField,ToolUtilsKt.valueToStr(userField.pcieField))}"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/price" />
         <Button
             android:id="@+id/updateNameField"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
+            android:background='@{"蓝色"}'
             android:onClick="@{() -> goodsHandler.changeGoodsName()}"
-            android:text="改变属性 name 和 price"
+            android:text='@{"改变属性 name 和 price"}'
             android:textSize="25sp"
+            android:textColor='@{"红色",default=@color/teal_200}'
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/price" />
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            android:textAllCaps="false"
+            />
 
         <Button
             android:id="@+id/updateAllField"
@@ -75,6 +92,8 @@
             android:onClick="@{(view) -> goodsHandler.changeGoodsDetails(view)}"
             android:text="改变属性 details 和 price"
             android:textSize="25sp"
+            android:background='@{"蓝色"}'
+            android:textColor='@{"红色"}'
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/updateNameField" />
