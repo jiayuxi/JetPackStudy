@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="loadUrl"
+            type="String" />
+
+        <variable
+            name="loadUrl2"
+            type="String" />
+
+        <variable
+            name="loadUrl3"
+            type="String" />
+
+        <variable
+            name="placeHolder"
+            type="int" />
+
+        <variable
+            name="error"
+            type="int" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.utils.widget.ImageFilterButton
+            android:id="@+id/image1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:gifErrorImage="@{error}"
+            app:gifLoadImage="@{loadUrl}"
+            app:gifPlaceHolder="@{placeHolder}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/image2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:gifErrorImage="@{error}"
+            app:gifLoadImage="@{loadUrl2}"
+            app:gifPlaceHolder="@{placeHolder}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/image1" />
+
+        <ImageView
+            android:id="@+id/image3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:gifErrorImage="@{error}"
+            app:gifLoadImage="@{loadUrl3}"
+            app:gifPlaceHolder="@{placeHolder}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/image2" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
