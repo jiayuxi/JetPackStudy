@@ -31,4 +31,7 @@ class EventHandlerListener(private val context: Context) {
     fun button6OnClick(view: View) {
         context.startActivity(Intent(context, ViewModelActivity::class.java))
     }
+    fun button7OnClick(view: View) {
+        context.startActivity(Intent(context, RecyclerViewActivity::class.java))
+    }
 }

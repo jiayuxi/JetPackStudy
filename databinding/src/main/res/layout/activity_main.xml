@@ -116,6 +116,18 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
+            android:id="@+id/btn_recycler"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="30dp"
+            android:onClick="@{(view) -> eventOnCllick.button7OnClick(view)}"
+            android:text="recyclerView"
+            app:layout_constraintBottom_toTopOf="@+id/viewModel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
             android:id="@+id/button2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -136,6 +148,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:loadImage="@{networkImage}"
-            app:placeHolder="@{placeHolderImage}" />
+            app:placeHolder="@{placeHolderImage}"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
