@@ -1,6 +1,7 @@
 package com.jiayx.coil
 
 import android.app.Application
+import android.content.Context
 import android.os.Build
 import coil.Coil
 import coil.ImageLoader
@@ -9,6 +10,9 @@ import coil.decode.ImageDecoderDecoder
 import coil.decode.SvgDecoder
 import coil.memory.MemoryCache
 import coil.request.CachePolicy
+import okhttp3.Cache
+import okhttp3.OkHttpClient
+import java.io.File
 
 /**
  *Created by yuxi_
@@ -24,7 +28,7 @@ class AppApplication : Application() {
         //设置全局唯一的实例
         Coil.setImageLoader(
             ImageLoader.Builder(this)
-                .memoryCache {MemoryCache.Builder(this).maxSizePercent(0.25).build()}
+                .memoryCache { MemoryCache.Builder(this).maxSizePercent(0.25).build() }
                 //设置内存缓存策略 ，可读可写
                 .memoryCachePolicy(CachePolicy.ENABLED)
                 //设置磁盘缓存策略
@@ -39,6 +43,7 @@ class AppApplication : Application() {
                 .placeholder(R.mipmap.picture3)
                 // 加载失败显示的图片
                 .error(R.mipmap.picture4)
+//                .okHttpClient(createOkHttp(this))
                 .components {
                     if (Build.VERSION.SDK_INT >= 28) {
                         add(ImageDecoderDecoder.Factory())
@@ -48,5 +53,20 @@ class AppApplication : Application() {
                     add(SvgDecoder.Factory())
                 }.build()
         )
+    }
+
+    private fun createOkHttp(application: Application): OkHttpClient {
+        return OkHttpClient.Builder()
+            .cache(createDefaultCache(application))
+            .build()
+    }
+
+    private fun createDefaultCache(context: Context): Cache {
+        val cacheDirectory = getDefaultCacheDirectory(context)
+        return Cache(cacheDirectory, 10 * 1024 * 1024)
+    }
+
+    private fun getDefaultCacheDirectory(context: Context): File {
+        return File(context.cacheDir, "image_cache").apply { mkdirs() }
     }
 }

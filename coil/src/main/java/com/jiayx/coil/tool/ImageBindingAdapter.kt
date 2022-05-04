@@ -13,6 +13,9 @@ import coil.decode.ImageDecoderDecoder
 import coil.decode.SvgDecoder
 import coil.load
 import coil.request.CachePolicy
+import coil.size.Scale
+import coil.transform.CircleCropTransformation
+import coil.transform.RoundedCornersTransformation
 
 /**
  *Created by yuxi_
@@ -32,11 +35,9 @@ class ImageBindingAdapter {
                     //渐进渐出
                     crossfade(true)
                     //渐进渐出的时间
-                    crossfade(1000)
+                    crossfade(3000)
                     //placeholder预置展位图
                     placeholder(default)
-                    // 预览展位的时间
-                    crossfade(3000)
                     // 加载失败显示的图片
                     error(error)
                 }
@@ -57,7 +58,7 @@ class ImageBindingAdapter {
         fun setGifImage(imageView: ImageView, url: String, placeholder: Int, error: Int) {
             if (!TextUtils.isEmpty(url)) {
                 //单独调用
-               val imageLoader = ImageLoader.Builder(imageView.context)
+                val imageLoader = ImageLoader.Builder(imageView.context)
                     .components {
                         if (SDK_INT >= 28) {
                             add(ImageDecoderDecoder.Factory())
@@ -65,7 +66,7 @@ class ImageBindingAdapter {
                             add(GifDecoder.Factory())
                         }
                     }.build()
-                imageView.load(url,imageLoader) /*{
+                imageView.load(url, imageLoader) /*{
                     placeholder(placeholder)
                     error(error)
                 }*/
@@ -85,13 +86,14 @@ class ImageBindingAdapter {
             placeholder: Int,
             error: Int
         ) {
-          val imageLoader = ImageLoader.Builder(imageView.context)
+            val imageLoader = ImageLoader.Builder(imageView.context)
                 .components {
                     add(SvgDecoder.Factory())
                 }
                 .build()
 
-            imageView.load(loadImage,imageLoader) {
+            imageView.load(loadImage) {
+                scale(Scale.FIT)
                 placeholder(placeholder)
                 error(error)
             }
@@ -114,13 +116,48 @@ class ImageBindingAdapter {
                     }
                     .build()
 
-                imageView.load(url,imageLoader) /*{
+                imageView.load(url, imageLoader) /*{
                     placeholder(placeholder)
                     error(error)
                 }*/
 
             } else {
                 imageView.load(placeholder)
+            }
+        }
+
+        // 圆形图片
+        @JvmStatic
+        @BindingAdapter(
+            value = ["circleLoadImage", "circlePlaceHolderImage", "circleErrorImage"],
+            requireAll = false
+        )
+        fun circleCropImage(imageview: ImageView, url: String, placeholder: Int, error: Int) {
+            if (!TextUtils.isEmpty(url)) {
+                imageview.load(url) {
+                    //设置圆形图片
+                    transformations(CircleCropTransformation())
+                    //渐进渐出
+                    crossfade(true)
+                    //渐进渐出的时间
+                    crossfade(3000)
+                    //placeholder预置展位图
+                    placeholder(placeholder)
+                    // 加载失败显示的图片
+                    error(error)
+                    listener(
+                        onStart = { request ->
+                            Log.e("jia_coil", "圆形 - 开始加载")
+                        },
+                        onError = { request, throwable ->
+                            Log.e("jia_coil", "圆形 - 加载失败：${throwable.toString()} ")
+                        },
+                        onSuccess = { _, _ ->
+                            Log.e("jia_coil", "圆形 - 加载成功")
+                        })
+                }
+            } else {
+                imageview.load(placeholder)
             }
         }
     }

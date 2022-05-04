@@ -3,10 +3,7 @@ package com.jiayx.coil.tool
 import android.content.Context
 import android.content.Intent
 import android.view.View
-import com.jiayx.coil.DownloadActivity
-import com.jiayx.coil.GifActivity
-import com.jiayx.coil.PictureListActivity
-import com.jiayx.coil.SvgActivity
+import com.jiayx.coil.*
 
 /**
  *Created by yuxi_
@@ -27,5 +24,8 @@ class EventOnClickListener(private val context: Context) {
     }
     fun startDownloadActivity(view: View) {
         context.startActivity(Intent(context, DownloadActivity::class.java))
+    }
+    fun startTransformationActivity(view: View) {
+        context.startActivity(Intent(context, TransformationsActivity::class.java))
     }
 }

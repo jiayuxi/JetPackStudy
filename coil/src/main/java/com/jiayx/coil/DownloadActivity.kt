@@ -33,7 +33,7 @@ class DownloadActivity : AppCompatActivity() {
             val disposable =
                 binding?.image?.load("https://t7.baidu.com/it/u=433422559,1779762296&fm=193&f=GIF") {
                     allowHardware(false)
-                    memoryCachePolicy(CachePolicy.DISABLED)
+//                    memoryCachePolicy(CachePolicy.DISABLED)
                     diskCachePolicy(CachePolicy.DISABLED)
                     crossfade(true)
                     crossfade(3000)
@@ -57,7 +57,7 @@ class DownloadActivity : AppCompatActivity() {
                             //将MemoryCache.Key起始图像的 用作placeholderMemoryCacheKey结束图像。
                             // 这样可以确保将开始图像用作结束图像的占位符，如果图像在内存缓存中，
                             // 则可以实现平滑过渡，不会出现白色闪烁。
-                            binding?.image2?.load("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.lemeitu.com%2Fm00%2F8b%2F3e%2F0cc04c9a2b4fa8da0bea4c77f089831c__w.jpg&refer=http%3A%2F%2Fimg.lemeitu.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1654158332&t=c0fd0781e2e22c1efc1780c5de886516") {
+                            binding?.image?.load("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.lemeitu.com%2Fm00%2F8b%2F3e%2F0cc04c9a2b4fa8da0bea4c77f089831c__w.jpg&refer=http%3A%2F%2Fimg.lemeitu.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1654158332&t=c0fd0781e2e22c1efc1780c5de886516") {
                                 placeholderMemoryCacheKey(result.memoryCacheKey)
                             }
                         }
@@ -93,5 +93,9 @@ class DownloadActivity : AppCompatActivity() {
             binding?.image?.load("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2Faea02e2bf87ec19b386862baf5b6f0b2a1fa358161fed-10PDle_fw658&refer=http%3A%2F%2Fhbimg.b0.upaiyun.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1654158548&t=aa4f18eaccb94546785fac3408b3ea50") {
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 }
