@@ -3,6 +3,7 @@ package com.jiayx.coil.tool
 import android.content.Context
 import android.content.Intent
 import android.view.View
+import com.jiayx.coil.DownloadActivity
 import com.jiayx.coil.GifActivity
 import com.jiayx.coil.PictureListActivity
 import com.jiayx.coil.SvgActivity
@@ -23,5 +24,8 @@ class EventOnClickListener(private val context: Context) {
 
     fun startGifActivity(view: View) {
         context.startActivity(Intent(context, GifActivity::class.java))
+    }
+    fun startDownloadActivity(view: View) {
+        context.startActivity(Intent(context, DownloadActivity::class.java))
     }
 }

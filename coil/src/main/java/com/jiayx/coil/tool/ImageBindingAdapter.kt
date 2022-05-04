@@ -6,11 +6,13 @@ import android.text.TextUtils
 import android.util.Log
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import coil.Coil
 import coil.ImageLoader
 import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
 import coil.decode.SvgDecoder
 import coil.load
+import coil.request.CachePolicy
 
 /**
  *Created by yuxi_
@@ -25,6 +27,12 @@ class ImageBindingAdapter {
             if (!TextUtils.isEmpty(url)) {
                 Log.d("jia_coil", "setImage: url : $url")
                 imageview.load(url) {
+                    //磁盘缓存策略
+                    diskCachePolicy(CachePolicy.ENABLED)
+                    //渐进渐出
+                    crossfade(true)
+                    //渐进渐出的时间
+                    crossfade(1000)
                     //placeholder预置展位图
                     placeholder(default)
                     // 预览展位的时间
@@ -48,7 +56,8 @@ class ImageBindingAdapter {
         )
         fun setGifImage(imageView: ImageView, url: String, placeholder: Int, error: Int) {
             if (!TextUtils.isEmpty(url)) {
-                val imageLoader = ImageLoader.Builder(imageView.context)
+                //单独调用
+               val imageLoader = ImageLoader.Builder(imageView.context)
                     .components {
                         if (SDK_INT >= 28) {
                             add(ImageDecoderDecoder.Factory())
@@ -56,12 +65,10 @@ class ImageBindingAdapter {
                             add(GifDecoder.Factory())
                         }
                     }.build()
-//                //设置全局唯一的实例
-//                Coil.setImageLoader(imageLoader)
-                imageView.load(url, imageLoader) {
+                imageView.load(url,imageLoader) /*{
                     placeholder(placeholder)
                     error(error)
-                }
+                }*/
             } else {
                 imageView.load(placeholder)
             }
@@ -78,13 +85,13 @@ class ImageBindingAdapter {
             placeholder: Int,
             error: Int
         ) {
-            val imageLoader = ImageLoader.Builder(imageView.context)
+          val imageLoader = ImageLoader.Builder(imageView.context)
                 .components {
                     add(SvgDecoder.Factory())
                 }
                 .build()
 
-            imageView.load(loadImage, imageLoader) {
+            imageView.load(loadImage,imageLoader) {
                 placeholder(placeholder)
                 error(error)
             }
@@ -106,10 +113,12 @@ class ImageBindingAdapter {
                         add(SvgDecoder.Factory())
                     }
                     .build()
-                imageView.load(url, imageLoader) {
+
+                imageView.load(url,imageLoader) /*{
                     placeholder(placeholder)
                     error(error)
-                }
+                }*/
+
             } else {
                 imageView.load(placeholder)
             }
