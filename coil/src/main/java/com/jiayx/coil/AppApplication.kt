@@ -25,8 +25,12 @@ class AppApplication : Application() {
         Coil.setImageLoader(
             ImageLoader.Builder(this)
                 .memoryCache {MemoryCache.Builder(this).maxSizePercent(0.25).build()}
-                //设置磁盘缓存策略 ，可读可写
+                //设置内存缓存策略 ，可读可写
                 .memoryCachePolicy(CachePolicy.ENABLED)
+                //设置磁盘缓存策略
+                .diskCachePolicy(CachePolicy.ENABLED)
+                //设置网络缓存策略
+                .networkCachePolicy(CachePolicy.ENABLED)
                 //渐进渐出
                 .crossfade(true)
                 // 预览展位的时间
