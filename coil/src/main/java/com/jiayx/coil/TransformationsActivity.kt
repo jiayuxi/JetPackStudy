@@ -100,21 +100,20 @@ class TransformationsActivity : AppCompatActivity() {
         binding.image10.load(loadUrl2) {
             placeholder(R.mipmap.picture4)
             error(R.mipmap.picture3)
-            transformations(CropTransformation(CropTransformation.CropType.TOP))
-            scale(Scale.FIT)
+            transformations(CropTransformation(CropTransformation.CropType.CENTER))
         }
         // 可绘制的遮罩变换
         binding.image11.load(loadUrl2) {
             placeholder(R.mipmap.picture4)
             error(R.mipmap.picture3)
-            transformations(MaskTransformation(this@TransformationsActivity,R.drawable.picture1))
+            transformations(MaskTransformation(this@TransformationsActivity,R.mipmap.mask_starfish))
             scale(Scale.FIT)
         }
         // 裁剪平方变换
         binding.image12.load(loadUrl2) {
             placeholder(R.mipmap.picture4)
             error(R.mipmap.picture3)
-            transformations(SquareCropTransformation())
+            transformations(SquareCropTransformation(),CircleCropTransformation())
             scale(Scale.FIT)
         }
     }
