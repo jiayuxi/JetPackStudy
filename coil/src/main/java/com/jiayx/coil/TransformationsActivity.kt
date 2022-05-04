@@ -1,5 +1,6 @@
 package com.jiayx.coil
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -8,6 +9,7 @@ import coil.size.Scale
 import coil.transform.CircleCropTransformation
 import coil.transform.RoundedCornersTransformation
 import com.jiayx.coil.databinding.ActivityTransformationsBinding
+import com.jiayx.coil.tool.*
 
 /**
  *Created by yuxi_
@@ -64,6 +66,55 @@ class TransformationsActivity : AppCompatActivity() {
             placeholder(R.mipmap.picture4)
             error(R.mipmap.picture3)
             transformations(CircleCropTransformation())
+            scale(Scale.FIT)
+        }
+        // 添加水印
+        binding.image6.load(loadUrl3) {
+            placeholder(R.mipmap.picture4)
+            error(R.mipmap.picture3)
+            transformations(WatermarkTransformation("萝莉", Color.parseColor("#9CF44336"), 120f))
+            scale(Scale.FIT)
+        }
+        // 添加蒙层
+        binding.image7.load(loadUrl4) {
+            placeholder(R.mipmap.picture4)
+            error(R.mipmap.picture3)
+            transformations(ColorFilterTransformation(Color.parseColor("#9CF44336")))
+            scale(Scale.FIT)
+        }
+        // 添加灰度
+        binding.image8.load(loadUrl2) {
+            placeholder(R.mipmap.picture4)
+            error(R.mipmap.picture3)
+            transformations(GrayscaleTransformation())
+            scale(Scale.FIT)
+        }
+        // 高斯显示
+        binding.image9.load(loadUrl2) {
+            placeholder(R.mipmap.picture4)
+            error(R.mipmap.picture3)
+            transformations(BlurTransformation(this@TransformationsActivity))
+            scale(Scale.FIT)
+        }
+        // 对图像的某一部分进行的变换
+        binding.image10.load(loadUrl2) {
+            placeholder(R.mipmap.picture4)
+            error(R.mipmap.picture3)
+            transformations(CropTransformation(CropTransformation.CropType.TOP))
+            scale(Scale.FIT)
+        }
+        // 可绘制的遮罩变换
+        binding.image11.load(loadUrl2) {
+            placeholder(R.mipmap.picture4)
+            error(R.mipmap.picture3)
+            transformations(MaskTransformation(this@TransformationsActivity,R.drawable.picture1))
+            scale(Scale.FIT)
+        }
+        // 裁剪平方变换
+        binding.image12.load(loadUrl2) {
+            placeholder(R.mipmap.picture4)
+            error(R.mipmap.picture3)
+            transformations(SquareCropTransformation())
             scale(Scale.FIT)
         }
     }
