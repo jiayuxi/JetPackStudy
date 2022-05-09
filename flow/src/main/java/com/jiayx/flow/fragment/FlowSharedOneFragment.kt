@@ -29,7 +29,7 @@ class FlowSharedOneFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launchWhenCreated {
-            LocalEventBus.events.collect { value ->
+            LocalEventBus.collectionFlow.collect { value ->
                 binding.flowSharedOneText.text = "${value.timestamp}"
             }
         }
