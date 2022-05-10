@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.*
 import com.jiayx.flow.databinding.FragmentStateFlowBinding
@@ -26,7 +27,11 @@ class FlowStateFragment : Fragment() {
         FragmentStateFlowBinding.inflate(layoutInflater)
     }
 
+    // 第一种方式
     //    private val viewModel by viewModels<NumberViewModel>()
+    // 第二种方式
+    //    private val viewModel : NumberViewModel by activityViewModels()
+    // 第三种方式
     private val viewModel: NumberViewModel by lazy {
         ViewModelProvider(requireActivity())[NumberViewModel::class.java]
     }
