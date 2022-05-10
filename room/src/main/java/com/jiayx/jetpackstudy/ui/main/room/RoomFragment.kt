@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -53,14 +54,14 @@ class RoomFragment : Fragment() {
 
     private fun initAction() {
         binding.buttonInsert.setOnClickListener {
-            val bean = StudentBean("小明", 20,System.currentTimeMillis())
-            val bean2 = StudentBean("王五", 24,System.currentTimeMillis())
+            val bean = StudentBean("小明", 20, System.currentTimeMillis())
+            val bean2 = StudentBean("王五", 24, System.currentTimeMillis())
             viewModel.insertStudent(bean, bean2)
         }
         binding.buttonUpdate.setOnClickListener {
             Log.d("model_log", "initAction: time: ${System.currentTimeMillis()}")
             Log.d("model_log", "initAction: time: ${transToString(System.currentTimeMillis())}")
-            viewModel.updateStudent(System.currentTimeMillis(),"小明")
+            viewModel.updateStudent(System.currentTimeMillis(), "小明")
         }
         binding.buttonClear.setOnClickListener {
             viewModel.deleteToName("小明")
@@ -68,6 +69,9 @@ class RoomFragment : Fragment() {
         binding.buttonClearAll.setOnClickListener {
             viewModel.deleteAllStudent()
         }
+        viewModel.getAllStudents()?.observe(viewLifecycleOwner, Observer {
+            Log.d("model_log", "liveData: 查询条数: ${it.size}")
+        })
         lifecycleScope.launchWhenCreated {
             viewModel.getFlowAll()?.collect() {
                 adapter.updateData(it)

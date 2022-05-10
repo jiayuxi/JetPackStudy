@@ -43,6 +43,7 @@ class FlowStateFragment1 : Fragment() {
         binding.flowStateDecrement.setOnClickListener {
             viewModel.decrement()
         }
+        // 可重启生命周期感知型协程
         // 方法1
         lifecycleScope.launchWhenCreated {
             viewModel.number.collect { value ->
@@ -67,6 +68,7 @@ class FlowStateFragment1 : Fragment() {
         }
 
         // 方法4
+        // 生命周期感知型数据流收集
         viewModel.number.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED).onEach { value ->
             binding.flowStateNumber.text = "$value"
         }.launchIn(lifecycleScope)//运行在主线程的协程作用域，在视图销毁时自动取消作用域
