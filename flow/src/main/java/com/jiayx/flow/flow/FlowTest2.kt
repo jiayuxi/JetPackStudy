@@ -10,15 +10,9 @@ import java.util.concurrent.atomic.AtomicInteger
 on 2022/5/15
  todo flow 创建操作符
  */
-// flow 操作符
 fun main() {
     创建flow()
     callbackFlow()
-//    tryCatch异常捕获()
-//    catch异常捕获()
-//    catch异常捕获()
-
-
 }
 
 /**
@@ -138,57 +132,4 @@ private fun `callbackFlow`() = runBlocking {
     println()
 }
 
-/**
- * todo 异常捕获
- *  try catch
- *  捕获了在发射器或任何过渡或末端操作符中发生的任何异常
- */
-
-private fun `tryCatch异常捕获`() = runBlocking {
-    try {
-        (1..3).asFlow()
-            .collect {
-                println("last result: $it")
-                check(it <= 1) { "Collected $it" }
-            }
-    } catch (e: Exception) {
-        println("Caught $e")
-    }
-    println()
-}
-
-/**
- * 异常透明性
- * catch 异常捕获
- * catch 过渡操作符遵循异常透明性，仅捕获上游异常（catch 操作符上游的异常，但是它下面的不是）。
- * 如果 collect { ... } 块（位于 catch 之下）抛出一个异常，那么异常会逃逸：
- */
-private fun `catch异常捕获`() = runBlocking {
-    (1..3).asFlow().map { value ->
-        check(value <= 1) { "Crashed on $value" }
-        "string $value"
-    }.catch { e ->
-        emit("Caught: $e")
-    }.collect {
-        println("last catch result : $it")
-    }
-    println()
-}
-
-/**
- * 声明式 捕获异常
- * 我们可以将 catch 操作符的声明性与处理所有异常的期望相结合，
- * 将 collect 操作符的代码块移动到 onEach 中，
- * 并将其放到 catch 操作符之前。
- * 收集该流必须由调用无参的 collect() 来触发
- */
-private fun `声明式捕获异常`() = runBlocking {
-    (1..3).asFlow()
-        .onEach { value ->
-            check(value <= 1) { "Collected $value" }
-            println("value: $value")
-        }
-        .catch { e -> println("Caught $e") }
-        .collect()
-}
 

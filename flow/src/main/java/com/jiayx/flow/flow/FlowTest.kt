@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.asLiveData
 import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
 import java.util.concurrent.Executors
 import kotlin.system.measureTimeMillis
@@ -37,7 +38,7 @@ fun main() {
 //    mapLatest变换操作符()
 //    flatMapConcat变换操作符()
 //    flatMapMerge合并操作变换符()
-    transform转换操作符()
+//    transform转换操作符()
 //    flatMapLatest处理最新值()
 //    take限长操作符()
 //    flowDecode过滤高频发的生产数据()
@@ -46,7 +47,7 @@ fun main() {
 //    flowOnStartEvent事件转换操作符()
 //    onEachEvent事件操作符()
 //    flowLaunchIn末端操作符()
-    onEmptyEvent操作符事件()
+//    onEmptyEvent操作符事件()
 //    命令式finally完成()
 //    声明式处理onCompletion()
 //    onCompletion判断是正常完成还是异常完成()
@@ -59,11 +60,11 @@ fun main() {
 //    asFlow扩展函数()
 //    FlowFilter过滤操作符()
 //    flowOn更改流发射的上下文操作()
-//    flowBuffer缓冲操作符()
+    flowBuffer缓冲操作符()
 //    flowConflate合并操作符()
 //      flowCollectLatest处理最新值()
-    retry发生异常时重试()
-    retryWhen重试次数()
+//    retry发生异常时重试()
+//    retryWhen重试次数()
 
 }
 
@@ -147,7 +148,7 @@ fun `mapNotNull变换操作符`() = runBlocking {
  * flatMapConcat 链接模式操作符
  * 它们在等待内部流完成之前开始收集下一个值
  */
-fun requestFlow(i: Int) = flow<String> {
+private fun requestFlow(i: Int) = flow<String> {
     emit("$i: First")
     delay(500)
     emit("$i: Second")
@@ -532,7 +533,9 @@ fun `combine合并操作符`() = runBlocking {
 fun `combineTransform操作符`() = runBlocking {
     val flow1 = flowOf("first", "second", "third").onEach { delay(50) }
     val flow2 = flowOf(1, 2, 3).onEach { delay(100) }
-
+    flow1.combineTransform(flow2) { string, number -> emit(string + number) }.collect {
+        println("combineTransform value : $it")
+    }
     println()
 }
 
@@ -622,8 +625,8 @@ fun `flowOn更改流发射的上下文操作`() = runBlocking {
 /**
  * buffer 缓冲操作符
  */
-fun simpleBuffer(): Flow<Int> = flow {
-    for (i in 1..3) {
+private fun simpleBuffer(): Flow<Int> = flow {
+    for (i in 1..5) {
         delay(100) // 假装我们异步等待了 100 毫秒
         emit(i) // 发射下一个值
     }
@@ -688,7 +691,7 @@ fun `flowCollectLatest处理最新值`() = runBlocking {
 /**
  * retry、在发生异常时进行重试，
  */
-fun simpleRety(): Flow<Int> = flow {
+private fun simpleRety(): Flow<Int> = flow {
     for (i in 1..3) {
         delay(100) // 假装我们异步等待了 100 毫秒
         emit(i) // 发射下一个值
@@ -708,7 +711,7 @@ fun `retry发生异常时重试`() = runBlocking {
  * retryWhen :  中可以拿到异常和当前重试的次数
  */
 
-fun `retryWhen重试次数`() = runBlocking {
+private fun `retryWhen重试次数`() = runBlocking {
     simpleRety().retryWhen { cause, attempt ->
         println("retryWhen: $cause")
         attempt < 1
