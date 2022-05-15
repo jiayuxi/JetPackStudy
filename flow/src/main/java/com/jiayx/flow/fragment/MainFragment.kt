@@ -48,6 +48,9 @@ class MainFragment : Fragment() {
         binding.buttonFlowState01.setOnClickListener {
             findNavController(R.id.action_mainFragment_to_flowStateFragment1)
         }
+        binding.buttonFlowValue.setOnClickListener {
+            findNavController(R.id.action_mainFragment_to_flowValueFragment)
+        }
     }
 
     private fun findNavController(id: Int) {

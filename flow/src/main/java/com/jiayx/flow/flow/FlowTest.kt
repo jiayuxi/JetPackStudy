@@ -2,6 +2,9 @@ package com.jiayx.flow.flow
 
 import android.util.ArrayMap
 import androidx.collection.arrayMapOf
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.asFlow
+import androidx.lifecycle.asLiveData
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import java.util.concurrent.Executors
@@ -26,7 +29,7 @@ catch：对上游中的异常进行捕获
 
 retry、retryWhen：在发生异常时进行重试，retryWhen中可以拿到异常和当前重试的次数
  */
-
+//Flow 非常适合需要开始/停止数据的产生来匹配观察者的场景。
 fun main() {
 //    testFlow()
 //    map变换操作符()
@@ -34,7 +37,7 @@ fun main() {
 //    mapLatest变换操作符()
 //    flatMapConcat变换操作符()
 //    flatMapMerge合并操作变换符()
-//    transform转换操作符()
+    transform转换操作符()
 //    flatMapLatest处理最新值()
 //    take限长操作符()
 //    flowDecode过滤高频发的生产数据()
@@ -43,7 +46,7 @@ fun main() {
 //    flowOnStartEvent事件转换操作符()
 //    onEachEvent事件操作符()
 //    flowLaunchIn末端操作符()
-//    onEmptyEvent操作符事件()
+    onEmptyEvent操作符事件()
 //    命令式finally完成()
 //    声明式处理onCompletion()
 //    onCompletion判断是正常完成还是异常完成()
@@ -341,10 +344,11 @@ fun `onEmptyEvent操作符事件`() = runBlocking {
         }
     }.onEmpty {
         println("发送结束")
-//        emit(100)
+        emit(100)
     }.collect {
         println("last result: $it")
     }
+
     println()
 }
 
@@ -399,7 +403,7 @@ fun `声明式处理onCompletion`() = runBlocking {
  * onCompletion 操作符与 catch 不同，它不处理异常。我们可以看到前面的示例代码，异常仍然流向下游。
  * 它将被提供给后面的 onCompletion 操作符，并可以由 catch 操作符处理
  */
-fun simpleOnCompletion(): Flow<Int> = flow {
+private fun simpleOnCompletion(): Flow<Int> = flow {
     emit(1)
     throw RuntimeException()
 }
@@ -433,7 +437,7 @@ fun `onCompletion成功完成`() = runBlocking {
  *
  */
 
-fun `tryCatch异常捕获`() = runBlocking {
+private fun `tryCatch异常捕获`() = runBlocking {
     try {
         (1..3).asFlow()
             .collect {
@@ -453,7 +457,7 @@ fun `tryCatch异常捕获`() = runBlocking {
  * catch 过渡操作符遵循异常透明性，仅捕获上游异常（catch 操作符上游的异常，但是它下面的不是）。
  * 如果 collect { ... } 块（位于 catch 之下）抛出一个异常，那么异常会逃逸：
  */
-fun `catch异常捕获`() = runBlocking {
+private fun `catch异常捕获`() = runBlocking {
     (1..3).asFlow().map { value ->
         check(value <= 1) { "Crashed on $value" }
         "string $value"
@@ -472,7 +476,7 @@ fun `catch异常捕获`() = runBlocking {
  * 并将其放到 catch 操作符之前。
  * 收集该流必须由调用无参的 collect() 来触发
  */
-fun `声明式捕获异常`() = runBlocking {
+private fun `声明式捕获异常`() = runBlocking {
     (1..3).asFlow()
         .onEach { value ->
             check(value <= 1) { "Collected $value" }

@@ -27,6 +27,10 @@ class MainActivity : AppCompatActivity() {
         binding.button.setOnClickListener {
             startActivity(Intent(this, Main2Activity::class.java))
         }
+        // 打开新的 activity
+        binding.button3.setOnClickListener {
+            startActivity(Intent(this, LiveDataActivity::class.java))
+        }
         //向没有启动activity 发送消息
         binding.button1.setOnClickListener {
             LiveDataBus.instance.post("key_mainActivity2", "message from activity A")

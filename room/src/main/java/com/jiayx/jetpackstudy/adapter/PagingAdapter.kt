@@ -28,7 +28,8 @@ class PagingAdapter(private val context: Context) : BasePagingAdapterKtx<Person>
     },
     areContentsTheSame = { old, new ->
         old.name == new.name && old.isSelect == new.isSelect
-    }, getChangePayload = { old, new ->
+    },
+    getChangePayload = { old, new ->
         if (old.isSelect != new.isSelect) {
             new.isSelect
         } else {

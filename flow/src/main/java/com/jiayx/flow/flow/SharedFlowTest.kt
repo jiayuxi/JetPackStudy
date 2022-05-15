@@ -14,9 +14,9 @@ MutableShardFlow 定义接收与发送数据
  */
 
 fun main() {
-//    mutableSharedFlow函数()
+    mutableSharedFlow函数()
 //    sharedFlow函数只能订阅()
-    flow转化为SharedFlow()
+//    flow转化为SharedFlow()
 }
 /**
  * sharedFlow
@@ -27,7 +27,7 @@ fun main() {
 //    extraBufferCapacity: Int = 0,
 //    onBufferOverflow: BufferOverflow = BufferOverflow.SUSPEND
 //): MutableSharedFlow<T>
-//其主要有3个参数
+//todo 其主要有3个参数
 //1.replay表示当新的订阅者Collect时，发送几个已经发送过的数据给它，默认为0，即默认新订阅者不会获取以前的数据
 //2.extraBufferCapacity表示减去replay，MutableSharedFlow还缓存多少数据，默认为0
 //3.onBufferOverflow表示缓存策略，即缓冲区满了之后Flow如何处理，默认为挂起
@@ -39,17 +39,17 @@ fun main() {
  * @param started 控制共享的开始和结束的策略
  * @param replay 状态流的重播个数
  */
+//public fun <T> Flow<T>.shareIn(
+//    scope: CoroutineScope,
+//    started: SharingStarted,
+//    replay: Int = 0
+//): SharedFlow<T>
 //started 接受以下的三个值:
 //1.Lazily: 当首个订阅者出现时开始，在scope指定的作用域被结束时终止。
 //2.Eagerly: 立即开始，而在scope指定的作用域被结束时终止。
 //3.WhileSubscribed: 这种情况有些复杂，后面会详细讲解
 //对于那些只执行一次的操作，您可以使用Lazily或者Eagerly。然而，如果您需要观察其他的流，就应该使用WhileSubscribed来实现细微但又重要的优化工作
 
-//public fun <T> Flow<T>.shareIn(
-//    scope: CoroutineScope,
-//    started: SharingStarted,
-//    replay: Int = 0
-//)
 //WhileSubscribed
 //可以说是Lazily策略的进阶版，同样是等待第一个消费者订阅后，才开始发送数据源。
 //但其可以配置在最后一个订阅者关闭后，共享数据流上游停止的时间（默认为立即停止），与历史数据缓存清空时间（默认为永远保留）
@@ -57,6 +57,12 @@ fun main() {
 //   stopTimeoutMillis: Long = 0, //上游数据流延迟结束，ms
 //replayExpirationMillis: Long = Long.MAX_VALUE //缓冲数据清空延迟,ms
 //): SharingStarted
+//replayExpirationMillis 配置了以毫秒为单位的延迟时间，定义了从停止共享协程到重置缓存
+// (恢复到 stateIn 运算符中定义的初始值 initialValue) 所需要等待的时间。
+// 它的默认值是长整型的最大值 Long.MAX_VALUE (表示永远不将其重置)。如果设置为 0，
+// 可以在符合条件时立即重置缓存的数据。
+//
+
 
 fun `flow转化为SharedFlow`() = runBlocking {
     val flow = flow<Int> {
@@ -75,7 +81,7 @@ fun `flow转化为SharedFlow`() = runBlocking {
  * 订阅 发送数据
  */
 fun `mutableSharedFlow函数`() = runBlocking {
-    val sharedFlow = MutableSharedFlow<String>(5)
+    val sharedFlow = MutableSharedFlow<String>(0)
     val produce = launch(Dispatchers.IO) {
         (1..10).asFlow().onEach { delay(100) }.collect {
             sharedFlow.emit("value:$it")

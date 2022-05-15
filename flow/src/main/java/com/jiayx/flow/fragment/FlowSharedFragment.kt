@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.jiayx.flow.R
 import com.jiayx.flow.databinding.FragmentSharedFlowBinding
 import com.jiayx.flow.viewmodel.SharedFlowViewModel
 
@@ -31,6 +33,10 @@ class FlowSharedFragment : Fragment() {
         }
         binding.flowSharedBtnStop.setOnClickListener {
             viewModel.stopRefresh()
+        }
+
+        binding.flowToTwo.setOnClickListener {
+            findNavController().navigate(R.id.action_flowSharedFragment_to_flowValueFragment)
         }
     }
 }

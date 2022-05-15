@@ -15,11 +15,11 @@ fun main() {
 //    全局协程像守护线程()
 //    取消协程的执行cancel()
 //    取消是协作式的()
-//    取消的两种方式()
+    取消的两种方式()
 //    在finally中释放资源()
 //    运行不能取消的代码块()
 //    超时withTimeout()
-    超时withTimeoutOrNull()
+//    超时withTimeoutOrNull()
 }
 
 /**
@@ -160,36 +160,36 @@ fun `取消是协作式的`() = runBlocking {
 }
 
 /**
- * 取消的两种方式
+ * 取消的三种方式
  */
 fun `取消的两种方式`() = runBlocking {
     val startTime = System.currentTimeMillis()
     val job = launch(Dispatchers.Default) {
         var nextPrintTime = startTime
         var i = 0
-//        while (i < 5) { // 一个执行计算的循环，只是为了占用 CPU
-//            //todo 第一种取消方式 delay 挂起
-//            delay(100)
-//            // 每秒打印消息两次
-//            if (System.currentTimeMillis() >= nextPrintTime) {
-//                println("job: I'm sleeping ${i++} ...")
-//                nextPrintTime += 500L
-//            }
-//        }
+        //todo 第一种取消方式 delay 挂起
+        while (i < 5) { // 一个执行计算的循环，只是为了占用 CPU
+            delay(100)
+            // 每秒打印消息两次
+            if (System.currentTimeMillis() >= nextPrintTime) {
+                println("job1: I'm sleeping ${i++} ...")
+                nextPrintTime += 500L
+            }
+        }
         // todo 取消的第二种方式  i < 5 替换成 isActive 显式的检查取消状态
         while (isActive) { // 一个执行计算的循环，只是为了占用 CPU
             // 每秒打印消息两次
             if (System.currentTimeMillis() >= nextPrintTime) {
-                println("job: I'm sleeping ${i++} ...")
+                println("job2: I'm sleeping ${i++} ...")
                 nextPrintTime += 500L
             }
         }
         // todo 取消的第三种方式  ensureActive()
         while (true) { // 一个执行计算的循环，只是为了占用 CPU
-             ensureActive()
+            ensureActive()
             // 每秒打印消息两次
             if (System.currentTimeMillis() >= nextPrintTime) {
-                println("job: I'm sleeping ${i++} ...")
+                println("job3: I'm sleeping ${i++} ...")
                 nextPrintTime += 500L
             }
         }
@@ -278,7 +278,7 @@ fun `超时withTimeout`() = runBlocking {
  * 代码块中，而 withTimeoutOrNull 通过返回 null 来进行超时操作，从而替代抛出一个异常：
  */
 fun `超时withTimeoutOrNull`() = runBlocking {
-   val result =  withTimeoutOrNull(1300L) {
+    val result = withTimeoutOrNull(1300L) {
         repeat(1000) {
             println("I'm sleeping $it ...")
             delay(500L)

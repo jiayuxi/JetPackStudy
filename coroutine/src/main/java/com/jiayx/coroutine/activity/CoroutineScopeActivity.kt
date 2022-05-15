@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.jiayx.coroutine.databinding.ActivityCoroutineScopeBinding
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.isActive
 
 /**
  *Created by yuxi_

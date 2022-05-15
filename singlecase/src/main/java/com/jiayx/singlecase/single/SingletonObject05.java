@@ -14,6 +14,13 @@ public class SingletonObject05 {
         return SingletonHelp.INSTANCE;
     }
 
+    public SingletonObject05() {
+    }
+    // 每次创建一个新的对象
+    public synchronized static SingletonObject05 singletonObject05() {
+        return new SingletonObject05();
+    }
+
     public void show() {
         System.out.println("show: java 静态内部类 单例模式");
     }

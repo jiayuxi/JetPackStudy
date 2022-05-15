@@ -7,7 +7,7 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.jiayx.flow.fragment.MainFragment"
-        android:label="MainFragment" >
+        android:label="MainFragment">
         <action
             android:id="@+id/action_mainFragment_to_flowDownloadFragment"
             app:destination="@id/flowDownloadFragment" />
@@ -26,6 +26,9 @@
         <action
             android:id="@+id/action_mainFragment_to_flowStateFragment1"
             app:destination="@id/flowStateFragment1" />
+        <action
+            android:id="@+id/action_mainFragment_to_flowValueFragment"
+            app:destination="@id/flowValueFragment" />
     </fragment>
     <fragment
         android:id="@+id/flowDownloadFragment"
@@ -42,7 +45,11 @@
     <fragment
         android:id="@+id/flowSharedFragment"
         android:name="com.jiayx.flow.fragment.FlowSharedFragment"
-        android:label="FlowSharedFragment" />
+        android:label="FlowSharedFragment">
+        <action
+            android:id="@+id/action_flowSharedFragment_to_flowValueFragment"
+            app:destination="@id/flowSharedTwoFragment" />
+    </fragment>
     <fragment
         android:id="@+id/coroutineExceptionFragment"
         android:name="com.jiayx.flow.fragment.CoroutineExceptionFragment"
@@ -51,4 +58,12 @@
         android:id="@+id/flowStateFragment1"
         android:name="com.jiayx.flow.fragment.FlowStateFragment1"
         android:label="FlowStateFragment1" />
+    <fragment
+        android:id="@+id/flowValueFragment"
+        android:name="com.jiayx.flow.fragment.FlowValueFragment"
+        android:label="FlowValueFragment" />
+    <fragment
+        android:id="@+id/flowSharedTwoFragment"
+        android:name="com.jiayx.flow.fragment.FlowSharedTwoFragment"
+        android:label="FlowSharedTwoFragment" />
 </navigation>

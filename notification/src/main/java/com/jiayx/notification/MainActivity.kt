@@ -3,7 +3,6 @@ package com.jiayx.notification
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.jiayx.notification.databinding.ActivityMainBinding
-import com.juxing.helment.x20.lib_wifi.wifi.WiFiManager
 
 class MainActivity : AppCompatActivity() {
     private val binding: ActivityMainBinding by lazy {

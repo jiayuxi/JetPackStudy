@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.jiayx.coroutine.databinding.ActivityRxjavaRetrofitBinding
 import com.jiayx.coroutine.viewmodel.RetrofitViewModel
+import kotlinx.coroutines.supervisorScope
 
 /**
  *Created by yuxi_
@@ -25,6 +26,7 @@ class RxjavaRetrofitActivity : AppCompatActivity() {
 
     private fun initAction() {
         viewModel.rxjavaRetrofit()
+
         lifecycleScope.launchWhenCreated {
             viewModel.resultFlow.collect {
                 binding.activityRxjavaRetrofitText.text = it

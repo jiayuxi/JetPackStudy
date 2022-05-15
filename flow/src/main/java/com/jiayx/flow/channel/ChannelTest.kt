@@ -392,7 +392,7 @@ fun `actor启动一个消费者协程`() = runBlocking {
 /**
  *  channel 迭代 iterator
  */
-fun `testIteratechannel迭代`() = runBlocking {
+private fun `testIteratechannel迭代`() = runBlocking {
     val channel = Channel<Int>(Channel.UNLIMITED)
     // 生产者
     val producer = GlobalScope.launch {

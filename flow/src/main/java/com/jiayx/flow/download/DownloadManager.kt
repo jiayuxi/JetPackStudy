@@ -31,7 +31,7 @@ object DownloadManager {
             if (response.isSuccessful) {
                 response.body?.let { body ->
                     val total = body.contentLength()
-                    //文件读写
+                    //USE 文件读写
                     file.outputStream().use { output ->
                         val input = body.byteStream()
                         var emittedProgress = 0L

@@ -17,8 +17,8 @@ select 表达式
 fun main() {
 //    await多路复用()
 //    channel复用多个channel()
-//    flow实现多路复用()
-    await函数的多路复用()
+    flow实现多路复用()
+//    await函数的多路复用()
 }
 
 /**
@@ -148,6 +148,7 @@ fun `await函数的多路复用`() = runBlocking {
     GlobalScope.launch {
         val locationFunction = getLocationFunction()
         val serviceFunction = getServiceFunction()
+        // 多路复用，返回最快的那个结果值
         val result = select<Int>{
             locationFunction.onAwait{ data ->
                 data

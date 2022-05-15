@@ -51,6 +51,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_flow_state" />
+
     <Button
         android:id="@+id/button_exception"
         android:layout_width="match_parent"
@@ -62,6 +63,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_flow_shared" />
+
     <Button
         android:id="@+id/button_flow_state_01"
         android:layout_width="match_parent"
@@ -73,4 +75,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_exception" />
+
+    <Button
+        android:id="@+id/button_flow_value"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="flow value"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_flow_state_01" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,7 @@
 package com.jiayx.flow.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import com.jiayx.flow.databinding.FragmentStateFlowBinding
 import com.jiayx.flow.viewmodel.NumberViewModel
+import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -35,6 +37,7 @@ class FlowStateFragment1 : Fragment() {
         initAction()
     }
 
+    @OptIn(InternalCoroutinesApi::class)
     private fun initAction() {
         binding.flowStateNumber.text = viewModel.value.toString()
         binding.flowStateIncrement.setOnClickListener {
@@ -76,9 +79,25 @@ class FlowStateFragment1 : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.number.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collect { value ->
-                    viewModel.value = value
-                    binding.flowStateNumber.text = "$value"
+//                     binding.flowStateNumber2.text = "$value"
                 }
+            //todo StateFlow订阅者所在的协程，最好使用独立协程，collect会一直挂起，协程内的后续操作不会执行
+            Log.d("state_flow_log", "initAction stateFlow: 接收数据")
+        }
+        binding.button.setOnClickListener {
+            collectValue()
+        }
+    }
+
+    private fun collectValue() {
+        // 方法5
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.number.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collect { value ->
+                    binding.flowStateNumber2.text = "$value"
+                }
+            //todo StateFlow订阅者所在的协程，最好使用独立协程，collect会一直挂起，协程内的后续操作不会执行
+            Log.d("state_flow_log", "initAction stateFlow: 接收数据")
         }
     }
 }

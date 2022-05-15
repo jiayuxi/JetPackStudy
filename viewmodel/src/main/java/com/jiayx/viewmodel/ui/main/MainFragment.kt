@@ -1,10 +1,12 @@
 package com.jiayx.viewmodel.ui.main
 
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.postDelayed
 import androidx.core.text.PrecomputedTextCompat
 import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
@@ -147,6 +149,7 @@ class MainFragment : Fragment() {
             binding.message.text = "$it"
             Log.d("scope_log", "live data : $it")
         })
+
     }
 
 }
