@@ -1,3 +1,7 @@
+# 什么是响应式编程
+响应式编程基于观察者模式，是一种面向数据流和变化传播的声明式编程方式。
+换个说法就是：响应式编程是使用异步数据流进行编程
+
 # StateFlow与SharedFlow有什么区别？
 
 它们的区别如下:
@@ -7,9 +11,33 @@
 4、对于新的订阅者，StateFlow只会重播当前最新值，SharedFlow可配置重播元素个数（默认为0，即不重播）
 
 可以看出,StateFlow为我们做了一些默认的配置，在SharedFlow上添加了一些默认约束，这些配置可能并不符合我们的要求
-它忽略重复的值，并且是不可配置的。这会带来一些问题，比如当往List中添加元素并更新时，StateFlow会认为是重复的值并忽略 它需要一个初始值，并且在开始订阅时会回调初始值，这有可能不是我们想要的
+它忽略重复的值，并且是不可配置的。这会带来一些问题，比如当往List中添加元素并更新时，StateFlow会认为是重复的值并忽略 它需要一个初始值，
+并且在开始订阅时会回调初始值，这有可能不是我们想要的
 它默认是粘性的，新用户订阅会获得当前的最新值，而且是不可配置的,而SharedFlow可以修改replay
 StateFlow施加在SharedFlow上的约束可能不是最适合您，如果不需要访问myFlow.value，并且享受SharedFlow的灵活性， 可以选择考虑使用SharedFlow
+
+# SharedFlow
+SharedFlow是热流，而collect是个挂起函数，会一直等待上游数据，不论上游是否发送数据。
+所以对于SharedFlow需要注意消费者所在的协程内，后续任务是不会执行的。
+SharedFlow的collect内是个无限循环，会一直尝试从缓存中取值，所以collect会一直处于挂起状态，直到所在协程关闭。
+
+# StateFlow
+StateFlow实际上是SharedFlow的子类，同样也拥有只读与可读可写的两种类型，StateFlow与MutableStateFlow。
+同样是利用同名工厂函数的进行创建，只是相比SharedFlow，StateFlow必须设置默认初始值。
+
+@Suppress("FunctionName")
+public fun <T> MutableStateFlow(value: T): MutableStateFlow<T> = StateFlowImpl(value ?: NULL)
+
+而且MutableStateFlow是无法配置缓冲区的，或者说固定永远只有一个，只会缓存最新的值。
+
+StateFlow订阅者所在的协程，最好使用独立协程，collect会一直挂起，协程内的后续操作不会执行
+
+# channelFlow
+Channel在概念上类似于BlockQueue，并发安全的缓冲队列（先进先出），实现多个协程间的通信。
+Channel内的发送数据和接收数据默认都是挂起函数。
+对于同一个Channel对象，允许多个协程发送数据，也允许多个协程接收数据。
+区别于Flow ，Channel是一个热流，但其并不支持数据流操作。
+即使没有订阅消费，生产端同样也会开始发送数据，并且始终处于运行状态。
 
 # 总结：
 
@@ -19,7 +47,8 @@ StateFlow施加在SharedFlow上的约束可能不是最适合您，如果不需�
 
 # flow 的分类
 
-1、flow 为冷流，没有消费者，不会产生数据。 2、sharedFlow,stateFlow 为热流，无观察者时，也会产生数据。
+1、flow 为冷流，没有消费者，不会产生数据。 
+2、sharedFlow,stateFlow 为热流，无观察者时，也会产生数据。
 
 # flow 一般的 flow 
 flow{}为上游数据提供方，
@@ -125,7 +154,9 @@ distinctUntilChangedBy
 distinctUntilXhanged
 
 5、组合操作符
-combine：组合两个Flow流最新发出的数据，直到两个流都结束为止。扩展：在kotlinx-coroutines-core-jvm中的FlowKt中，可以将更多的flow结合起来返回一个Flow<Any>，典型应用场景：多个筛选条件选中后，展示符合条件的数据。如果后续某个筛选条件发生了改变，只需要通过发生改变的Flow的flow.value = newValue重新发送，combine就会自动构建出新的Flow<Any>，这样UI层会接收到新的变化条件进行刷新即可。
+combine：组合两个Flow流最新发出的数据，直到两个流都结束为止。扩展：在kotlinx-coroutines-core-jvm中的FlowKt中，
+可以将更多的flow结合起来返回一个Flow<Any>，典型应用场景：多个筛选条件选中后，展示符合条件的数据。
+如果后续某个筛选条件发生了改变，只需要通过发生改变的Flow的flow.value = newValue重新发送， combine就会自动构建出新的Flow<Any>，这样UI层会接收到新的变化条件进行刷新即可。
 combineTransform： combine + transform操作
 merge：listOf(flow1, flow2).merge()，多个流合并为一个流。
 flattenConcat：以顺序方式将给定的流展开为单个流 。
@@ -141,7 +172,7 @@ catch：对此操作符之前的流发生的异常进行捕获，对此操作符
 retryWhen
 retry
 buffer
-conflate
+conflate : 仅保留最新值, 内部就是 buffer``(``CONFLATED``)
 flowOn：flowOn 会更改上游数据流的 CoroutineContext，且只会影响flowOn之前（或之上）的任何中间运算符。下游数据流（晚于 flowOn 的中间运算符和使用方）不会受到影响。如果有多个 flowOn 运算符，每个运算符都会更改当前位置的上游数据流。
  
 7、末端操作符

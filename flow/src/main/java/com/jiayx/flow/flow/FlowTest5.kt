@@ -265,6 +265,11 @@ private fun `runningFold`() = runBlocking {
             println("runningFold value : $it")
         }
     }
+    //结果
+    //runningFold value : 0
+    //runningFold value : 1
+    //runningFold value : 3
+    //runningFold value : 6
     println()
 }
 
@@ -281,6 +286,10 @@ private fun `runningReduce`() = runBlocking {
             println("runningReduce value : $it")
         }
     }
+    //结果
+    //runningReduce value : 1
+    //runningReduce value : 3
+    //runningReduce value : 6
     println()
 }
 

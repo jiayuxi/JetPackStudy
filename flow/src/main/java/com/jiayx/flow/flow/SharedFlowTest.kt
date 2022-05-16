@@ -11,6 +11,9 @@ on 2022/4/2
 sharedFlow 共享数据流
 SharedFlow本身的定义很简单，只比Flow多个历史数据缓存的集合，只允许订阅数据
 MutableShardFlow 定义接收与发送数据
+
+SharedFlow是热流，而collect是个挂起函数，会一直等待上游数据，不论上游是否发送数据。
+所以对于SharedFlow需要注意消费者所在的协程内，后续任务是不会执行的。
  */
 
 fun main() {

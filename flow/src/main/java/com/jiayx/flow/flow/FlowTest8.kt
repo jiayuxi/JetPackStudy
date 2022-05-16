@@ -147,8 +147,15 @@ private fun simpleRety(): Flow<Int> = flow {
 /**
  * buffer : 如果操作符的代码需要相当****长时间来执行 ，可使用buffer操作符在执行期间为其创建一个单独的协程
  * capacity: Int = BUFFERED 缓冲区的容量
+ * RENDEZVOUS ，无缓存区，生产一个消费一个。
+ * BUFFERED，创建个默认缓存容量为64的缓存区
+ * CONFLATED ，相当于把缓存容量设置为1，且缓存策略强制为DROP_OLDEST
+ * 自定义缓存区容量大小
  * onBufferOverflow: BufferOverflow = BufferOverflow.``SUSPEND **溢出的话执行的操作
- * 有三个选择 ： SUSPEND 挂起， DROP_OLDEST 丢掉旧的，DROP_LATEST 丢掉新的
+ * 有三个选择 ：
+ * SUSPEND 挂起，当缓存区满时，将生产者挂起，不继续发送后续值，直到缓冲区有空缺位置。
+ * DROP_OLDEST 丢掉旧的，缓存区满时，移除缓存区中最旧的值，并插入最新的值
+ * DROP_LATEST 丢掉新的 ，缓存区满时，抛弃最新的值。
  */
 private fun `buffer`() = runBlocking {
     val time = measureTimeMillis {

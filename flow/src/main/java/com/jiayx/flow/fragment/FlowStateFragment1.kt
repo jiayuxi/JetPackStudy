@@ -72,6 +72,7 @@ class FlowStateFragment1 : Fragment() {
 
         // 方法4
         // 生命周期感知型数据流收集
+        // 对于单个Flow数据流的生命周期控制，flowWithLifecycle操作符可以很好解决样板代码。
         viewModel.number.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED).onEach { value ->
             binding.flowStateNumber.text = "$value"
         }.launchIn(lifecycleScope)//运行在主线程的协程作用域，在视图销毁时自动取消作用域

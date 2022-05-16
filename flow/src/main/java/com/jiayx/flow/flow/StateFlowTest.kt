@@ -100,6 +100,9 @@ fun `stateFlow简单实用`() = runBlocking {
     //模拟外部立即订阅数据
     val job0 = launch {
         readOnlyStateFlow.collect { println("collect0 : $it") }
+        //StateFlow订阅者所在的协程，最好使用独立协程，collect会一直挂起，协程内的后续操作不会执行
+//        readOnlyStateFlow.collect { println("collect1 : $it") }
+//        println("订阅 stateFlow 协程")
     }
     delay(50)
     //模拟在另一个类发送数据

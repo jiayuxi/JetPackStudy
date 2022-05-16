@@ -15,23 +15,23 @@ select 表达式
  */
 
 fun main() {
-//    await多路复用()
-//    channel复用多个channel()
+    await多路复用()
+    channel复用多个channel()
     flow实现多路复用()
-//    await函数的多路复用()
+    await函数的多路复用()
 }
 
 /**
  * 创建 发送者
  */
-fun CoroutineScope.fizz() = produce<String> {
+private fun CoroutineScope.fizz() = produce<String> {
     while (true) {
         delay(300)
         send("Fizz")
     }
 }
 
-fun CoroutineScope.buzz() = produce<String> {
+private fun CoroutineScope.buzz() = produce<String> {
     while (true) {
         delay(500)
         send("Buzz")
@@ -41,7 +41,7 @@ fun CoroutineScope.buzz() = produce<String> {
 /**
  * 返回最快的 那个值
  */
-suspend fun selectFizzBuzz(fizz: ReceiveChannel<String>, buzz: ReceiveChannel<String>) {
+private suspend fun selectFizzBuzz(fizz: ReceiveChannel<String>, buzz: ReceiveChannel<String>) {
     withContext(Dispatchers.IO) {
         select<Unit> { //<Unit> 意味着该 select 表达式不返回任何结果
             fizz.onReceive { value -> // 第一个 select 子句
@@ -57,7 +57,7 @@ suspend fun selectFizzBuzz(fizz: ReceiveChannel<String>, buzz: ReceiveChannel<St
 /**
  * 复用多个 channel
  */
-fun `channel复用多个channel`() = runBlocking {
+private fun `channel复用多个channel`() = runBlocking {
     val fizz = fizz()
     val buzz = buzz()
     repeat(7) {
@@ -74,7 +74,7 @@ fun `channel复用多个channel`() = runBlocking {
  * 其允许同时等待多个挂起的结果，并且只取用其中最快完成的作为函数恢复的值。
  */
 
-fun `await多路复用`() = runBlocking {
+private fun `await多路复用`() = runBlocking {
     val d1 = async {
         delay(60)
         1
@@ -112,7 +112,7 @@ fun `await多路复用`() = runBlocking {
 /**
  * 使用 flow 实现多路复用
  */
-fun `flow实现多路复用`() = runBlocking {
+private fun `flow实现多路复用`() = runBlocking {
     val name = "guest"
     coroutineScope {
         listOf(fizz(), buzz())
@@ -134,17 +134,17 @@ fun `flow实现多路复用`() = runBlocking {
  * await 多路复用
  */
 
-fun CoroutineScope.getLocationFunction() = async {
+private fun CoroutineScope.getLocationFunction() = async {
     delay(1000)
     666
 }
 
-fun CoroutineScope.getServiceFunction() = async {
+private fun CoroutineScope.getServiceFunction() = async {
     delay(1200)
     888
 }
 
-fun `await函数的多路复用`() = runBlocking {
+private fun `await函数的多路复用`() = runBlocking {
     GlobalScope.launch {
         val locationFunction = getLocationFunction()
         val serviceFunction = getServiceFunction()
