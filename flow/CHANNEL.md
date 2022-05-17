@@ -1,5 +1,6 @@
 # channelFlow
 Channel在概念上类似于BlockQueue，并发安全的缓冲队列（先进先出），实现多个协程间的通信。
+
 Channel内的发送数据和接收数据默认都是挂起函数。
 对于同一个Channel对象，允许多个协程发送数据，也允许多个协程接收数据。
 区别于Flow ，Channel是一个热流，但其并不支持数据流操作。

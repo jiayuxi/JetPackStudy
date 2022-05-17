@@ -43,5 +43,6 @@ class MyObserver : DefaultLifecycleObserver {
 
     override fun onDestroy(owner: LifecycleOwner) {
         super.onDestroy(owner)
+        Log.d(TAG, "onDestroy: 释放")
     }
 }

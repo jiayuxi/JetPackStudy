@@ -31,13 +31,13 @@ class MainActivity : AppCompatActivity() {
             setStatusBarBackground(R.color.colorPrimaryDark)
         }
         setSupportActionBar(binding.toolbar)
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        val navController = navHostFragment.navController
-        appBarConfiguration =
-            AppBarConfiguration(setOf(R.id.homeFragment, R.id.fileFragment, R.id.settingFragment))
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        binding.navView.setupWithNavController(navController)
+//        val navHostFragment =
+//            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+//        val navController = navHostFragment.navController
+//        appBarConfiguration =
+//            AppBarConfiguration(setOf(R.id.homeFragment, R.id.fileFragment, R.id.settingFragment))
+//        setupActionBarWithNavController(navController, appBarConfiguration)
+//        binding.navView.setupWithNavController(navController)
     }
 
     override fun onSupportNavigateUp(): Boolean {
