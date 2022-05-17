@@ -33,14 +33,23 @@ class DataStoreActivity : AppCompatActivity() {
                 }
             }
         }
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.userCustomData.collectLatest {
+                    binding.textView.text = "${it?.name} - ${it?.logo} "
+                }
+            }
+        }
         binding.button.setOnClickListener {
             viewModel.saveUserProto(
                 binding.name.text.toString(),
                 binding.email.text.toString()
             )
+            viewModel.saveUserCustom(binding.name.text.toString(), 888)
         }
         binding.button2.setOnClickListener {
             viewModel.userProto
+            viewModel.userCustomData
         }
     }
 }

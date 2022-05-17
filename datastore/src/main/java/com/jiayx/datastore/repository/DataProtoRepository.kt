@@ -1,6 +1,7 @@
 package com.jiayx.datastore.repository
 
 import com.jiayx.datastore.manage.DataProtoStoreManage
+import com.jiayx.datastore.model.CustomModel
 import javax.inject.Inject
 
 /**
@@ -14,4 +15,12 @@ class DataProtoRepository @Inject constructor(private val dataProtoStoreManage: 
     }
 
     val userProto = dataProtoStoreManage.userProto
+
+    // 自定义
+    suspend fun saveCustomData(customModel: CustomModel) {
+        dataProtoStoreManage.saveCustomData(customModel)
+    }
+
+    val userCustomData = dataProtoStoreManage.userCustomData
+
 }

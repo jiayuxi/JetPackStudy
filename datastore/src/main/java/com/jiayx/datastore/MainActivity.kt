@@ -13,6 +13,7 @@ import com.jiayx.datastore.model.UserModel
 import com.jiayx.datastore.viewmodel.DataViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
