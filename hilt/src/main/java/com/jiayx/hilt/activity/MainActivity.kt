@@ -1,4 +1,4 @@
-package com.jiayx.hilt
+package com.jiayx.hilt.activity
 
 import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +10,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.jiayx.hilt.R
 import com.jiayx.hilt.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 

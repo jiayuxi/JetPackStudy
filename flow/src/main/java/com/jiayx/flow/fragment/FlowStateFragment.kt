@@ -1,13 +1,10 @@
 package com.jiayx.flow.fragment
 
 import android.os.Bundle
-import android.sax.StartElementListener
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.*
 import com.jiayx.flow.databinding.FragmentStateFlowBinding
 import com.jiayx.flow.viewmodel.NumberViewModel

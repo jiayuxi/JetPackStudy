@@ -18,19 +18,20 @@ on 2022/4/2
  */
 
 fun main() {
-    channel基础学习()
-    produce构建通道生产者()
-    管道()
-    channelFlow函数()
-    扇出函数()
-    扇入函数()
-    带缓冲的channel()
-    通道公平函数()
-    callbackFlow函数()
-    broadcastChannel函数()
-    testIteratechannel迭代()
+//    channel基础学习()
+//    produce构建通道生产者()
+//    管道()
+//    channelFlow函数()
+//    扇出函数()
+//    扇入函数()
+//    带缓冲的channel()
+//    通道公平函数()
+//    callbackFlow函数()
+//    broadcastChannel函数()
+//    testIteratechannel迭代()
     actor启动一个消费者协程()
-    channel关闭()
+    produce启动一个生产者者协程()
+//    channel关闭()
 }
 
 /**
@@ -172,7 +173,7 @@ fun `actor启动一个消费者协程`() = runBlocking {
         }
     }
     val produce = GlobalScope.launch {
-        (1..3).forEach {
+        (1..5).forEach {
             sendChannel.send(it)
         }
     }
@@ -180,7 +181,26 @@ fun `actor启动一个消费者协程`() = runBlocking {
     println()
 }
 
+/**
+ * Actors
+ * 启动一个生产者协程
+ */
 
+fun `produce启动一个生产者者协程`() = runBlocking {
+    val receiveChannel: ReceiveChannel<Int> = GlobalScope.produce<Int> {
+        (1..5).forEach {
+            delay(1000)
+            send(it)
+        }
+    }
+    val consumer = GlobalScope.launch {
+        for (i in receiveChannel){
+            println("received: $i")
+        }
+    }
+    consumer.join()
+    println()
+}
 /**
  *  channel 迭代 iterator
  */
@@ -207,6 +227,7 @@ private fun `testIteratechannel迭代`() = runBlocking {
         }
     }
     joinAll(producer, consume)
+    channel.cancel()
     println()
 }
 

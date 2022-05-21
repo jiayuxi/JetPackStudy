@@ -55,6 +55,9 @@ class MainActivity : AppCompatActivity() {
         binding.buttonCoroutineRetrofit.setOnClickListener {
             startToActivity(this, CoroutineRetrofitActivity::class.java)
         }
+        binding.buttonCoroutineException.setOnClickListener {
+            startToActivity(this, ExceptionActivity::class.java)
+        }
     }
 
     private fun checkPermissions() {

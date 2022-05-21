@@ -12,11 +12,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jiayx.jetpackstudy.adapter.RoomAdapter
 import com.jiayx.jetpackstudy.databinding.MainFragmentBinding
+import com.jiayx.jetpackstudy.gesture.RecyclerViewSimpleOnItemTouch
+import com.jiayx.jetpackstudy.interfaces.OnItemClickListener
 import com.jiayx.jetpackstudy.room.bean.StudentBean
 import com.jiayx.jetpackstudy.ui.main.utils.transToString
 import com.jiayx.jetpackstudy.ui.main.viewmodel.MainViewModel
 
-class RoomFragment : Fragment() {
+class RoomFragment : Fragment(), OnItemClickListener {
 
     companion object {
         fun newInstance() = RoomFragment()
@@ -50,6 +52,7 @@ class RoomFragment : Fragment() {
     private fun initView() {
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
+        binding.recyclerView.addOnItemTouchListener(RecyclerViewSimpleOnItemTouch(this))
     }
 
     private fun initAction() {
@@ -76,6 +79,24 @@ class RoomFragment : Fragment() {
             viewModel.getFlowAll()?.collect() {
                 adapter.updateData(it)
             }
+        }
+    }
+
+    override fun onItemClick(view: View?, position: Int, flag: Boolean) {
+        if (flag) {
+            Log.d("jia_itemClick", "onItemClick: ")
+        }
+    }
+
+    override fun onItemLongClick(view: View?, position: Int, flag: Boolean) {
+        if (flag) {
+            Log.d("jia_itemClick", "onItemLongClick: ")
+        }
+    }
+
+    override fun onItemDoubleClick(view: View?, position: Int, flag: Boolean) {
+        if (flag) {
+            Log.d("jia_itemClick", "onItemDoubleClick: ")
         }
     }
 }

@@ -6,8 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.jiayx.navigation.R
-import com.jiayx.navigation.databinding.Fragment01Binding
 import com.jiayx.navigation.databinding.Fragment02Binding
 
 /**
@@ -33,7 +31,6 @@ class Fragment02 : Fragment() {
         val args = Fragment01Args.fromBundle(requireArguments())
         binding.textView.text = "${args?.userName} - ${args?.age}"
         binding.button3.setOnClickListener {
-//            findNavController().navigate(R.id.action_fragment02_to_fragment01)
             findNavController().popBackStack()
         }
     }

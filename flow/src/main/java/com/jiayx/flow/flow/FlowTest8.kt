@@ -169,7 +169,7 @@ private fun `buffer`() = runBlocking {
             println("value: $it")
         }
         println()
-        simpleBuffer().buffer(5, onBufferOverflow = BufferOverflow.DROP_LATEST).collect {
+        simpleBuffer().buffer(1, onBufferOverflow = BufferOverflow.DROP_LATEST).collect {
             delay(300)
             println("value: $it")
         }

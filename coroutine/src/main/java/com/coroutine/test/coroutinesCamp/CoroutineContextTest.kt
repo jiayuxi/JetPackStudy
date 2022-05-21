@@ -1,8 +1,10 @@
-package com.jiayx.coroutine.coroutinesCamp
+package com.coroutine.test.coroutinesCamp
 
 import kotlinx.coroutines.*
-import java.lang.ArithmeticException
+import java.io.IOException
 import java.lang.AssertionError
+import java.lang.RuntimeException
+import kotlin.ArithmeticException
 
 /**
  *Created by yuxi_
@@ -19,16 +21,18 @@ fun main() {
 //    上下文中的作业()
 //    子协程()
 //    父协程的职责()
-//    组合上下文中的元素()
-//    协程作用域()
-//    coroutineScope挂起()
-//    supervisorScope构造器()
-//    取消作用域取消子协程()
-//    被取消的子协程不会影响其余的兄弟协程()
-//    CancellationException()
-//    CoroutineExceptionHandler异常捕获()
-//    CoroutineExceptionHandler异常捕获2()
+    组合上下文中的元素()
     协程上下文继承()
+    协程作用域()
+    CoroutineExceptionHandler异常捕获()
+    CoroutineExceptionHandler异常捕获2()
+    coroutineScope挂起()
+    supervisorScope构造器()
+    取消作用域取消子协程()
+    被取消的子协程不会影响其余的兄弟协程()
+    CancellationException()
+    testCancelAndException2()
+    异常聚合()
 }
 
 /**
@@ -82,6 +86,7 @@ fun `非受限调度器vs受限调度器`() = runBlocking {
         println("main runBlocking: After delay in thread ${Thread.currentThread().name}")
     }
 
+    println()
 }
 
 /**
@@ -198,24 +203,97 @@ fun `父协程的职责`() = runBlocking {
 
 /**
  * 组合上下文中的元素
+ * 有时我们需要在协程上下文中定义多个元素。我们可以使用 + 操作符来实现。
+ * 比如说，我们可以显示指定一个调度器来启动协程并且同时显示指定一个名称
  */
 
-fun `组合上下文中的元素`() = runBlocking {
+fun `组合上下文中的元素`() = runBlocking<Unit> {
     launch(Dispatchers.Default + CoroutineName("test")) {
         println("I'm working in thread ${Thread.currentThread().name}")
     }
+    println()
+}
 
+/**
+ * 协程上下文继承
+ *对于新创建的协程，CoroutineContext 会包含一个权限的job 实例，它会帮助我们控制协程的生命周期。
+ * 而剩下的元素会从 CoroutineContext 的父类继承，该父类可能是另外一个协程或者是创建该协程的CoroutineScope
+ */
+fun `协程上下文继承`() = runBlocking<Unit> {
+    println()
+    // 创建协程作用域
     val coroutineScope = CoroutineScope(Job() + Dispatchers.IO + CoroutineName("test"))
-    val job = coroutineScope.launch {
+    val job = coroutineScope.launch() {
+        // 新的协程会将CoroutineScope 作为父级
         println("${coroutineContext[Job]} , $${Thread.currentThread().name}")
+        println("------------------------------")
         val result = async(Dispatchers.Default) {
+            // 通过async 创建的新协程会将当前协程作为父级
             println("${coroutineContext[Job]} , $${Thread.currentThread().name}")
             "OK"
         }
         println("result:${result.await()}")
     }
     job.join()
+    println()
+}
 
+private fun `协程上下文继承2`() = runBlocking {
+    val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        println("CoroutineExceptionHandler got:$throwable")
+    }
+    // 父级的 CoroutineContext
+    val scope = CoroutineScope(Job() + Dispatchers.Main + coroutineExceptionHandler)
+    // 新的 CoroutineContext = 父级的 CoroutineContext + Job()
+    val job = scope.launch(Dispatchers.IO) {
+        //  启动新的协程
+    }
+
+}
+
+/**
+ * CoroutineExceptionHandler 异常捕获
+ * 根协程的异常捕获
+ */
+
+fun `CoroutineExceptionHandler异常捕获`() = runBlocking<Unit> {
+    val handler = CoroutineExceptionHandler { _, throwable ->
+        println("Caught: $throwable")
+    }
+    //TODO 根协程 自动传播异常
+    val job = GlobalScope.launch(handler) {
+        throw AssertionError()
+    }
+    //TODO 根协程 向用户暴露异常
+    val deferred = GlobalScope.async {
+        throw ArithmeticException()
+    }
+    job.join()
+    try {
+        deferred.await()
+    } catch (e: Exception) {
+        println("async 根协程 异常：$e")
+    }
+    println()
+}
+
+/**
+ * 非根协程的异常捕获
+ */
+fun `CoroutineExceptionHandler异常捕获2`() = runBlocking<Unit> {
+    val handler = CoroutineExceptionHandler { _, throwable ->
+        println("Caught: $throwable")
+    }
+    val scope = CoroutineScope(Job())
+    //
+    val job = scope.launch(handler) {
+        async {
+            throw IllegalAccessError()
+            // 如果 async 抛出异常，launch 就会立即抛出异常，而不会调用 .await()
+        }
+    }
+    job.join()
+    println()
 }
 
 /**
@@ -247,6 +325,7 @@ fun `协程作用域`() = runBlocking {
     println("Destroying activity!")
     activity.destroy() // 取消所有的协程
     delay(1000) // 为了在视觉上确认它们没有工作
+    println()
 }
 
 /**
@@ -256,9 +335,9 @@ fun `协程作用域`() = runBlocking {
  */
 
 fun `coroutineScope挂起`() = runBlocking {
+    println()
     try {
         coroutineScope {
-
             val job1 = launch {
                 delay(400)
                 println("job1 finished!!")
@@ -279,6 +358,7 @@ fun `coroutineScope挂起`() = runBlocking {
  * 构造器
  *supervisorScope
  * 多个子协程运行，其中一个协程抛出异常，不影响其他子协程的运行
+ * 作用域 抛出异常 ，所有的子协程 取消运行
  */
 fun `supervisorScope构造器`() = runBlocking {
     try {
@@ -296,10 +376,12 @@ fun `supervisorScope构造器`() = runBlocking {
                 println("job3 finished!!")
                 throw  IllegalArgumentException()
             }
+            throw RuntimeException("运行异常")
         }
     } catch (e: Exception) {
         println("协程异常：$e")
     }
+    println()
 }
 
 /**
@@ -320,6 +402,7 @@ fun `取消作用域取消子协程`() = runBlocking<Unit> {
     delay(100)
     scope.cancel()
     delay(2000)
+    println()
 }
 
 /**
@@ -339,6 +422,7 @@ fun `被取消的子协程不会影响其余的兄弟协程`() = runBlocking<Uni
     delay(100)
     job2.cancel()
     delay(2000)
+    println()
 }
 
 /**
@@ -358,54 +442,76 @@ fun `CancellationException`() = runBlocking {
     }
     delay(100)
 //    job.cancel()
-//    job.cancel(CancellationException("取消"))
+    job.cancel(CancellationException("取消"))
 //    delay(2000)
-    job.cancelAndJoin()
+//    job.cancelAndJoin()
+    println()
 }
 
 /**
- * CoroutineExceptionHandler 异常捕获
+ * 取消与异常
+ *  1、取消与异常紧密相关，协程内部使用CancellationException来进行取消，这个异常会被忽略
+ *  2、当子协程被取消时，不会取消它的父协程
+ *  3、如果一个协程遇到了CancellationException 以外的异常。它将使用该异常取消它的父协程。
+ *  当父协程的所有子协程都结束后，异常才会被父协程处理
  */
 
-fun `CoroutineExceptionHandler异常捕获`() = runBlocking<Unit> {
+private fun `testCancelAndException2`() = runBlocking {
+    println()
     val handler = CoroutineExceptionHandler { _, throwable ->
-        println("Caught: $throwable")
+        println("Caught $throwable")
     }
-
     val job = GlobalScope.launch(handler) {
-        throw AssertionError()
-    }
-    val deferred = GlobalScope.async {
-        throw ArithmeticException()
+        launch {
+            try {
+                delay(Long.MAX_VALUE)
+            } finally {
+                withContext(NonCancellable) {
+                    println("1")
+                    delay(100)
+                    println("2")
+                }
+            }
+        }
+        launch {
+            delay(10)
+            println("Second child throws an exception")
+            throw ArithmeticException()
+        }
     }
     job.join()
-    deferred.await()
+    println()
 }
 
-fun `CoroutineExceptionHandler异常捕获2`() = runBlocking<Unit> {
-    val handler = CoroutineExceptionHandler { _, throwable ->
-        println("Caught: $throwable")
-    }
-    val scope = CoroutineScope(Job())
-    val job = scope.launch(handler) {
-         launch {
-             throw IllegalAccessError()
-         }
-    }
-    job.join()
-}
 /**
- * 协程上下文继承
+ * 异常聚合
+ *  1、当协程的多个子协程因为异常而失败时，一般情况下去第一个异常进行处理。
+ *  2、在第一个异常之后发生的所有其它异常，都将被绑定到第一个异常之上
  */
-fun `协程上下文继承`() = runBlocking {
-    val coroutineScope = CoroutineScope(Job() + Dispatchers.IO + CoroutineName("test"))
-    val job = coroutineScope.launch(){
-        println("${coroutineContext[Job]} , $${Thread.currentThread().name}")
-        val result = async(Dispatchers.Default) {
-            println("${coroutineContext[Job]} , $${Thread.currentThread().name}")
-            "OK"
+
+private fun `异常聚合`() = runBlocking {
+    val handler = CoroutineExceptionHandler { _, throwable ->
+        print("Caught $throwable ${throwable.suppressed.contentToString()}")
+    }
+    val job = GlobalScope.launch(handler) {
+        launch {
+            try {
+                delay(Long.MAX_VALUE)
+            } finally {
+                throw ArithmeticException()
+            }
         }
-        println("result:${result.await()}")
+        launch {
+            try {
+                delay(Long.MAX_VALUE)
+            } finally {
+                throw IndexOutOfBoundsException()
+            }
+        }
+        launch {
+            delay(100)
+            throw IOException()
+        }
     }
     job.join()
 }

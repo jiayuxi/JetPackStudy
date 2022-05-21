@@ -1,4 +1,4 @@
-package com.jiayx.coroutine
+package com.jiayx.gesturedetector
 
 import org.junit.Test
 

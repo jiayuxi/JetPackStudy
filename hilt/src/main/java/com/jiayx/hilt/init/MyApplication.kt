@@ -1,4 +1,4 @@
-package com.jiayx.hilt
+package com.jiayx.hilt.init
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

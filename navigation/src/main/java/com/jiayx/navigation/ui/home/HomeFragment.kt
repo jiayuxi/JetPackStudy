@@ -1,16 +1,11 @@
 package com.jiayx.navigation.ui.home
 
-import android.animation.ObjectAnimator
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
-import com.jiayx.navigation.R
+import androidx.fragment.app.Fragment
 import com.jiayx.navigation.databinding.HomeFragmentBinding
-import com.jiayx.navigation.viewmodel.HomeViewModel
 
 /**
  * 旋转

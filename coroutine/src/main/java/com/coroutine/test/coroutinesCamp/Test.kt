@@ -1,6 +1,8 @@
-package com.jiayx.coroutine.coroutinesCamp
+package com.coroutine.test.coroutinesCamp
 
 import kotlinx.coroutines.*
+import java.io.BufferedReader
+import java.io.FileReader
 
 /**
  *Created by yuxi_
@@ -8,18 +10,20 @@ on 2022/4/3
 协程学习
  */
 fun main() {
-//    协程job函数()
-//    作用域构建器coroutinesScope()
-//    提取函数重构()
-//    轻量协程()
-//    全局协程像守护线程()
-//    取消协程的执行cancel()
-//    取消是协作式的()
+    协程job函数()
+    作用域构建器coroutinesScope()
+    提取函数重构()
+    轻量协程()
+    全局协程像守护线程()
+    取消协程的执行cancel()
+    取消是协作式的()
     取消的两种方式()
-//    在finally中释放资源()
-//    运行不能取消的代码块()
-//    超时withTimeout()
-//    超时withTimeoutOrNull()
+    testCancelCpuTaskByYield()
+    在finally中释放资源()
+    use标准库函数取消()
+    运行不能取消的代码块()
+    超时withTimeout()
+    超时withTimeoutOrNull()
 }
 
 /**
@@ -199,6 +203,33 @@ fun `取消的两种方式`() = runBlocking {
     println("main: I'm tired of waiting!")
     job.cancelAndJoin() // 取消一个作业并且等待它结束
     println("main: Now I can quit.")
+    println()
+}
+
+/**
+ * yield
+ * 函数会检查所在协程的状态，如果已经取消，则抛出CancellationException予与响应，
+ * 此外，它还会尝试让出线程的执行权，给其它协程提供执行机会
+ */
+
+private fun `testCancelCpuTaskByYield`() = runBlocking {
+    val startTime = System.currentTimeMillis()
+    val job = launch(Dispatchers.Default) {
+        var nextPrintTime = startTime
+        var i = 0
+        while (i < 5) {
+            yield()
+            if (System.currentTimeMillis() >= nextPrintTime) {
+                println("jon: I'm sleeping ${i++} ...")
+                nextPrintTime += 500
+            }
+        }
+    }
+    delay(1300)
+    println("main: I'm tired of waiting!")
+    job.cancelAndJoin()
+    println("main: Now I can quit")
+    println()
 }
 
 /**
@@ -208,12 +239,12 @@ fun `取消的两种方式`() = runBlocking {
 fun `在finally中释放资源`() = runBlocking {
     val job = launch {
         try {
-            repeat(1000) {
+            repeat(10) {
                 println("job: I'm sleeping $it ...")
                 delay(500L)
             }
         } catch (e: CancellationException) {
-            println("取消抛出的异常")
+            println("取消抛出的异常 : $e")
         } finally {
             println("job: I'm running finally")
         }
@@ -222,6 +253,35 @@ fun `在finally中释放资源`() = runBlocking {
     println("main: I'm tired of waiting!")
     job.cancelAndJoin() // 取消该作业并且等待它结束
     println("main: Now I can quit.")
+    println()
+}
+
+/**
+ * use 标准库函数
+ */
+
+private fun `use标准库函数取消`() = runBlocking {
+//    val br = BufferedReader(FileReader("D:\\file.txt"))
+//    with(br) {
+//        var line: String?
+//        try {
+//            while (true) {
+//                line = readLine() ?: break
+//                println(line)
+//            }
+//        } finally {
+//            close()
+//        }
+//    }
+//    println()
+    BufferedReader(FileReader("D:\\file.txt")).use {
+        var line: String?
+        while (true) {
+            line = it.readLine() ?: break
+            println(line)
+        }
+    }
+    println()
 }
 
 /**
@@ -251,6 +311,7 @@ fun `运行不能取消的代码块`() = runBlocking {
     println("main: I'm tired of waiting!")
     job.cancelAndJoin() // 取消该作业并且等待它结束
     println("main: Now I can quit.")
+    println()
 }
 
 /**
@@ -269,6 +330,7 @@ fun `超时withTimeout`() = runBlocking {
     } catch (e: TimeoutCancellationException) {
         println("超时异常")
     }
+    println()
 }
 
 /**
@@ -283,6 +345,8 @@ fun `超时withTimeoutOrNull`() = runBlocking {
             println("I'm sleeping $it ...")
             delay(500L)
         }
-    }
+        "Done"
+    }?: "怎么返回空值"
     println("Result is $result")
+    println()
 }

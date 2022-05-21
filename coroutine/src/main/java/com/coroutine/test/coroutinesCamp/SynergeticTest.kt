@@ -1,4 +1,4 @@
-package com.jiayx.coroutine.coroutinesCamp
+package com.coroutine.test.coroutinesCamp
 
 import kotlinx.coroutines.*
 import kotlinx.coroutines.sync.Mutex
@@ -96,7 +96,7 @@ fun `以细粒度限制线程`() = runBlocking {
 var counter3 = 0
 fun `以粗粒度限制线程`() = runBlocking {
     // // 将一切都限制在单线程上下文中
-    withContext(counterContext) {
+   withContext(counterContext) {
         massiveRun {
             counter3++
         }

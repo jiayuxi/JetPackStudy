@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    ext.kotlin_version = "1.6.20"
-    ext.nav_version = "2.4.1"
+    ext.kotlin_version = "1.6.10"
+    ext.nav_version = "2.4.2"
     ext.lifecycle_version = "2.5.0-alpha03"
     ext.fragment_version = "1.4.1"
     repositories {
@@ -10,9 +10,9 @@ buildscript {
         maven { url 'https://jitpack.io' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.1.2'
+        classpath 'com.android.tools.build:gradle:7.2.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath("com.google.dagger:hilt-android-gradle-plugin:2.38.1")
+        classpath('com.google.dagger:hilt-android-gradle-plugin:2.40.1')
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version")
         classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.18'
         classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
