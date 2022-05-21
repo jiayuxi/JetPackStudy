@@ -1,4 +1,4 @@
-package com.jiayx.gesturedetector
+package com.jiayx.gesturedetector.activity
 
 import android.os.Bundle
 import android.view.MotionEvent
