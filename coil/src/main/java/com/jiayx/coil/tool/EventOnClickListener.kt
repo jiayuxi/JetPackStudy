@@ -28,4 +28,7 @@ class EventOnClickListener(private val context: Context) {
     fun startTransformationActivity(view: View) {
         context.startActivity(Intent(context, TransformationsActivity::class.java))
     }
+    fun startEncodePictureActivity(view: View) {
+        context.startActivity(Intent(context, PictureEncodeActivity::class.java))
+    }
 }

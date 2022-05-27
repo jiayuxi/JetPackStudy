@@ -67,6 +67,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/svg" />
+
         <Button
             android:id="@+id/startTransformation"
             android:layout_width="wrap_content"
@@ -79,5 +80,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/svg" />
+
+        <Button
+            android:id="@+id/encodePicture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:onClick="@{onclick.startEncodePictureActivity}"
+            android:text="encodePicture"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/startTransformation" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
