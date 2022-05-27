@@ -1,7 +1,6 @@
 package com.jiayx.jetpackstudy.ui.main.viewmodel
 
 import android.app.Application
-import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
@@ -9,14 +8,11 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.jiayx.jetpackstudy.room.bean.Person
-import com.jiayx.jetpackstudy.room.database.PersonDatabase
 import com.jiayx.jetpackstudy.room.repository.PersonRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
-import java.util.concurrent.Executors
-import kotlin.random.Random
 
 /**
  *Created by yuxi_

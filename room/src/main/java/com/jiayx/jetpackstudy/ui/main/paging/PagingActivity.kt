@@ -19,7 +19,7 @@ class PagingActivity : AppCompatActivity() {
         ViewModelProvider(
             this,
             ViewModelProvider.AndroidViewModelFactory.getInstance(this.application)
-        ).get(PersonViewModel::class.java)
+        )[PersonViewModel::class.java]
 
     }
     override fun onCreate(savedInstanceState: Bundle?) {

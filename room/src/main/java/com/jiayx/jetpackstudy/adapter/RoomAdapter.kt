@@ -7,8 +7,10 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.view.GestureDetectorCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.jiayx.jetpackstudy.R
+import com.jiayx.jetpackstudy.gesture.MySimpleOnGestureImpl
 import com.jiayx.jetpackstudy.room.bean.StudentBean
 import com.jiayx.jetpackstudy.ui.main.utils.transToString
 import com.jiayx.jetpackstudy.ui.main.utils.transToTimeStamp
@@ -39,14 +41,17 @@ class RoomAdapter(private val context: Context, private var items: List<StudentB
             holder.age.text = bean?.age.toString()
             Log.d("model_log", "onBindViewHolder: time: ${transToString(bean?.timeLog)}")
             holder.time.text = transToString(bean?.timeLog)
-            holder.time.setOnTouchListener { _, event ->
-                if (event.action == MotionEvent.ACTION_UP) {
-                    Log.d(
-                        "jia_itemClick",
-                        "onBindViewHolder: position $position , name:${bean?.name}"
-                    )
-                }
-                return@setOnTouchListener false
+            holder.age.setOnClickListener {
+                Log.d(
+                    "jia_itemClick",
+                    "onBindViewHolder: age position $position , name:${bean?.name}"
+                )
+            }
+            holder.time.setOnClickListener {
+                Log.d(
+                    "jia_itemClick",
+                    "onBindViewHolder: time position $position , name:${bean?.name}"
+                )
             }
         }
     }

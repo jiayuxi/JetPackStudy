@@ -25,4 +25,8 @@ class RoomActivity : AppCompatActivity() {
         Log.d("touch_event", "onTouchEvent: ${event.toString()}")
         return super.onTouchEvent(event)
     }
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        return super.dispatchTouchEvent(ev)
+    }
 }

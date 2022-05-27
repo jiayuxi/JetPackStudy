@@ -5,11 +5,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.jiayx.jetpackstudy.R
 import com.jiayx.jetpackstudy.adapter.RoomAdapter
 import com.jiayx.jetpackstudy.databinding.MainFragmentBinding
 import com.jiayx.jetpackstudy.gesture.RecyclerViewSimpleOnItemTouch
@@ -52,7 +55,17 @@ class RoomFragment : Fragment(), OnItemClickListener {
     private fun initView() {
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
-        binding.recyclerView.addOnItemTouchListener(RecyclerViewSimpleOnItemTouch(this))
+        binding.recyclerView.addOnItemTouchListener(RecyclerViewSimpleOnItemTouch(this,listOf(R.id.item_time,R.id.item_age)))
+
+        binding.recyclerView.addOnChildAttachStateChangeListener(object :
+            RecyclerView.OnChildAttachStateChangeListener {
+            override fun onChildViewAttachedToWindow(view: View) {
+                Log.d("jia_attach", "onChildViewAttachedToWindow: ")
+            }
+            override fun onChildViewDetachedFromWindow(view: View) {
+                Log.d("jia_attach", "onChildViewDetachedFromWindow: ")
+            }
+        })
     }
 
     private fun initAction() {
@@ -82,21 +95,15 @@ class RoomFragment : Fragment(), OnItemClickListener {
         }
     }
 
-    override fun onItemClick(view: View?, position: Int, flag: Boolean) {
-        if (flag) {
-            Log.d("jia_itemClick", "onItemClick: ")
-        }
+    override fun onItemClick(view: View?, position: Int) {
+        Log.d("jia_itemClick", "onItemClick: ")
     }
 
-    override fun onItemLongClick(view: View?, position: Int, flag: Boolean) {
-        if (flag) {
-            Log.d("jia_itemClick", "onItemLongClick: ")
-        }
+    override fun onItemLongClick(view: View?, position: Int) {
+        Log.d("jia_itemClick", "onItemLongClick: ")
     }
 
-    override fun onItemDoubleClick(view: View?, position: Int, flag: Boolean) {
-        if (flag) {
-            Log.d("jia_itemClick", "onItemDoubleClick: ")
-        }
+    override fun onItemDoubleClick(view: View?, position: Int) {
+         Log.d("jia_itemClick", "onItemDoubleClick: ")
     }
 }
