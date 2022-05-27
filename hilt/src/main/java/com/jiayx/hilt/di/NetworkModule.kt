@@ -4,7 +4,8 @@ import com.jiayx.hilt.init.SERVER_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -14,8 +15,8 @@ import javax.inject.Singleton
  *Created by yuxi_
 on 2022/5/17
  */
-@InstallIn(ApplicationContext::class) // 跟 application 生命周期相关联
 @Module
+@InstallIn(SingletonComponent::class) // 跟 application 生命周期相关联
 object NetworkModule {
 
     @Singleton // 单例只需一份

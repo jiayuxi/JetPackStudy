@@ -6,3 +6,5 @@ on 2022/5/17
  */
 
 const val SERVER_URL = ""
+
+const val TAG = "jia_hilt"
