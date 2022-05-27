@@ -182,6 +182,7 @@ launch 与 async 都是来启动协程的
 
 # supervisorScope 作用域构建器
   作用域 抛出异常 ，所有的子协程 取消运行
+```kotlin
   runBlocking {
   try {
   supervisorScope {
@@ -205,6 +206,7 @@ launch 与 async 都是来启动协程的
   }
   println()
   }
+  ```
 # 协程的异常捕获
   1、使用 CoroutineExceptionHandler 对协程的异常 进行捕获
      一下条件满足时，异常就会被捕获：

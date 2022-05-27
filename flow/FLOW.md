@@ -7,18 +7,22 @@
 
 # flow 冷流
 是一种类似于序列的冷流 ，flow构建器中的代码直到流被收集的时候才开始运行
+```kotlin
 runBlocking {
      val flow = flow<Int> {
      emit(1)
     }
     coroutineScope {
-    flow.collect {
-    println("flow value : $it")
+        flow.collect {
+            println("flow value : $it")
+        }
     }
 }
+```
 # flow 的连续性
 1、流的每次单独收集都是按顺序执行的，除非使用特殊操作符
 2、从上游到下游每个过滤操作符都会处理每个发射出的值，然后在交给末端操作符
+```kotlin
   runBlocking {
     (1..3).asFlow().flow.filter {
        it % 2 == 0 
@@ -28,10 +32,11 @@ runBlocking {
      println("Collect $value")  
    } 
  }
-
+```
 # flow 的构建器
 1、flowOf 构建器定义了一个发射固定值集的流
 2、使用 .asFlow 扩展函数，可以将各种集合与序列转换为 Flow流
+```kotlin
  runBlocking {
    val flow2 = flowOf(1, 2, 3)
     coroutineScope {
@@ -48,7 +53,7 @@ runBlocking {
   }
  }
 }
-
+```
 # Flow 流上下文
 1、流的收集总是在调用协程的上下文中发生，流的该属性称为上下文保存
 2、flow{...} 构建器中的代码必须遵循上下文保存属性，并且不允许从其他上下文中发射(emit)

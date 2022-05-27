@@ -59,8 +59,8 @@ flow{}为上游数据提供方，
 collect{}为下游数据使用方，collect是一个扩展函数，且是一个非阻塞式挂起函数(使用suspend修饰)，
 所以Flow只能在kotlin协程中使用。
 其他操作符可以认为都是服务于整个数据流的，包括对上游数据处理、异常处理等
- 
 
+```kotlin
 val testFlow = flow<String> { 
 emit("hello")
 emit("一般 flow 冷流")
@@ -73,11 +73,11 @@ testFlow.collectLatest {
      println("collectLatest value:$it")
  } 
 }
-
+```
 # stateFlow
 
 有状态的Flow ，可以有多个观察者，热流 构造时需要传入初始值 : initialState 常用作与UI相关的数据观察，类比LiveData
-
+```kotlin
 val stateFlow = MutableStateFlow(0)
 coroutineScope {
 stateFlow.collect {
@@ -85,8 +85,8 @@ println("stateFlow 有状态的flow: value:$it")
 }
 }
 stateFlow.value = 3
-}
 
+```
 # SharedFlow
 可定制化的StateFlow，可以有多个观察者，热流.
 无需初始值，有三个可选参数：
@@ -95,6 +95,8 @@ extraBufferCapacity - 除了replay之外缓冲的值的数量。 当有剩余缓
 onBufferOverflow - 配置缓冲区溢出的操作（可选，默认为暂停尝试发出值）
 
 //创建
+```kotlin
+
 val signEvent = MutableSharedFlow<String>()
 coroutineScope {
 signEvent.collect {
@@ -103,8 +105,8 @@ println("sharedFlow value: $it")
 }
 signEvent.tryEmit("hello")
 signEvent.tryEmit("sharedFlow")
-}
 
+```
 # flow 操作符 
 1、创建操作符
 flow：创建Flow的操作符。

@@ -9,11 +9,13 @@ Channel内的发送数据和接收数据默认都是挂起函数。
 
 
 # channel 基础 
+```kotlin
 public fun <E> Channel(
 capacity: Int = RENDEZVOUS,//缓冲队列的容量 
 onBufferOverflow: BufferOverflow = BufferOverflow.SUSPEND,// 被压的策略
 onUndeliveredElement: ((E) -> Unit)? = null // 在元素被发送但未交付给消费者时调用代码块
 ): Channel<E>
+```
  capacity 参数为缓冲区容量，通常是以 Channel 中定义的常量为值
 
  RENDEZVOUS：默认无锁、无缓冲区，只有消费端调用时，才会发送数据，否则挂起发送操作。
