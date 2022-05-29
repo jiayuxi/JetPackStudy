@@ -115,24 +115,24 @@ abstract class BasePagingAdapterKtx<T : Any> : PagingDataAdapter<T, RecyclerView
     /**
      * 向尾部添加数据
      */
-   /* fun appendItem(item: T) {
+   fun appendItem(item: T) {
         if (!this::mPagingData.isInitialized || !this::mLifecycle.isInitialized) {
             throw IllegalArgumentException("To add data, you must use the 'setPagingData' method")
         }
-        mPagingData = mPagingData.insertFooterItem(item)
+        mPagingData = mPagingData.insertFooterItem(item = item)
         submitData(mLifecycle, mPagingData)
-    }*/
+    }
 
     /**
      * 向首部添加数据
      */
-   /* fun prependItem(item: T) {
+   fun prependItem(item: T) {
         if (!this::mPagingData.isInitialized || !this::mLifecycle.isInitialized) {
             throw IllegalArgumentException("To add data, you must use the 'setPagingData' method")
         }
-        mPagingData = mPagingData.insertHeaderItem(item)
+        mPagingData = mPagingData.insertHeaderItem(item = item)
         submitData(mLifecycle, mPagingData)
-    }*/
+    }
 
     /**
      * 过滤数据

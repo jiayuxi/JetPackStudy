@@ -1,11 +1,7 @@
 package com.jiayx.jetpackstudy.paging3.data.remote
 
-import com.jiayx.jetpackstudy.BuildConfig
 import com.jiayx.jetpackstudy.paging3.model.Pixabay
-import com.jiayx.jetpackstudy.paging3.model.SearchResult
-import com.jiayx.jetpackstudy.paging3.model.UnsplashImage
 import retrofit2.http.GET
-import retrofit2.http.Headers
 import retrofit2.http.Query
 
 /**

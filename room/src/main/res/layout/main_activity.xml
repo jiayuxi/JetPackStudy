@@ -18,6 +18,10 @@
         android:id="@+id/button_paging"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="paging3" />
-
+        android:text="local paging3" />
+    <Button
+        android:id="@+id/button_network_paging"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="network paging3" />
 </LinearLayout>

@@ -10,6 +10,7 @@ import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.XXPermissions
 import com.jiayx.jetpackstudy.databinding.MainActivityBinding
 import com.jiayx.jetpackstudy.ui.main.paging.PagingActivity
+import com.jiayx.jetpackstudy.ui.main.paging3.Paging3Activity
 import com.jiayx.jetpackstudy.ui.main.room.RoomActivity
 import com.tbruyelle.rxpermissions2.RxPermissions
 
@@ -50,6 +51,9 @@ class MainActivity : AppCompatActivity() {
         }
         binding.buttonPaging.setOnClickListener {
             startActivity(PagingActivity::class.java)
+        }
+        binding.buttonNetworkPaging.setOnClickListener {
+            startActivity(Paging3Activity::class.java)
         }
     }
 

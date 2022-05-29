@@ -95,6 +95,7 @@
         </activity>
         <activity android:name=".ui.main.room.RoomActivity" />
         <activity android:name=".ui.main.paging.PagingActivity" />
+        <activity android:name=".ui.main.paging3.Paging3Activity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

@@ -1,6 +1,7 @@
 package com.jiayx.jetpackstudy.paging3.di
 
 import com.jiayx.jetpackstudy.paging3.data.remote.UnsplashApi
+import com.jiayx.jetpackstudy.paging3.utils.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,7 +33,7 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideRetrofit(okhttp: OkHttpClient): Retrofit {
-        return Retrofit.Builder().baseUrl("")
+        return Retrofit.Builder().baseUrl(BASE_URL)
             .client(okhttp)
             .addConverterFactory(GsonConverterFactory.create()).build()
     }
