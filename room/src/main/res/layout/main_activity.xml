@@ -24,4 +24,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="network paging3" />
+    <Button
+        android:id="@+id/button_mediator_paging"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="mediator paging3" />
+    <Button
+        android:id="@+id/button_article_paging"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="article paging3" />
 </LinearLayout>

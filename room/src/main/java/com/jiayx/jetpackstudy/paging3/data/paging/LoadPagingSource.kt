@@ -6,7 +6,6 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.jiayx.jetpackstudy.paging3.data.remote.UnsplashApi
 import com.jiayx.jetpackstudy.paging3.model.Hits
-import com.jiayx.jetpackstudy.paging3.model.UnsplashImage
 import com.jiayx.jetpackstudy.paging3.utils.Constants
 import com.jiayx.jetpackstudy.paging3.utils.Constants.ITEMS_PER_PAGE
 import kotlinx.coroutines.delay
@@ -22,6 +21,7 @@ class LoadPagingSource(private val unsplashApi: UnsplashApi) :
         arrayOf("cat", "dog", "car", "beauty", "phone", "computer", "flower", "animal").random()
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Hits> {
+
         return try {
             val currentPage = params.key ?: 1
             val pageSize = params.loadSize
@@ -48,12 +48,16 @@ class LoadPagingSource(private val unsplashApi: UnsplashApi) :
                 LoadResult.Page(data = emptyList(), null, null)
             }
         } catch (e: Exception) {
+            Log.e("jia_error", "load: $e")
             LoadResult.Error(e)
         }
     }
 
     override fun getRefreshKey(state: PagingState<Int, Hits>): Int? {
-        return state.anchorPosition
+        return/* state.anchorPosition?.let { anchorPosition ->
+            val anchorPage = state.closestPageToPosition(anchorPosition)
+            anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
+        }*/ null
     }
 
 }

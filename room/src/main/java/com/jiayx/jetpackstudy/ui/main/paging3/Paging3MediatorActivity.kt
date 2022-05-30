@@ -1,11 +1,9 @@
 package com.jiayx.jetpackstudy.ui.main.paging3
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.ExperimentalPagingApi
@@ -25,7 +23,7 @@ on 2022/5/29
  */
 @OptIn(ExperimentalPagingApi::class)
 @AndroidEntryPoint
-class Paging3Activity : AppCompatActivity() {
+class Paging3MediatorActivity : AppCompatActivity() {
     private val binding: Paging3ActivityBinding by lazy {
         Paging3ActivityBinding.inflate(layoutInflater)
     }
@@ -43,22 +41,17 @@ class Paging3Activity : AppCompatActivity() {
             })
             layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         }
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.getAllImages.collectLatest {
+                    galleryAdapter.submitData(it)
+                    binding.swipeRefresh.isRefreshing = false
+                }
+            }
+        }
         binding.swipeRefresh.setOnRefreshListener {
             galleryAdapter.refresh()
         }
-//        lifecycleScope.launch {
-//            lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
-//                viewModel.getImages.collectLatest {
-//                    galleryAdapter.submitData(it)
-//                    Log.d("jia_paging3", "onCreate: 数据加载完成")
-//                    binding.swipeRefresh.isRefreshing = false
-//                }
-//            }
-//        }
-        viewModel.getImages.observe(this, Observer {
-            galleryAdapter.submitData(lifecycle,it)
-            binding.swipeRefresh.isRefreshing = false
-        })
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 galleryAdapter.loadStateFlow.collectLatest { state ->

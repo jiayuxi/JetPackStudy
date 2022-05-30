@@ -10,10 +10,12 @@ import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.XXPermissions
 import com.jiayx.jetpackstudy.databinding.MainActivityBinding
 import com.jiayx.jetpackstudy.ui.main.paging.PagingActivity
+import com.jiayx.jetpackstudy.ui.main.paging3.ArticleActivity
 import com.jiayx.jetpackstudy.ui.main.paging3.Paging3Activity
+import com.jiayx.jetpackstudy.ui.main.paging3.Paging3MediatorActivity
 import com.jiayx.jetpackstudy.ui.main.room.RoomActivity
 import com.tbruyelle.rxpermissions2.RxPermissions
-
+import dagger.hilt.android.AndroidEntryPoint
 
 class MainActivity : AppCompatActivity() {
 
@@ -54,6 +56,12 @@ class MainActivity : AppCompatActivity() {
         }
         binding.buttonNetworkPaging.setOnClickListener {
             startActivity(Paging3Activity::class.java)
+        }
+        binding.buttonMediatorPaging.setOnClickListener {
+            startActivity(Paging3MediatorActivity::class.java)
+        }
+        binding.buttonArticlePaging.setOnClickListener {
+            startActivity(ArticleActivity::class.java)
         }
     }
 

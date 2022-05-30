@@ -11,7 +11,7 @@ on 2022/5/24
 interface UnsplashApi {
     @GET("?key=12472743-874dc01dadd26dc44e0801d61")
     suspend fun loadImages(
-        @Query("q") p: String,
+        @Query("q") q: String,
         @Query("page") page: Int,
         @Query("per_page") perPage: Int
     ): Pixabay

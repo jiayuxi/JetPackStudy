@@ -3,6 +3,7 @@ package com.jiayx.jetpackstudy.paging3.data.mapper
 import com.google.gson.annotations.SerializedName
 import com.jiayx.jetpackstudy.paging3.model.Hits
 import com.jiayx.jetpackstudy.paging3.model.PhotoItem
+import dagger.Module
 
 /**
  *Created by yuxi_

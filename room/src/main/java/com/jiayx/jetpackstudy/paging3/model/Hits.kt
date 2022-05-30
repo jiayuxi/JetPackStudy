@@ -1,5 +1,8 @@
 package com.jiayx.jetpackstudy.paging3.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.jiayx.jetpackstudy.paging3.utils.Constants.UNSPLASH_IMAGE_TABLE
 import kotlinx.serialization.Serializable
 
 /**

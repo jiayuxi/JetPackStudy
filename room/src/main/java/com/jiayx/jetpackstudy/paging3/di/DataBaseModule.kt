@@ -26,4 +26,5 @@ object DataBaseModule {
         return Room.databaseBuilder(context, UnsplashDatabase::class.java, UNSPLASH_DATABASE)
             .build()
     }
+
 }
