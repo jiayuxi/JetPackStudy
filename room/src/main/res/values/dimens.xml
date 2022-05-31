@@ -10,4 +10,10 @@
     <dimen name="text_size_20">20sp</dimen>
 
     <dimen name="status_bar_top">44dp</dimen>
+
+    <dimen name="margin_10dp">10dp</dimen>
+    <dimen name="margin_12dp">12dp</dimen>
+    <dimen name="card_vertical_height">100dp</dimen>
+    <dimen name="recycle_item_avrtor">100dp</dimen>
+    <dimen name="recycle_item_base_margin">10dp</dimen>
 </resources>

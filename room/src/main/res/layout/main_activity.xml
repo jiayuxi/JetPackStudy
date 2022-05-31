@@ -34,4 +34,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="article paging3" />
+    <Button
+        android:id="@+id/button_pokemon_paging"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="pokemon paging3" />
 </LinearLayout>

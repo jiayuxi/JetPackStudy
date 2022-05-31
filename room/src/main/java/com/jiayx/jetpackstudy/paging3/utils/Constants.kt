@@ -7,6 +7,7 @@ on 2022/5/24
 object Constants {
     const val BASE_URL = "https://pixabay.com/api/"
     const val RETROFIT_URL = "https://www.wanandroid.com"
+    const val POKEAPI_URL = "https://pokeapi.co/api/v2/"
 
     const val UNSPLASH_DATABASE = "unsplash_database.db"
     const val UNSPLASH_IMAGE_TABLE = "unsplash_image_table"

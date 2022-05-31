@@ -98,6 +98,7 @@
         <activity android:name=".ui.main.paging3.Paging3Activity" />
         <activity android:name=".ui.main.paging3.Paging3MediatorActivity" />
         <activity android:name=".ui.main.paging3.ArticleActivity" />
+        <activity android:name=".ui.main.paging3.PokemonActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

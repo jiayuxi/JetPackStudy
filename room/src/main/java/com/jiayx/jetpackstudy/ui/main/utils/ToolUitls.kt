@@ -33,3 +33,11 @@ fun Context.isConnectedNetwork(): Boolean = run {
     val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
     activeNetwork?.isConnectedOrConnecting == true
 }
+
+inline fun <T, R> T.doWithTry(block: (T) -> R) {
+    try {
+        block(this)
+    } catch (e: Throwable) {
+        e.printStackTrace()
+    }
+}
