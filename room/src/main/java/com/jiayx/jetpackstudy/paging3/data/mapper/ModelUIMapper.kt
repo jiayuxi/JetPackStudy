@@ -10,7 +10,7 @@ import dagger.Module
 on 2022/5/26
  */
 class ModelUIMapper : Mapper<Hits, PhotoItem> {
-    override fun map(input: Hits): PhotoItem = PhotoItem(
+    override fun map(input: Hits, value: Int): PhotoItem = PhotoItem(
         previewUrl = input.webformatURL,
         photoId = input.id,
         fullUrl = input.largeImageURL,

@@ -15,7 +15,7 @@ import javax.inject.Inject
 on 2022/5/31
  */
 @HiltViewModel
-class ArticleViewModel @Inject constructor(private val repository: Repository): ViewModel() {
+class ArticleViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
 
     /**
      * 请求首页文章数据

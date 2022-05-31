@@ -8,7 +8,7 @@ import com.jiayx.jetpackstudy.paging3.model.ImageBean
 on 2022/5/30
  */
 class ModelDatabaseMapper : Mapper<Hits, ImageBean> {
-    override fun map(input: Hits): ImageBean {
+    override fun map(input: Hits, value: Int): ImageBean {
         return ImageBean(
             0,
             previewUrl = input.webformatURL,
@@ -17,7 +17,8 @@ class ModelDatabaseMapper : Mapper<Hits, ImageBean> {
             photoHeight = input.webformatHeight,
             photoUser = input.user,
             photoLikes = input.likes,
-            photoFavorites = 0
+            photoFavorites = 0,
+            page = value
         )
     }
 }

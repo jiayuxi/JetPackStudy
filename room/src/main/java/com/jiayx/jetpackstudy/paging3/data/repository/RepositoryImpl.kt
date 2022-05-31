@@ -31,6 +31,14 @@ class RepositoryImpl @Inject constructor(
     private val unsplashApi: UnsplashApi,
     private val unsplashDatabase: UnsplashDatabase,
 ) {
+    /**
+     * page 参数config 的配置
+     * pageSize：每页加载数据的大小
+     * prefetchDistance：在结束项之前的多少项之前开始加载下一项数据
+     * enablePlaceholders：是否显示空占位符，默认位true。
+     * initialLoadSize：初始化加载的大小，一般设置大于pageSize。
+     * maxSize ：最大的缓存数据的大小
+     */
     fun loadImage(): Flow<PagingData<PhotoItem>> {
         return Pager(
             config = PagingConfig(
@@ -51,10 +59,10 @@ class RepositoryImpl @Inject constructor(
         return Pager(
             config = PagingConfig(
                 pageSize = Constants.ITEMS_PER_PAGE,// 每页的大小
-                prefetchDistance = 5,
-                initialLoadSize = 10,//初始化加载的大小，一般设置大于pageSize
+                prefetchDistance = 2,
+                initialLoadSize = Constants.ITEMS_PER_PAGE * 2,//初始化加载的大小，一般设置大于pageSize
                 enablePlaceholders = false,
-//                maxSize = Constants.ITEMS_PER_PAGE * 3
+                maxSize = Constants.ITEMS_PER_PAGE * 3
             ),
             remoteMediator = LoadRemoteMediator(unsplashApi, unsplashDatabase),
         ) {

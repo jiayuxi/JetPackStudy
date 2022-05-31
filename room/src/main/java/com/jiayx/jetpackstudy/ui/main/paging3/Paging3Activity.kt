@@ -57,7 +57,6 @@ class Paging3Activity : AppCompatActivity() {
 //        }
         viewModel.getImages.observe(this, Observer {
             galleryAdapter.submitData(lifecycle,it)
-            binding.swipeRefresh.isRefreshing = false
         })
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {

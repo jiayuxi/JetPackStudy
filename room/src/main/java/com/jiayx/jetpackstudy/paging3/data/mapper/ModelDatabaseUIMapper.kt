@@ -11,7 +11,7 @@ import dagger.Module
 on 2022/5/26
  */
 class ModelDatabaseUIMapper : Mapper<ImageBean, PhotoItem> {
-    override fun map(input: ImageBean): PhotoItem = PhotoItem(
+    override fun map(input: ImageBean, value: Int): PhotoItem = PhotoItem(
         previewUrl = input.previewUrl,
         photoId = input.photoId,
         fullUrl = input.fullUrl,

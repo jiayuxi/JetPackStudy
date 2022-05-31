@@ -44,7 +44,8 @@ data class ArticleData(
     val type: Int,
     val userId: Int,
     val visible: Int,
-    val zan: Int
+    val zan: Int,
+    var page:Int = 0
 )
 
 

@@ -13,6 +13,8 @@ import com.jiayx.jetpackstudy.paging3.model.Hits
 import com.jiayx.jetpackstudy.paging3.model.ImageBean
 import com.jiayx.jetpackstudy.paging3.model.UnsplashRemoteKeys
 import com.jiayx.jetpackstudy.paging3.utils.Constants.ITEMS_PER_PAGE
+import com.jiayx.jetpackstudy.ui.main.utils.AppHelper
+import com.jiayx.jetpackstudy.ui.main.utils.isConnectedNetwork
 import kotlinx.coroutines.delay
 import retrofit2.HttpException
 
@@ -37,21 +39,31 @@ class LoadRemoteMediator(
         delay(2000)
         return try {
             val pageKey = when (loadType) {
-                LoadType.REFRESH -> {
-                    null
-                }
-                LoadType.PREPEND -> {
-                    return MediatorResult.Success(endOfPaginationReached = true)
-                }
+                LoadType.REFRESH -> null
+                LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
                 LoadType.APPEND -> {
-                    val remoteKey = unsplashDatabase.withTransaction {
-                        unsplashRemoteKeysDao.getRemoteKeys(remotePokemon)
-                    }
-                    if (remoteKey?.nextPage == null) {
-                        return MediatorResult.Success(endOfPaginationReached = true)
-                    }
-                    remoteKey.nextPage
+                    /**
+                     * 方式一：这种方式比较简单，当前页面最后一条数据是下一页的开始位置
+                     * 通过 load 方法的参数 state 获取当页面最后一条数据
+                     */
+                      val listItem = state.lastItemOrNull()?:return MediatorResult.Success(endOfPaginationReached = true)
+                      listItem.page
+
+                    /**
+                     * 方式二：比较麻烦，当前分页数据没有对应的远程 key，这个时候需要我们自己建表
+                     */
+//                    val remoteKey = unsplashDatabase.withTransaction {
+//                        unsplashRemoteKeysDao.getRemoteKeys(remotePokemon)
+//                    }
+//                    if (remoteKey?.nextPage == null) {
+//                        return MediatorResult.Success(endOfPaginationReached = true)
+//                    }
+//                    remoteKey.nextPage
                 }
+            }
+            if (!AppHelper.mContext.isConnectedNetwork()) {
+                // 无网络加载本地数据
+                return MediatorResult.Success(endOfPaginationReached = true)
             }
             // 第二步： 请问网络分页数据
             val currentPage = pageKey ?: 1
@@ -62,16 +74,19 @@ class LoadRemoteMediator(
             val response = unsplashApi.loadImages(
                 q = "cat",
                 page = currentPage,
-                perPage = state.config.pageSize
+                perPage = when (loadType) {
+                    LoadType.REFRESH -> state.config.initialLoadSize
+                    else -> state.config.pageSize
+                }
             ).hits
             val endOfPaginationReached = response.isEmpty()
-            val prevPage = if (currentPage == 1) null else currentPage - 1
-            val nextPage = if (endOfPaginationReached) null else currentPage + 1
             unsplashDatabase.withTransaction {
                 if (loadType == LoadType.REFRESH) {
                     unsplashImageDao.deleteAllImages()
                     unsplashRemoteKeysDao.deleteAllRemoteKeys()
                 }
+                val prevPage = if (currentPage == 1) null else currentPage - 1
+                val nextPage = if (endOfPaginationReached) null else currentPage + 1
                 val keys = response.map {
                     UnsplashRemoteKeys(
                         id = remotePokemon,
@@ -80,7 +95,7 @@ class LoadRemoteMediator(
                     )
                 }
                 val imageBean = response.map {
-                    ModelDatabaseMapper().map(it)
+                    ModelDatabaseMapper().map(it,currentPage+1)
                 }
                 unsplashRemoteKeysDao.addAllRemoteKeys(remoteKeys = keys)
                 unsplashImageDao.addImages(imageBean)

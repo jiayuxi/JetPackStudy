@@ -17,5 +17,6 @@ data class ImageBean(
     val photoHeight: Int,
     val photoUser: String?,
     val photoLikes: Int,
-    val photoFavorites: Int
+    val photoFavorites: Int,
+    val page:Int = 0
 )

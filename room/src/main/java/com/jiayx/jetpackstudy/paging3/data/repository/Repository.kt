@@ -3,23 +3,13 @@ package com.jiayx.jetpackstudy.paging3.data.repository
 import android.util.Log
 import androidx.paging.*
 import com.jiayx.jetpackstudy.paging3.data.local.UnsplashDatabase
-import com.jiayx.jetpackstudy.paging3.data.mapper.Mapper
-import com.jiayx.jetpackstudy.paging3.data.mapper.ModelDatabaseUIMapper
-import com.jiayx.jetpackstudy.paging3.data.mapper.ModelUIMapper
 import com.jiayx.jetpackstudy.paging3.data.paging.ArticleRemoteMediator
-import com.jiayx.jetpackstudy.paging3.data.paging.LoadPagingSource
-import com.jiayx.jetpackstudy.paging3.data.paging.LoadRemoteMediator
 import com.jiayx.jetpackstudy.paging3.data.remote.RetrofitApi
-import com.jiayx.jetpackstudy.paging3.data.remote.UnsplashApi
 import com.jiayx.jetpackstudy.paging3.model.ArticleData
-import com.jiayx.jetpackstudy.paging3.model.Hits
-import com.jiayx.jetpackstudy.paging3.model.PhotoItem
-import com.jiayx.jetpackstudy.paging3.utils.Constants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 /**
@@ -35,7 +25,7 @@ class Repository @Inject constructor(
         val config = PagingConfig(
             pageSize = PAGE_SIZE,
             prefetchDistance = 5,
-            initialLoadSize = 10,
+            initialLoadSize = 30,
             enablePlaceholders = false,
             maxSize = PAGE_SIZE * 3
         )

@@ -36,7 +36,7 @@ class Paging3MediatorActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         binding.paging3Recycler.apply {
-            adapter = galleryAdapter.withLoadStateFooter(FooterAdapter{
+            adapter = galleryAdapter.withLoadStateFooter(FooterAdapter {
                 galleryAdapter.retry()
             })
             layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
@@ -45,7 +45,6 @@ class Paging3MediatorActivity : AppCompatActivity() {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.getAllImages.collectLatest {
                     galleryAdapter.submitData(it)
-                    binding.swipeRefresh.isRefreshing = false
                 }
             }
         }

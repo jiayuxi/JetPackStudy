@@ -14,6 +14,9 @@ interface RemoteKeyDao {
     @Query("SELECT * FROM tab_remote_key WHERE articleId = :articleId AND articleType =:articleType")
     suspend fun remoteKeysArticleId(articleId: Int, articleType: Int): RemoteKey?
 
+    @Query("SELECT * FROM tab_remote_key WHERE articleType =:articleType")
+    suspend fun remoteKeysArticleType(articleType: Int): RemoteKey?
+
     @Query("DELETE FROM tab_remote_key WHERE articleType =:articleType")
     suspend fun clearRemoteKeys(articleType: Int)
 }

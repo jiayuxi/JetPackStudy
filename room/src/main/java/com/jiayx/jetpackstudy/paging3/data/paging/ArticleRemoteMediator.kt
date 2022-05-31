@@ -8,9 +8,10 @@ import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.jiayx.jetpackstudy.paging3.data.local.UnsplashDatabase
 import com.jiayx.jetpackstudy.paging3.data.remote.RetrofitApi
-import com.jiayx.jetpackstudy.paging3.data.remote.UnsplashApi
 import com.jiayx.jetpackstudy.paging3.model.ArticleData
 import com.jiayx.jetpackstudy.paging3.model.RemoteKey
+import com.jiayx.jetpackstudy.ui.main.utils.AppHelper
+import com.jiayx.jetpackstudy.ui.main.utils.isConnectedNetwork
 
 /**
  *Created by yuxi_
@@ -24,6 +25,8 @@ class ArticleRemoteMediator(
     private val unsplashDatabase: UnsplashDatabase,
     private val articleType: Int
 ) : RemoteMediator<Int, ArticleData>() {
+    private val remoteKeyDao = unsplashDatabase.remoteKeyDao()
+    private val articleDao = unsplashDatabase.articleDao()
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, ArticleData>
@@ -35,18 +38,41 @@ class ArticleRemoteMediator(
                 LoadType.REFRESH -> null
                 LoadType.PREPEND -> return MediatorResult.Success(true)
                 LoadType.APPEND -> {
-                    //使用remoteKey来获取下一个或上一个页面。
-                    val remoteKey =
-                        state.lastItemOrNull()?.id?.let {
-                            unsplashDatabase.remoteKeyDao().remoteKeysArticleId(it, articleType)
-                        }
+                    /**
+                     *
+                     * 这里主要获取下一页数据的开始位置，可以理解为从什么地方开始加载下一页数据
+                     * 这里有两种方式来获取下一页加载数据的位置
+                     * 方式一：这种方式比较简单，当前页面最后一条数据是下一页的开始位置
+                     * 方式二：比较麻烦，当前分页数据没有对应的远程 key，这个时候需要我们自己建表,
+                     */
 
-                    //remoteKey' null '，这意味着在初始刷新后没有加载任何项目，也没有更多的项目要加载。
-                    if (remoteKey?.nextKey == null) {
-                        return MediatorResult.Success(true)
-                    }
-                    remoteKey.nextKey
+                    /**
+                     * 方式一：这种方式比较简单，当前页面最后一条数据是下一页的开始位置
+                     * 通过 load 方法的参数 state 获取当页面最后一条数据
+                     */
+                    val lastItem = state.lastItemOrNull()?:return MediatorResult.Success(
+                        endOfPaginationReached = true
+                    )
+                    Log.d(TAG, "load: lastItem  : $lastItem")
+                    lastItem.page
+
+                    /**
+                     * 方式二：比较麻烦，当前分页数据没有对应的远程 key，这个时候需要我们自己建表
+                     */
+//                    val remoteKey = unsplashDatabase.withTransaction {
+//                        remoteKeyDao.remoteKeysArticleType(articleType)
+//                    }
+//                    //remoteKey' null '，这意味着在初始刷新后没有加载任何项目，也没有更多的项目要加载。
+//                    Log.d(TAG, "load: lastItem : remoteKey : ${remoteKey?.nextKey}")
+//                    if (remoteKey?.nextKey == null) {
+//                        return MediatorResult.Success(true)
+//                    }
+//                    remoteKey.nextKey
                 }
+            }
+            if (!AppHelper.mContext.isConnectedNetwork()) {
+                // 无网络加载本地数据
+                return MediatorResult.Success(endOfPaginationReached = true)
             }
             val page = pageKey ?: 0
             Log.d(TAG, "load: page $page")
@@ -54,17 +80,18 @@ class ArticleRemoteMediator(
             val result = retrofitApi.getHomeArticle(page).data?.datas
             result?.forEach {
                 it.articleType = articleType
+                it.page = page +1
             }
             val endOfPaginationReached = result?.isEmpty()
-
             unsplashDatabase.withTransaction {
                 if (loadType == LoadType.REFRESH) {
                     //清空数据
-                    unsplashDatabase.remoteKeyDao().clearRemoteKeys(articleType)
-                    unsplashDatabase.articleDao().clearArticleByType(articleType)
+                    remoteKeyDao.clearRemoteKeys(articleType)
+                    articleDao.clearArticleByType(articleType)
                 }
                 val prevKey = if (page == 0) null else page - 1
                 val nextKey = if (endOfPaginationReached!!) null else page + 1
+                Log.d(TAG, "load: nextKey : $nextKey")
                 val keys = result.map {
                     RemoteKey(
                         articleId = it.id,
@@ -73,8 +100,8 @@ class ArticleRemoteMediator(
                         articleType = articleType
                     )
                 }
-                unsplashDatabase.remoteKeyDao().insertAll(keys)
-                unsplashDatabase.articleDao().insertArticle(articleDataList = result)
+                remoteKeyDao.insertAll(keys)
+                articleDao.insertArticle(articleDataList = result)
             }
             return MediatorResult.Success(endOfPaginationReached!!)
         } catch (e: Exception) {

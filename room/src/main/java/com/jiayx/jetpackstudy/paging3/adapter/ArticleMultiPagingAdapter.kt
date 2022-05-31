@@ -26,7 +26,10 @@ class ArticleMultiPagingAdapter :
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: ArticleData, newItem: ArticleData): Boolean {
+            override fun areContentsTheSame(
+                oldItem: ArticleData,
+                newItem: ArticleData
+            ): Boolean {
                 return oldItem == newItem
             }
         }
