@@ -15,7 +15,7 @@ import com.tbruyelle.rxpermissions2.RxPermissions
  * 协程
  */
 class MainActivity : AppCompatActivity() {
-    val binding: ActivityMainBinding by lazy {
+    private val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
     private val permissions2 = arrayOf(
@@ -57,6 +57,9 @@ class MainActivity : AppCompatActivity() {
         }
         binding.buttonCoroutineException.setOnClickListener {
             startToActivity(this, ExceptionActivity::class.java)
+        }
+        binding.buttonCoroutineLifecycle.setOnClickListener {
+            startToActivity(this,LifecycleScopeActivity::class.java)
         }
     }
 

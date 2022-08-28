@@ -38,6 +38,7 @@
         <activity android:name=".activity.RxjavaRetrofitActivity" />
         <activity android:name=".activity.DelayActivity" />
         <activity android:name=".activity.ExceptionActivity" />
+        <activity android:name=".activity.LifecycleScopeActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
