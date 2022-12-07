@@ -4,6 +4,8 @@ package com.jiayx.singlecase.single
  *  author : Jia yu xi
  *  date : 2022/10/18 21:02:02
  *  description : 单例携带参数
+ *  out T : 输出参数
+ *  in A : 输入参数
  */
 open class SingletonHolder<out T, in A>(creator: (A) -> T) {
     private var creator: ((A) -> T)? = creator

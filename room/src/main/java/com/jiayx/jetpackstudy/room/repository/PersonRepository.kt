@@ -17,6 +17,7 @@ class PersonRepository(private val context: Context) {
     }
 
     fun getAllPersons() = personDao.getAllPersons()
+
     suspend fun deleteAll() {
         personDao.deleteAll()
     }
