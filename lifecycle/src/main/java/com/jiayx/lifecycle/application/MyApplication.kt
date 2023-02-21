@@ -14,7 +14,7 @@ class MyApplication : Application() {
         // 跟踪分析
 //        Debug.startMethodTracing("enjoy")
         // 采样
-        Debug.startMethodTracingSampling(File(Environment.getExternalStorageDirectory(),"enjoy").absolutePath,
-        8 * 1024 * 1024,1000)
+//        Debug.startMethodTracingSampling(File(Environment.getExternalStorageDirectory(),"enjoy").absolutePath,
+//        8 * 1024 * 1024,1000)
     }
 }

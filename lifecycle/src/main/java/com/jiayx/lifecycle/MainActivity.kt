@@ -29,12 +29,13 @@ class MainActivity : AppCompatActivity(), LifecycleOwner {
         setTheme(R.style.Theme_JetpackStudy)
         super.onCreate(savedInstanceState)
         //异步加载布局
-        AsyncLayoutInflater(this).inflate(
+       /* AsyncLayoutInflater(this).inflate(
             R.layout.activity_main,
             null
         ) { view, _, _ ->
             setContentView(view)
-        }
+        }*/
+        setContentView(binding.root)
         lifecycle.addObserver(binding.myChronoMeter)
         lifecycle.addObserver(MyObserver(lifecycle))
         lifecycle.addObserver(viewModel)
