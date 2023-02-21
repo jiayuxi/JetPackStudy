@@ -72,4 +72,6 @@ dependencies {
 
     // optional - ReactiveStreams support for LiveData
     implementation("androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycle_version")
+    // 异步膨胀布局以避免界面出现卡顿
+    implementation("androidx.asynclayoutinflater:asynclayoutinflater:1.0.0")
 }
