@@ -5,6 +5,8 @@ import android.content.Intent
 import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Debug
+import android.os.Looper
 import android.widget.Chronometer
 import androidx.lifecycle.*
 import com.jiayx.lifecycle.databinding.ActivityMainBinding
@@ -23,12 +25,19 @@ class MainActivity : AppCompatActivity(), LifecycleOwner {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.Theme_JetpackStudy)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
         lifecycle.addObserver(binding.myChronoMeter)
         lifecycle.addObserver(MyObserver(lifecycle))
         lifecycle.addObserver(viewModel)
         initAction()
+        // idHandler 空闲加载
+        Looper.myQueue().addIdleHandler {
+            Thread.sleep(3000)
+            false
+        }
     }
 
     private fun initAction() {
@@ -45,5 +54,10 @@ class MainActivity : AppCompatActivity(), LifecycleOwner {
         lifecycle.removeObserver(binding.myChronoMeter)
         lifecycle.removeObserver(MyObserver(lifecycle))
         lifecycle.removeObserver(viewModel)
+    }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        Debug.stopMethodTracing()
     }
 }

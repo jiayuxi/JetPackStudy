@@ -24,7 +24,7 @@ object AnswerCall {
     @SuppressLint("MissingPermission")
     private fun endCallAction(context: Context) {
         try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            /*if (Build.VERSION.SDK_INT >= 28) {
                 val tcm = context.getSystemService(Context.TELECOM_SERVICE) as TelecomManager
                 tcm.endCall()
             } else {
@@ -44,7 +44,7 @@ object AnswerCall {
                     Log.d("TAG", "", e)
                 } catch (e: java.lang.Exception) {
                 }
-            }
+            }*/
         } catch (e: Exception) {
             e.printStackTrace()
         }

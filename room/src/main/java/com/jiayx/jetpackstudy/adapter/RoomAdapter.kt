@@ -39,8 +39,10 @@ class RoomAdapter(private val context: Context, private var items: List<StudentB
             holder.number.text = bean?.longId.toString()
             holder.name.text = bean?.name
             holder.age.text = bean?.age.toString()
-            Log.d("model_log", "onBindViewHolder: time: ${transToString(bean?.timeLog)}")
-            holder.time.text = transToString(bean?.timeLog)
+            bean?.let { sbean ->
+                Log.d("model_log", "onBindViewHolder: time: ${transToString(sbean.timeLog)}")
+                holder.time.text = transToString(sbean.timeLog)
+            }
             holder.age.setOnClickListener {
                 Log.d(
                     "jia_itemClick",

@@ -72,6 +72,7 @@ class WLANReceiver : BroadcastReceiver() {
                         val ssid = wifiInfo.ssid
                         wlanConnectListener?.invoke(ssid)
                     }
+                    else -> {}
                 }
             }
         }

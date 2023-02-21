@@ -42,7 +42,7 @@ abstract class BaseDialogFragment : DialogFragment() {
         dialog?.setOnKeyListener { _, keyCode, event ->
             Log.d(TAG, "onViewCreated: keyCode: $keyCode , event: $event")
             if (event?.action == KeyEvent.ACTION_UP && event.repeatCount == 0 && keyCode == KeyEvent.KEYCODE_F9) {
-                takeKeyTime = event?.downTime
+                takeKeyTime = event?.downTime!!
             } else if (event?.action == KeyEvent.ACTION_UP && event.repeatCount == 0) {
                 when (keyCode) {
                     KeyEvent.KEYCODE_DPAD_UP -> {
@@ -58,7 +58,7 @@ abstract class BaseDialogFragment : DialogFragment() {
                         onKeyEventListener(keyCode)
                     }
                     KeyEvent.KEYCODE_BACK, KeyEvent.KEYCODE_ESCAPE -> {
-                        Log.d(TAG, "onViewCreated: 长按时间的对比： ${event?.downTime - takeKeyTime}")
+                        Log.d(TAG, "onViewCreated: 长按时间的对比： ${event?.downTime?.minus(takeKeyTime)}")
 //                        if ((event?.downTime - takeKeyTime > 1000) && (takeKeyTime != 0L)) {
 //                            onKeyEventListener(keyCode)
 //                            takeKeyTime = 0

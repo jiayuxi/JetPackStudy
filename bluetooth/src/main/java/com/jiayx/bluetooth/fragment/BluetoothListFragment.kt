@@ -102,6 +102,7 @@ class BluetoothListFragment : BaseFragment(R.layout.bluetooth_list){
                                         // 配对
                                         mBluetoothHelper.createBond(bluetoothDevice)
                                     }
+                                    else -> {}
                                 }
                             }
                         }.also {
@@ -141,6 +142,7 @@ class BluetoothListFragment : BaseFragment(R.layout.bluetooth_list){
                                         // 断开连接
                                         mBluetoothHelper.disconnect(bluetoothDevice)
                                     }
+                                    else -> {}
                                 }
                             }
                         }.also {
