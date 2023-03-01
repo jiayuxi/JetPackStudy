@@ -13,6 +13,7 @@ import androidx.lifecycle.*
 import com.jiayx.lifecycle.databinding.ActivityMainBinding
 import com.jiayx.lifecycle.service.MyService
 import com.jiayx.lifecycle.viewModel.MyViewModel
+import kotlin.concurrent.thread
 
 /**
  * LifecycleOwner
@@ -45,6 +46,9 @@ class MainActivity : AppCompatActivity(), LifecycleOwner {
 //            Thread.sleep(3000)
 //            false
 //        }
+        thread{
+
+        }
     }
 
     private fun initAction() {

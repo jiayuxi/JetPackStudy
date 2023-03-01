@@ -18,7 +18,11 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
+        // 优化so库加载资源，指定加载 armeabi-v7a
+        ndk {
+            abiFilters 'armeabi-v7a'
+        }
+        //优化语言语言加载资源
         resConfigs "zh-rCN"
     }
 
@@ -26,7 +30,7 @@ android {
         release {
             minifyEnabled false
             //起用资源缩减
-            shrinkResources true
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

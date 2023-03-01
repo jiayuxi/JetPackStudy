@@ -72,8 +72,10 @@
             android:id="@+id/iv_home_info_like"
             android:layout_width="15dp"
             android:layout_height="15dp"
+            android:src="@drawable/ic_baseline_access_alarm_24"
             app:layout_constraintBottom_toBottomOf="@id/tv_home_info_time"
-            app:layout_constraintEnd_toEndOf="@id/tv_article_title" />
+            app:layout_constraintEnd_toEndOf="@id/tv_article_title"
+            app:tint="@color/black" />
 
         <View
             android:layout_width="match_parent"
