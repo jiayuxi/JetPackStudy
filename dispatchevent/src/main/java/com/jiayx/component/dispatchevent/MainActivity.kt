@@ -4,12 +4,22 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
+import android.widget.TextView
 import com.jiayx.component.dispatchevent.utils.TAG
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val textView = findViewById<TextView>(R.id.textView)
+        textView.setOnClickListener {
+            Log.d(TAG, "onCreate: textView onClick")
+        }
+        textView.setOnTouchListener { v, event ->
+            Log.d(TAG, "onCreate: textView OnTouchListener")  
+            false
+        }
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {

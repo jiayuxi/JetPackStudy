@@ -21,6 +21,14 @@ class CustomTextView constructor(context: Context, attrs: AttributeSet) :
         if (event?.action == MotionEvent.ACTION_DOWN) {
             Log.d(TAG, "View dispatchTouchEvent: ")
         }
+//        if(event?.action == MotionEvent.ACTION_MOVE){
+//            Log.d(TAG, "View dispatchTouchEvent: move")
+////            return true
+//        }
+//        if(event?.action == MotionEvent.ACTION_UP){
+//            Log.d(TAG, "View dispatchTouchEvent: up")
+//            return true
+//        }
         // TODO return true 终结事件 view自行消费 ，
         // todo return false 是回溯父类的 onTouchEvent 事件
         // todo return super 默认时实现 ，调用view自己 的 onTouchEvent 事件
@@ -31,6 +39,10 @@ class CustomTextView constructor(context: Context, attrs: AttributeSet) :
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         if (event?.action == MotionEvent.ACTION_DOWN) {
             Log.d(TAG, "View onTouchEvent: ")
+        }
+        if(event?.action == MotionEvent.ACTION_UP){
+            Log.d(TAG, "View onTouchEvent: up")
+            return true
         }
         // TODO return true 自行消费事件
         // TODO return false 或 super 回溯给父类控件 的 onTouchEvent
