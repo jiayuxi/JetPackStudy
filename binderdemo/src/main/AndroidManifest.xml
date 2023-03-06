@@ -29,6 +29,17 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
+        <service
+            android:name=".services.KtvService"
+            android:enabled="true"
+            android:exported="true" >
+
+            <intent-filter>
+                <!--添加了一个唯一的action，供客户端隐式启动service-->
+                <action android:name="com.jiayx.component.binderdemo.KtvService"/>
+            </intent-filter>
+
+        </service>
     </application>
 
 </manifest>
