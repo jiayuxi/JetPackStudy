@@ -5,18 +5,25 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.jiayx.coil"
         minSdk 25
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
+    signingConfigs {
+        debug {
+            storeFile file("key/bubble.jks")
+            storePassword 'android'
+            keyAlias 'bubble'
+            keyPassword 'android'
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -49,10 +56,10 @@ dependencies {
     //
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     //
-    implementation("io.coil-kt:coil:2.0.0-rc03")
+    implementation("io.coil-kt:coil:2.4.0")
     //要添加 GIF 支持，请导入扩展库
-    implementation("io.coil-kt:coil-gif:2.0.0-rc03")
+    implementation("io.coil-kt:coil-gif:2.4.0")
     //要添加 SVG 支持，请导入扩展库
-    implementation("io.coil-kt:coil-svg:2.0.0-rc03")
+    implementation("io.coil-kt:coil-svg:2.4.0")
 
 }
